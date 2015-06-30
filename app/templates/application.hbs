@@ -1,22 +1,6 @@
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-          {{#link-to 'home' classNames="navbar-brand"}}
-              XReffed {{/link-to}}
-        </div>
+{{#app-header}}{{/app-header}}
 
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-              {{#link-to 'home' tagName="li"}}
-                  <a {{bind-attr href="view.href"}}>Home</a>
-              {{/link-to}}
-              {{#link-to 'about' tagName="li"}}
-                  <a {{bind-attr href="view.href"}}>About</a>
-              {{/link-to}}
-            </ul>
-        </div>
-    </div>
-</nav>
+
 <hr>
 {{outlet}}
 <hr>

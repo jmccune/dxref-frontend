@@ -1,7 +1,9 @@
 ember new less-app
+
 ember install ember-cli-less
+
 bower install --S bootstrap
--------------------
+
 	bower bootstrap#*               cached git://github.com/twbs/bootstrap.git#3.3.4
 	bower bootstrap#*             validate 3.3.4 against git://github.com/twbs/bootstrap.git#*
 	bower bootstrap#*                  new version for git://github.com/twbs/bootstrap.git#*
@@ -13,8 +15,8 @@ bower install --S bootstrap
 
 	bootstrap#3.3.5 bower_components/bootstrap
 	└── jquery#1.11.3
---------------------
-Followed the instructions here: https://github.com/gdub22/ember-cli-less
+
+###Followed the instructions here: https://github.com/gdub22/ember-cli-less
 
 
 	Install Bootstrap source:
@@ -32,4 +34,15 @@ Followed the instructions here: https://github.com/gdub22/ember-cli-less
 	Import into app.less:
 
 	@import 'bootstrap';
+
+
+###Changed Ember Data to x.19 in package.json & bower.json
+bower install  
+npm install  
+
+
+
+###Adding components
+ember generate component app-header
+ember generate component nav-bar
 
