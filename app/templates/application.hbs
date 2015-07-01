@@ -1,7 +1,9 @@
-{{#app-header user=model.user}}{{/app-header}}
+<div class="app-frame">
+  {{#app-header user=model.user}}{{/app-header}}
 
+    <hr>
+  {{outlet}}
+    <hr>
 
-<hr>
-{{outlet}}
-<hr>
-<div> FOOTER</div>
+    <div> FOOTER</div>
+</div>

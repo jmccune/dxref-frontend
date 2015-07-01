@@ -1,5 +1,72 @@
 @import 'bootstrap';
 
-.x1 {
-  border: 1px solid gray;
+// NOTES:
+// Note: 0.0001 is for a chromium bug:
+// https://code.google.com/p/chromium/issues/detail?id=178221
+// https://code.google.com/p/chromium/issues/detail?id=460510
+
+// ===================================================================
+// COLORS
+// ===================================================================
+
+// ===================================================================
+// LAYOUT
+// ===================================================================
+
+// For the Whole Application
+.app-frame {
+  min-width: 1000px;
+  overflow: auto;
 }
+
+.main-container {
+  min-height: 500px;
+  padding: var(--space);
+
+  display: -webkit-flex;
+  -webkit-flex-direction: row;
+
+  display: flex;
+  flex-direction: row;
+
+  .left-panel {
+    order: -1;
+    max-width: 500px;
+    overflow: hidden;
+
+  }
+
+  .content-panel {
+    margin-top: var(--space);
+    flex: 3;
+    -webkit-flex: 3;
+    padding: 0;
+    margin: 0;
+  }
+
+  .left-panel,
+  .right-panel {
+    padding: 1em;
+    border-radius: 3px;
+    background: #EEEEEE;
+    flex: 1 0 0;
+    -webkit-flex: 1 0 0;
+    transition: all 0.5s ease;
+  }
+
+  .side-lined {
+    flex: 0.0001 0 0;
+    -webkit-flex: 0.0001;
+  }
+
+}
+
+// ===================================================================
+// SPACING
+// ===================================================================
+
+.margin-10 {
+  margin: 10px;
+}
+
+

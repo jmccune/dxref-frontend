@@ -1,0 +1,13 @@
+<div class="main-container">
+    <div {{bind-attr class=":left-panel isExpanded::side-lined"}}>
+        LEFT
+    </div>
+    <div class="content-panel">
+        <span class="margin-10"> MAIN PANEL </span> <br>
+         <button {{action 'toggle'}}>Show {{#if isExpanded}} Less {{else}} More {{/if}}</button>
+        
+    </div>
+    <div {{bind-attr class=":right-panel isExpanded::side-lined"}}>
+        RIGHT
+    </div>
+</div>
