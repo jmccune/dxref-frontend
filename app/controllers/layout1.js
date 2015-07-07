@@ -10,7 +10,9 @@ export default Ember.Controller.extend({
     toggle: function() {
    	  var isExpanded = this.get('isExpanded');
    	  isExpanded= !isExpanded;
-      this.set('isExpanded', isExpanded);
+      this.set('isExpanded', isExpanded);      
+      //Show that we loaded the decoration engine.
+      console.dir(decorationEngine);
     },
 
     contract: function() {
