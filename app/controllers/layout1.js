@@ -12,6 +12,7 @@ export default Ember.Controller.extend({
    	  isExpanded= !isExpanded;
       this.set('isExpanded', isExpanded);      
       //Show that we loaded the decoration engine.
+      var decorationEngine = new DecorationEngine();
       console.dir(decorationEngine);
     },
 
