@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   var ENV = {
-    modulePrefix: 'less-app',
+    modulePrefix: 'dxref',
     environment: environment,
     baseURL: '/',
     locationType: 'auto',

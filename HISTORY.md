@@ -1,4 +1,4 @@
-ember new less-app
+ember new dxref
 
 ember install ember-cli-less
 
@@ -40,6 +40,8 @@ bower install --S bootstrap
 bower install  
 npm install  
 
+had to upgrade to ember-- do it as sudo...
+(sudo ember update)  otherwise get nasty errors.
 
 
 ###Adding components

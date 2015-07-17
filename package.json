@@ -1,7 +1,7 @@
 {
-  "name": "less-app",
+  "name": "dxref",
   "version": "0.0.0",
-  "description": "Small description for less-app goes here",
+  "description": "Small description for dxref goes here",
   "private": true,
   "directories": {
     "doc": "doc",

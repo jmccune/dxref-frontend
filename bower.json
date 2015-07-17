@@ -1,5 +1,5 @@
 {
-  "name": "less-app",
+  "name": "dxref",
   "dependencies": {    
     "decoration-engine-js":"file:///Users/mccune/projects/libs/decorationEngineJs/.git#develop",
     "ember": "1.12.0",
