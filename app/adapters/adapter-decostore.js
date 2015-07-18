@@ -3,18 +3,42 @@ import DS from 'ember-data';
 import Ember from 'ember';
 
 
+var local={
+	adaptContentLine: function(contentLineDto) {
+		var decorationModels = [];
+		_.forEach(contentLineDto.decorations,function(decorationDtoArray) {
+			decorationModels.push(new DecorationModel(decorationDtoArray));
+		});
+
+		contentLineDto.decorations = decorationModels;
+		return new ContentLine(contentLineDto);
+	},	
+	adaptToDecorationEngineDomain:function(messageArray) {
+
+		var contentLineArray = [];		
+		_.forEach(messageArray,function(value,key){
+			contentLineArray.push(local.adaptContentLine(value));
+		});
+
+		var textContentBlock = new TextContent2Decorate(contentLineArray);	
+		return textContentBlock;
+	}
+};
+
+
+
+
 export default DS.RESTAdapter.extend({
    find: function(name, id) {
 		console.log("Invoked with: "+name+" id: "+id);
 
-		var promise = Ember.$.getJSON('http://api.randomuser.me/').then(function(data) {			
-			console.log("DATA>> ");
-			console.dir(data);
-			var user = data.results[0].user.name;
-			var username = user.title+" "+user.first+" "+user.last;
-			return username;
-		});
+		return Ember.$.getJSON('http://localhost:8080/dev/getDecoratedMessage')
+					.then(function(data) {			
+				// console.log("DATA>> ");
+				// console.dir(data);
 
-		return promise;
+				var result = local.adaptToDecorationEngineDomain(data);				
+				return result;
+			});	
 	}
 });

@@ -2,15 +2,19 @@
 import Ember from 'ember';
 import DecorationAdapter from 'dxref/adapters/adapter-decostore';
 
-
 var decorationEngine = new DecorationEngine();
+var mapFactory = new SimpleHtmlDecoratorFactory();
+mapFactory.addDecoratorPrototype("phone",new  HtmlDecorator("phone"));
 
-function getDecorationsPromise() {
+decorationEngine.setDecoratorFactory(mapFactory);
+
+function getDecoratedTextPromise() {
   var decorationAdapter = DecorationAdapter.create();
   
-  return decorationAdapter.find("test",123).then(function(data) {
+  return decorationAdapter.find("test",123).then(function(contentBlock) {
 
-    return "<em> Welcome "+data+" </em><br>  The rest of this is only sample text. <h1> sample title </h1> And other stuff here.  And <em> your stuff </em> here.";
+      var text = decorationEngine.getDecoratedText(contentBlock);  
+      return text;    
   });
   
 }
@@ -29,8 +33,8 @@ export default Ember.Controller.extend({
     },
     getDecoratedText: function() {
       var _this = this;
-      getDecorationsPromise().then(function(data){        
-        _this.set('decoratedText',data);     
+      getDecoratedTextPromise().then(function(text){        
+        _this.set('decoratedText',text);     
       })
       
       //Show that we loaded the decoration engine.      

@@ -30,7 +30,7 @@ module.exports = function(environment) {
       'default-src': "'none'",
       'script-src': "'self'",
       'font-src': "'self'",
-      'connect-src': "'self' http://api.randomuser.me",
+      'connect-src': "'self' http://api.randomuser.me http://localhost:8080",
       'img-src': "'self'",
       //Added unsafe-inline for experimentation
       'style-src': "'self' 'unsafe-inline'",
