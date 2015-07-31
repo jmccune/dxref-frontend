@@ -1,6 +1,7 @@
 
 import Ember from 'ember';
 import DecorationAdapter from 'dxref/adapters/adapter-decostore';
+import DataService from 'dxref/services/data-service';
 
 var decorationEngine = new DecorationEngine();
 var mapFactory = new SimpleHtmlDecoratorFactory();
@@ -19,6 +20,7 @@ function getDecoratedTextPromise() {
   
 }
 
+var dataService = new DataService();
 
 export default Ember.Controller.extend({
 
@@ -39,6 +41,13 @@ export default Ember.Controller.extend({
       
       //Show that we loaded the decoration engine.      
       console.dir(decorationEngine);
+    },
+    testButton:function() {
+      console.log("PRESSED BUTTON");
+      dataService.getData('dxref-service','/dev/claimTickets',{tickets:[1,2,3]}).then(function(data) {
+          console.log("RECEIVED DATA!");
+          console.dir(data);
+      });
     },
     contract: function() {
       this.set('isExpanded', false);

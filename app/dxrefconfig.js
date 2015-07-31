@@ -34,8 +34,10 @@ function getUrlFunction(target, path, params) {
 /** ============= THE OVERALL CONFIG OBJECT ======================*/
 var dxrefConfig= {
 
-	serverUrl: 'http://localhost:8080',
-	getUrl: getUrlFunction
+	pollingDelayMs: 1000,   
+	serverMap: {
+		'dxref-service': 'http://localhost:8080'
+	}	
 };
 
 export default dxrefConfig;
