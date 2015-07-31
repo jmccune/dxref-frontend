@@ -35,7 +35,7 @@ export default Ember.Controller.extend({
       var _this = this;
       getDecoratedTextPromise().then(function(text){        
         _this.set('decoratedText',text);     
-      })
+      });
       
       //Show that we loaded the decoration engine.      
       console.dir(decorationEngine);

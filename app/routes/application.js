@@ -9,7 +9,7 @@ export default Ember.Route.extend({
     };
 
     if (dynamic_user) {
-      return new Ember.RSVP.Promise(function (resolve, reject) {
+      return new Ember.RSVP.Promise(function (resolve) {
         $.ajax({
           url: 'http://api.randomuser.me/',
           dataType: 'json',

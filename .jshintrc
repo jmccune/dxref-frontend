@@ -2,7 +2,16 @@
   "predef": [
     "document",
     "window",
-    "-Promise"
+    "-Promise",
+    "_",
+    "$",
+    /** DECORATIONS */
+    "DecorationModel",
+    "ContentLine",
+    "DecorationEngine",
+    "HtmlDecorator",
+    "TextContent2Decorate",
+    "SimpleHtmlDecoratorFactory"
   ],
   "browser": true,
   "boss": true,
@@ -28,5 +37,10 @@
   "white": false,
   "eqnull": true,
   "esnext": true,
-  "unused": true
+  "unused": true,
+
+  "globals": {
+      "$": false,
+      "_": false
+  }
 }
