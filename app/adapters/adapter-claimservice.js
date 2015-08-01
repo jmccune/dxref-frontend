@@ -11,7 +11,12 @@ function processResponse(responseMap) {
 
 		var resolveRejectObject = claimPromiseMap[key];
 		if (!resolveRejectObject) {
-			throw "Unable to find resolveRejectObject for key: "+key;
+			//Assume we already resolved it and return.
+			// (e.g. 2 requests out and both return valid responses,
+			// the first one will clear out the resolveRejectObject and we're done--
+			// so this condition represents the second time and we don't
+			// have any promise to update.)
+			return;
 		}
 
 		delete claimPromiseMap[key];
