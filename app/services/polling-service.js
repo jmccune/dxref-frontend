@@ -24,7 +24,7 @@ function logPollCount(pollCount) {
 	if (pollCount===0) {
 		console.log("STARTING POLLING!");
 	}
-	else if (pollCount%5===0) {
+	else if (pollCount%60===0) {
 		console.log("Polled: "+pollCount+" times");
 	}
 }
@@ -42,10 +42,7 @@ var PollingService = {
 		} 
 
 		data.list.push(name);
-		data.map[name] = cbFunc;
-
-		console.log("DATA>>");
-		console.dir(data);
+		data.map[name] = cbFunc;		
 	},
 
 	removePollable: function(name) {

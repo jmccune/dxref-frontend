@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import dxrefConfig from 'dxref/dxrefconfig';
 
-export default function DataService() {
+export function DataService() {
 }
 
 
@@ -81,3 +81,6 @@ DataService.prototype.getData = function(serviceName,path,params) {
 	return Ember.$.getJSON(url);
 									
 };
+
+var theDataService = new DataService;
+export default theDataService;
