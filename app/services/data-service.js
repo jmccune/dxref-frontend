@@ -83,4 +83,5 @@ DataService.prototype.getData = function(serviceName,path,params) {
 };
 
 var theDataService = new DataService;
+
 export default theDataService;

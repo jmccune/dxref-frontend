@@ -33,11 +33,16 @@ function getUrlFunction(target, path, params) {
 
 /** ============= THE OVERALL CONFIG OBJECT ======================*/
 var dxrefConfig= {
-
 	pollingDelayMs: 1000,   
 	serverMap: {
 		'dxref-service': 'http://localhost:8080'
 	}	
+};
+
+
+
+export var Constants = {
+	DXREF_SERVICE : 'dxref-service'
 };
 
 export default dxrefConfig;
