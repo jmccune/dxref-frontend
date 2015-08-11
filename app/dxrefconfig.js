@@ -2,34 +2,6 @@
 	See Overall Config at the bottom of the file.
 */
 
-/** gets the application url */
-function getUrlFunction(target, path, params) {
-
-	// Ignore target for now.  The target is always the development url.
-
-	if (path.indexOf('/')!==0) {
-		path = '/'+path;
-	}
-	if (params) {
-		var type = typeof params;
-		if (type === 'string') {
-			if (params.indexOf('?')!==0) {
-				params = '?'+params;
-			}
-		}	
-		else {
-			throw "NOT YET SUPPORTED: type>> "+type+" for params in dxrefConfig.getUrl";
-		}
-	}
-	else {
-		params ='';
-	}		
-	return dxrefConfig.serverUrl+path+params;
-}
-
-
-
-
 
 /** ============= THE OVERALL CONFIG OBJECT ======================*/
 var dxrefConfig= {
@@ -40,9 +12,33 @@ var dxrefConfig= {
 };
 
 
-
+/** ============= APPLICATION CONSTANTS    ======================*/
 export var Constants = {
 	DXREF_SERVICE : 'dxref-service'
 };
+
+
+/** ============= LOGGING CONFIGURATION    ======================*/
+var ROOT_LEVEL = log4javascript.Level.INFO;
+var logConfigMap = {
+	'dxref':'INFO',
+	'dxref.services.data-service': 'INFO'     //DEBUG will show the exact responses...
+};
+
+var loggerLayout = new log4javascript.PatternLayout("%d{HH:mm:ss} %-5p %c - %m%n");
+
+// -- Standard sort of setup/configuration --- 
+
+var rootLogger = log4javascript.getRootLogger();
+var consoleAppender = new log4javascript.BrowserConsoleAppender();
+consoleAppender.setLayout(loggerLayout);
+rootLogger.addAppender(consoleAppender);
+rootLogger.setLevel(ROOT_LEVEL);
+
+_.forEach(logConfigMap, function(levelSpec,logspec) {
+	var level = log4javascript.Level[levelSpec];
+	log4javascript.getLogger(logspec).setLevel(level);
+});
+
 
 export default dxrefConfig;

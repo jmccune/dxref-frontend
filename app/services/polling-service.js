@@ -5,7 +5,7 @@ var data= {
 	map: {},	
 	pollTimeoutId: null,
 	pollCount: 0
-}
+};
 /** THE POLLING FUNCTION */
 function pollingFunction() {
 	data.pollTimeoutId = setTimeout(function() { pollingFunction(); }, 

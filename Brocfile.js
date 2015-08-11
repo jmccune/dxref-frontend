@@ -24,4 +24,5 @@ var app = new EmberApp({
 // along with the exports of each module as its value.
 app.import('bower_components/lodash/lodash.js',{ 'lodash': ['default'] });
 app.import('bower_components/decoration-engine-js/release/decoration-engine.js');
+app.import('bower_components/log4javascript/log4javascript.js');
 module.exports = app.toTree();

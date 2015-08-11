@@ -1,4 +1,4 @@
-import NodeRelationExtraDro from 'dxref/models/dro/NodeRelationExtraDro';
+import NodeRelationExtraDro from 'dxref/models/dro/node-relation-extra-dro';
 
 var adapter = {
 
@@ -7,9 +7,15 @@ var adapter = {
 		var nre = new NodeRelationExtraDro(nreRepsonse);
 
 		var response = [];
-		if (nre.node.length===0) {
-			response.append("empty");
+		if (!nre.node) {
+			response.push(new ContentLine({ content: "NOT FOUND", decorations:[]}));
 		}		
+		else {
+			console.log("NRE>>>");
+			console.dir(nre);
+		}
+
+
 		return new TextContent2Decorate(response);	
 	}
 

@@ -1,5 +1,9 @@
 import Ember from 'ember';
 import dxrefConfig from 'dxref/dxrefconfig';
+import DxrefError from 'dxref/dxref-errors';
+
+
+var logger = log4javascript.getLogger('dxref.services.data-service');
 
 export function DataService() {
 }
@@ -36,7 +40,7 @@ var local = {
 						paramsString = paramsString + '&' + k + '=' + v2;
 					});
 				} else if (_.isObject(v)) {
-					throw "Object arguments not supported!"
+					throw new DxrefError("Object arguments not supported!");
 				} else {
 					paramsString = paramsString + '&' + k + '=' + v;
 				}
@@ -77,11 +81,17 @@ DataService.prototype.buildUrl = function(serviceName,path,params) {
 DataService.prototype.getData = function(serviceName,path,params) {
 
 	var url = this.buildUrl(serviceName,path,params);
-	console.log("REQUESTING DATA from: "+url);
-	return Ember.$.getJSON(url);
+	logger.info("REQUESTING DATA from: "+url);
+	return Ember.$.getJSON(url).then(function(response) {
+		logger.info("RESPONSE RECEIVED for request: "+url);
+		if (logger.isDebugEnabled()) {			
+			console.dir(response);
+		}
+		return response;
+	});
 									
 };
 
-var theDataService = new DataService;
+var theDataService = new DataService();
 
 export default theDataService;

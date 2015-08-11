@@ -5,7 +5,9 @@
     "-Promise",
     "_",
     "$",
+    "log4javascript",
     /** DECORATIONS */
+    "decorationValidator",
     "DecorationModel",
     "ContentLine",
     "DecorationEngine",
