@@ -6,8 +6,6 @@ import theClaimService from 'dxref/adapters/adapter-claimservice';
 import {Constants} from 'dxref/dxrefconfig';
 import decorationAdapter from 'dxref/adapters/decoration-adapter';
 
-// --- Deprecated --- 
-//import DecorationAdapter from 'dxref/adapters/adapter-decostore';
 
 var logger = log4javascript.getLogger('dxref.controllers.layout1');
 
@@ -16,18 +14,6 @@ var mapFactory = new SimpleHtmlDecoratorFactory();
 mapFactory.addDecoratorPrototype("phone",new  HtmlDecorator("phone"));
 
 decorationEngine.setDecoratorFactory(mapFactory);
-
-// function getDecoratedTextPromise() {
-//   var decorationAdapter = DecorationAdapter.create();
-  
-//   return decorationAdapter.find("test",123).then(function(contentBlock) {
-
-//       var text = decorationEngine.getDecoratedText(contentBlock);  
-//       return text;    
-//   });
-  
-// }
-
 
 export default Ember.Controller.extend({
 
@@ -41,20 +27,14 @@ export default Ember.Controller.extend({
       this.set('isExpanded', isExpanded);         
     },
     getDecoratedText: function() {
-            
+      var _this = this;
       theDataService.getData(Constants.DXREF_SERVICE,'/content/getRandom').then(function(data) {
         var decorationSpec = decorationAdapter.convertNreContentToDecoratedContentSpec(data);
-        console.dir(decorationSpec);
+        var decoratedText = decorationEngine.getDecoratedText(decorationSpec);
+        
+        _this.set('decoratedText',decoratedText);  
       });
-
-      //theDataService.getData('dxref-service',)
-      // var _this = this;
-      // getDecoratedTextPromise().then(function(text){        
-      //   _this.set('decoratedText',text);     
-      // });
-      
-      // //Show that we loaded the decoration engine.      
-      // console.dir(decorationEngine);
+     
     },
     testFuture:function() {
       
