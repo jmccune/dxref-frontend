@@ -1,4 +1,4 @@
-import dxrefConfig from 'dxref/dxrefconfig';
+import dxrefConfig from 'dxref/dxref-config';
 
 var data= {
 	list: [],

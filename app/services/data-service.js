@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import dxrefConfig from 'dxref/dxrefconfig';
+import dxrefConfig from 'dxref/dxref-config';
 import DxrefError from 'dxref/dxref-errors';
 
 

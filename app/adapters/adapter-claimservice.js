@@ -1,4 +1,4 @@
-import dxrefConfig from 'dxref/dxrefconfig';
+import dxrefConfig from 'dxref/dxref-config';
 import DS from 'ember-data';
 import Ember from 'ember';
 import theDataService from 'dxref/services/data-service';

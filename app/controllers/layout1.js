@@ -1,19 +1,17 @@
 
 import Ember from 'ember';
 
+import {Constants} from 'dxref/dxref-config';
+
 import theDataService from 'dxref/services/data-service';
+import theDecorationService from 'dxref/services/decoration-service';
+
 import theClaimService from 'dxref/adapters/adapter-claimservice';
-import {Constants} from 'dxref/dxrefconfig';
 import decorationAdapter from 'dxref/adapters/decoration-adapter';
 
 
 var logger = log4javascript.getLogger('dxref.controllers.layout1');
 
-var decorationEngine = new DecorationEngine();
-var mapFactory = new SimpleHtmlDecoratorFactory();
-mapFactory.addDecoratorPrototype("phone",new  HtmlDecorator("phone"));
-
-decorationEngine.setDecoratorFactory(mapFactory);
 
 export default Ember.Controller.extend({
 
@@ -30,8 +28,12 @@ export default Ember.Controller.extend({
       var _this = this;
       theDataService.getData(Constants.DXREF_SERVICE,'/content/getRandom').then(function(data) {
         var decorationSpec = decorationAdapter.convertNreContentToDecoratedContentSpec(data);
-        var decoratedText = decorationEngine.getDecoratedText(decorationSpec);
+
+        console.log("DECORATION SPEC");
+        console.dir(decorationSpec);
+        var decoratedText = theDecorationService.getDecoratedText(decorationSpec);
         
+
         _this.set('decoratedText',decoratedText);  
       });
      

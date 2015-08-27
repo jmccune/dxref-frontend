@@ -6,20 +6,24 @@ var logger = log4javascript.getLogger("dxref.adapters.decoration-adapter");
 var adapter = {
 
 	convertNreContentToDecoratedContentSpec: function(nreRepsonse) {
-
+		
 		var nre = new NodeRelationExtraDro(nreRepsonse);
-
-		var response = [];
+ 
+ 		var contentLines = [];
+ 		var decorations = [];
 		if (!nre.node) {
-			logger.warn("No response!?");
-			response.push(new ContentLine({ content: "NOT FOUND", decorations:[]}));
+			contentLines.push("Nothing found?!");			
 		}		
 		else {
-			_.forEach(nre.node.contentLines,function(line) {
-				response.push(new ContentLine({ content: line, decorations:[]}));
-			});						
+			contentLines = nre.node.contentLines;
+
+			_.forEach(nre.extraInfo, function(value, id) {				
+				if (value.decorations) {
+					decorations = decorations.concat(value.decorations);
+				}
+			});
 		}
-		return new TextContent2Decorate(response);	
+		return new TextContent2Decorate(nre.node.contentLines,decorations);	
 	}
 
 };

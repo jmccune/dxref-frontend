@@ -1,10 +1,13 @@
 import NodeRelationExtraDro from 'dxref/models/dro/node-relation-extra-dro';
 import ContentElementDro from 'dxref/models/dro/content-element-dro';
+import DecorationSetDro from 'dxref/models/dro/decoration-set-dro';
+
 import DxrefError from 'dxref/dxref-errors';
 
 var data = {
 	'NodeRelationExtraDto': NodeRelationExtraDro,
-	'ContentElementDto' : ContentElementDro
+	'ContentElementDto' : ContentElementDro,
+	'DecorationSetDto'  : DecorationSetDro
 };
 
 
