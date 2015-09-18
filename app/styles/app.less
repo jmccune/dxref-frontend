@@ -1,4 +1,5 @@
 @import 'bootstrap';
+@import 'font-awesome';
 
 // NOTES:
 // Note: 0.0001 is for a chromium bug:
@@ -20,7 +21,10 @@
 }
 
 .main-container {
+  min-width: 1024px;
   min-height: 500px;
+  height:80vh;
+
   padding: var(--space);
 
   display: -webkit-flex;
@@ -38,19 +42,27 @@
 
   .content-panel {
     margin-top: var(--space);
-    flex: 3;
-    -webkit-flex: 3;
+    flex: 4;
+    -webkit-flex: 4;
     padding: 0;
     margin: 0;
   }
 
-  .left-panel,
+  .left-panel {
+    padding: 1em;
+    border-radius: 3px;
+    background: #EEEEEE;
+    flex: 2 0 0;
+    -webkit-flex: 2 0 0;
+    transition: all 0.5s ease;
+  }
+
   .right-panel {
     padding: 1em;
     border-radius: 3px;
     background: #EEEEEE;
-    flex: 1 0 0;
-    -webkit-flex: 1 0 0;
+    flex: 4 0 0;
+    -webkit-flex: 4 0 0;
     transition: all 0.5s ease;
   }
 

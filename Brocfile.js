@@ -5,10 +5,12 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var app = new EmberApp({
 		lessOptions: {
 			paths: [
-			  'bower_components/bootstrap/less'
+			  'bower_components/bootstrap/less',
+			  'bower_components/components-font-awesome/less/'
 			]
 		}
 	});
+
 
 // Use `app.import` to add additional libraries to the generated
 // output files.
@@ -25,4 +27,13 @@ var app = new EmberApp({
 app.import('bower_components/lodash/lodash.js',{ 'lodash': ['default'] });
 app.import('bower_components/decoration-engine-js/release/decoration-engine.js');
 app.import('bower_components/log4javascript/log4javascript.js');
+app.import('bower_components/components-font-awesome/fonts/fontawesome-webfont.ttf',{
+	destDir: "fonts"
+});
+app.import('bower_components/components-font-awesome/fonts/fontawesome-webfont.woff2',{
+	destDir: "fonts"
+});
+app.import('bower_components/components-font-awesome/fonts/fontawesome-webfont.woff',{
+	destDir: "fonts"
+});
 module.exports = app.toTree();
