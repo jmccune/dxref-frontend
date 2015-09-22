@@ -1,10 +1,8 @@
 import DroRegistry from 'dxref/models/dro/dro-registry';
+import { dxrefValidator, Constants } from 'dxref/dxref-config';
 
 var logger = log4javascript.getLogger('dxref.models.dro.node-relation-extra-dro');
 
-//Validator (DXREF-12)
-var validator = decorationValidator;
-var REQUIRED = true;
 
 
 export default function NodeRelationExtraDro(json) {
@@ -19,7 +17,7 @@ export default function NodeRelationExtraDro(json) {
 function populateNode(jsonNode) {
 	
 	if (jsonNode) {
-		validator.throwIfNotObjectMap("meta",jsonNode.meta)
+		dxrefValidator.throwIfNotObjectMap("meta",jsonNode.meta)
 			.throwIfNotString("meta.dtoType",jsonNode.meta.dtoType);
 
 		// Adapt JSON response to verified/validated object, using the registry
@@ -45,8 +43,8 @@ function populateExtraInfo(json) {
 }
 
 NodeRelationExtraDro.prototype.initFromJson= function(json) {
-	validator.throwIfNotObjectMap("node",json.node)		
-		.throwIfNotString("nodeType",json.nodeType,REQUIRED)
+	dxrefValidator.throwIfNotObjectMap("node",json.node)		
+		.throwIfNotString("nodeType",json.nodeType,Constants.REQUIRED)
 		.throwIfNotObjectMap("relations",json.relations)
 		.throwIfNotObjectMap("extraInfo",json.extraInfo);
 

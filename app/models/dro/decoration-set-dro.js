@@ -1,8 +1,6 @@
-var logger = log4javascript.getLogger('dxref.models.dro.decoration-set-dro');
+import { dxrefValidator, Constants } from 'dxref/dxref-config';
 
-//Validator (DXREF-12)
-var validator = decorationValidator;
-var REQUIRED = true;
+var logger = log4javascript.getLogger('dxref.models.dro.decoration-set-dro');
 
 export default function DecorationSetDro(json) {
 
@@ -10,9 +8,9 @@ export default function DecorationSetDro(json) {
 }
 
 DecorationSetDro.prototype.initFromJson = function(json) {
-	validator
-		.throwIfNotString("name",json.name,REQUIRED)
-		.throwIfNotArray("decorations",json.decorations,REQUIRED);
+	dxrefValidator
+		.throwIfNotString("name",json.name,Constants.REQUIRED)
+		.throwIfNotArray("decorations",json.decorations,Constants.REQUIRED);
 
 	var decorations = [];
 
