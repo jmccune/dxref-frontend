@@ -3,7 +3,7 @@
 import {Constants} from 'dxref/dxref-config';
 import theDataService from 'dxref/services/data-service';
 import listItemModel from 'dxref/models/list-item-model';
-
+import MS from 'dxref/services/model-service';
 
 export default Ember.Route.extend({
   model: function(){
@@ -13,14 +13,14 @@ export default Ember.Route.extend({
   	// 	resolveFn = resolve;
   	// });
 
-    
-    var item = new listItemModel({ id: 1234, title: "blah", description:"egad"});
-
-
     return theDataService.getData(Constants.DXREF_SERVICE,'/contents').then(function(data) {
         console.log("*** DATA *** ");
         console.dir(data);
-
+        var items = MS.convertToListOfModels(listItemModel,data);
+        console.dir(items);
+        _.forEach(items, function(item) {
+          console.log("TYPE: "+item.getObjectType());
+        });
     });
 
   	// setTimeout(function(){
