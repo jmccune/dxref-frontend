@@ -6,7 +6,9 @@
     "_",
     "$",
     "log4javascript",
-    /** DECORATIONS */
+    /** Validations */
+    "ValidatorJs",
+    /** DECORATIONS */    
     "decorationValidator",
     "DecorationModel",
     "ContentLine",

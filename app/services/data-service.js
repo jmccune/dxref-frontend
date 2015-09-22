@@ -92,6 +92,19 @@ DataService.prototype.getData = function(serviceName,path,params) {
 									
 };
 
+DataService.prototype.convertToTypedCollection=function(type,collection) {
+	if (!_.isArray(collection)) {
+		throw "doesn't support map types yet!?";
+	}
+
+	var result = [];
+	_.forEach(collection,function(itemJson) {	
+	//** WORKING HERE **	
+	});
+}
+
+
+
 var theDataService = new DataService();
 
 export default theDataService;

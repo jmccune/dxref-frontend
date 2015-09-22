@@ -1,6 +1,8 @@
 {
   "name": "dxref",
-  "dependencies": {    
+  "dependencies": { 
+    "lodash": "~3.10.0",
+    "validator-js": "file:///Users/mccune/projects/libs/validator-js/.git#develop",  
     "decoration-engine-js":"file:///Users/mccune/projects/libs/decorationEngineJs/.git#develop",
     "log4javascript":"file:///Users/mccune/software/log4javascript/log4javascript-1.4.13/.git#master",
     "ember": "1.12.0",

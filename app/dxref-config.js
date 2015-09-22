@@ -1,3 +1,4 @@
+
 /** 
 	See Overall Config at the bottom of the file.
 */
@@ -14,9 +15,11 @@ var dxrefConfig= {
 
 /** ============= APPLICATION CONSTANTS    ======================*/
 export var Constants = {
-	DXREF_SERVICE : 'dxref-service'
+	DXREF_SERVICE : 'dxref-service',
+	REQUIRED: ValidatorJs.REQUIRED
 };
 
+export var dxrefValidator = new ValidatorJs();
 
 /** ============= LOGGING CONFIGURATION    ======================*/
 var ROOT_LEVEL = log4javascript.Level.INFO;

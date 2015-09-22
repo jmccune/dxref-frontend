@@ -25,6 +25,7 @@ var app = new EmberApp({
 // please specify an object with the list of modules as keys
 // along with the exports of each module as its value.
 app.import('bower_components/lodash/lodash.js',{ 'lodash': ['default'] });
+app.import('bower_components/validator-js/release/validator.js');
 app.import('bower_components/decoration-engine-js/release/decoration-engine.js');
 app.import('bower_components/log4javascript/log4javascript.js');
 app.import('bower_components/components-font-awesome/fonts/fontawesome-webfont.ttf',{
