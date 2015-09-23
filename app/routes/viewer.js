@@ -9,12 +9,9 @@ import MS from 'dxref/services/model-service';
 
 export default Ember.Route.extend({
   model: function(){
-
     return theDataService.getData(Constants.DXREF_SERVICE,'/contents').then(function(data) {
-
-        var pagedItems = new PagedItems(data,listItemModel);        
-        
-        return pagedItems;
+        var pagedItems = new PagedItems(data,listItemModel);             
+        return pagedItems.humanReadableVersion();
     });
   }
 });

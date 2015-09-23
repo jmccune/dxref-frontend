@@ -3,7 +3,7 @@
 	</div> 
 	<div class="content-panel">
 		<button {{action 'test'}}> Test</button>			
-		{{#item-list items=model.items}}
+		{{#item-list items=model.items pagingInfo=model}}
 		{{/item-list}}
 	</div>
 	<div class="right-panel">
