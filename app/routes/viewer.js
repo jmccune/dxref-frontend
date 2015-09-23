@@ -12,13 +12,9 @@ export default Ember.Route.extend({
 
     return theDataService.getData(Constants.DXREF_SERVICE,'/contents').then(function(data) {
 
-        var pagedItems = new PagedItems(data);
-
-        pagedItems.items = MS.convertToListOfModels(listItemModel,pagedItems.items);
-        var response = {
-          items: pagedItems.items          
-        };        
-        return response;
+        var pagedItems = new PagedItems(data,listItemModel);        
+        
+        return pagedItems;
     });
   }
 });

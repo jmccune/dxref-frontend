@@ -13,28 +13,49 @@ function convertToListOfModelsFn(DxrefModel,jsonList){
 	return result;
 }
 
-function buildModelBasis(name, spec) {
-	dxrefValidator.throwIfNotObjectMap(spec);
+function buildModelBasis(name, specArg) {
 
- 		var getReasonDataNotValidFn = createObjectDataValidatorFrom(spec);
+	var specGenerator = null;
+	if (dxrefValidator.isFunction(specArg)) {
+		specGenerator = specArg;
+	}
+	else if (dxrefValidator.isObjectMap(specArg)) {		
+		specGenerator = function() { return specArg; };		
+	}
+	else {
+		console.log("IllegalSpec>> ");
+		console.dir(specArg);
+		throw "Illegal Model Specification: "+specArg;
+	}
 
- 		
- 		var ModelServiceObject=function(json) {
- 			this.initFromJson(json);
- 		};
+	//var getReasonDataNotValidFn = createObjectDataValidatorFrom(spec);
 
- 		ModelServiceObject.prototype.initFromJson = function(json) {
- 			var reasonNotValid = getReasonDataNotValidFn(json); 			
- 			if (reasonNotValid) { 				
- 				throw reasonNotValid;
- 			}
- 			_.assign(this,json);
- 		};
+	
+	var ModelServiceObject=function(json) {
+		var args = Array.prototype.slice.call(arguments, 1);
+		this.setupValidator.apply(this,args);
+		this.initFromJson(json);
+	};
 
- 		ModelServiceObject.prototype.MsObjectType = name;
- 		ModelServiceObject.prototype.getObjectType = function() {return this.MsObjectType;};
- 		return ModelServiceObject;
+	ModelServiceObject.prototype.setupValidator=function(args) {
+		var spec = specGenerator(args);		
+		ModelServiceObject.prototype.validateData= createObjectDataValidatorFrom(spec);
+	};
+
+
+	ModelServiceObject.prototype.initFromJson = function(json) {			
+		var reasonNotValid = this.validateData(json); 			
+		if (reasonNotValid) { 				
+			throw reasonNotValid;
+		}
+		_.assign(this,json);
+	};
+
+	ModelServiceObject.prototype.MsObjectType = name;
+	ModelServiceObject.prototype.getObjectType = function() {return this.MsObjectType;};
+	return ModelServiceObject;
 }
+	
 
 
 // ==================================================================
@@ -103,7 +124,9 @@ export default {
  	Model: buildModelBasis,
 
  	PropertyType: function(type, required, options) {
- 		if (typeof options === 'undefined') options={};
+ 		if (typeof options === 'undefined') {
+ 			options={};
+ 		}
  		return getValidator(type,required,options);
  	}
  };
