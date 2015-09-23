@@ -21,21 +21,26 @@ var x =MS.Model("paged-items",function(listModelType){
 	};
 });
 
-x.prototype.humanReadableVersion=function() {	
+x.prototype.adaptForComponent=function(prevAction,nextAction) {	
 
     var startIndex = this.pageNum * this.pageSize +1;
     var endIndex = startIndex+ this.pageSize-1;
     if (endIndex > this.numResults) {
     	endIndex = this.numResults;
     }        
-	return {
+
+	return Ember.Object.create({
 		pageNum: this.pageNum+1,
 		numResults: this.numResults,
 		pageSize: this.pageSize,
 		startIndex: startIndex,
 		endIndex: endIndex,
-		items: this.items
-	};
+		items: this.items,
+		prevEnabled: true, //this.pageNum>0,
+		nextEnabled : (this.pageNum+1)*this.pageSize < this.numResults,
+		prevPage: prevAction,
+		nextPage: nextAction
+	});
 };
 
 export default x;

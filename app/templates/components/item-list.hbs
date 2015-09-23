@@ -1,10 +1,13 @@
 
 
 <div class="item-list">
-	<h3> Search Results </h3>
+	<h3> Results </h3>
 	{{#if pagingInfo}} 
-		<span class="count"> Page: {{pagingInfo.pageNum}} Showing Results: {{pagingInfo.startIndex}} to {{pagingInfo.endIndex}} &nbsp;  of  &nbsp; {{pagingInfo.numResults}} </span>
-	{{/if}}
+		{{paging-component pagingInfo=pagingInfo 
+			nextPage=pagingInfo.nextPage 
+			prevPage=pagingInfo.prevPage
+		}}
+	{{/if}}	
 
 	{{#if hasBlock}}
 	
@@ -24,6 +27,4 @@
 	  {{/each}}
 
 	{{/if}}
-
-
 </div>

@@ -1,0 +1,17 @@
+<div class="paging-info">
+	<span class="page-indexes"> 
+		Showing Results: {{pagingInfo.startIndex}} to {{pagingInfo.endIndex}} &nbsp;  of  &nbsp; {{pagingInfo.numResults}} 
+	</span>
+	<span class="page-num">  	
+		{{button-component text="prev" 
+			isEnabled=pagingInfo.prevEnabled 
+			action="prevPage"}}
+
+		Page: {{pagingInfo.pageNum}} 
+
+		{{button-component text="next" 
+			isEnabled=pagingInfo.nextEnabled
+			action="nextPage"
+			}}
+	</span>		
+</div>	
