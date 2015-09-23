@@ -10,17 +10,20 @@ export default Ember.Controller.extend({
 	actions: {		
 		loadNextPage: function(pageInfo) {
 			console.log("CONTROLLER NEXT PAGE!"+pageInfo.pageNum);
-
+			this.loadData(pageInfo.pageNum);		
 		},
 		loadPrevPage: function(pageInfo) {
-			console.log("CONTROLLER PREV PAGE!"+pageInfo.pageNum);			
+			console.log("CONTROLLER PREV PAGE!"+pageInfo.pageNum);	
+			this.loadData(pageInfo.pageNum);					
 		}
 	},  
-  	loadData:function() {
-	  	var pageNum = this.get('pageNum');
-	    return theDataService.getData(Constants.DXREF_SERVICE,'/contents').then(function(data) {
+  	loadData:function(pageNum) {
+	  	var _this = this;	  	
+
+	    theDataService.getData(Constants.DXREF_SERVICE,'/contents',{pageNum: pageNum}).then(function(data) {
 	        var pagedItems = new PagedItems(data,listItemModel);             
-	        return pagedItems.adaptForComponent("prevPage","nextPage");
-	    });
+	        var newData= pagedItems.adaptForComponent("prevPage","nextPage");
+	        _this.set('model',newData);
+	    });	    
 	}
 });

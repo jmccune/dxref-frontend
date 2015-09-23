@@ -1,13 +1,13 @@
 <div class="paging-info">
 	<span class="page-indexes"> 
-		Showing Results: {{pagingInfo.startIndex}} to {{pagingInfo.endIndex}} &nbsp;  of  &nbsp; {{pagingInfo.numResults}} 
+		Showing Results: {{helper-plus1 pagingInfo.startIndex}} to {{helper-plus1 pagingInfo.endIndex}} &nbsp;  of  &nbsp; {{pagingInfo.numResults}} 
 	</span>
 	<span class="page-num">  	
 		{{button-component text="prev" 
 			isEnabled=pagingInfo.prevEnabled 
 			action="prevPage"}}
 
-		Page: {{pagingInfo.pageNum}} 
+		Page: {{helper-plus1 pagingInfo.pageNum}} 
 
 		{{button-component text="next" 
 			isEnabled=pagingInfo.nextEnabled

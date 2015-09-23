@@ -15,7 +15,7 @@ export default Ember.Route.extend({
       pageNum = 0;
     }    
     return theDataService.getData(Constants.DXREF_SERVICE,'/contents').then(function(data) {
-        var pagedItems = new PagedItems(data,listItemModel);             
+        var pagedItems = new PagedItems(data,listItemModel);
         return pagedItems.adaptForComponent("prevPage","nextPage");
     });
   }
