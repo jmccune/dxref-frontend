@@ -1,0 +1,24 @@
+
+
+<div class="item-list">
+	<h3> Search Results </h3>
+
+	{{#if hasBlock}}
+	
+	  {{#each items as |item|}}
+	    {{yield item}}
+	  {{/each}}
+	
+	{{else}}
+
+	  {{#each items as |item|}}
+	    <section class="item">
+	      <span class="title">
+	      	{{item.title}}
+	      </span>
+	      <p>{{item.description}}</p>
+	    </section>
+	  {{/each}}
+
+	{{/if}}
+</div>

@@ -2,7 +2,9 @@
 	<div class="left-panel">
 	</div> 
 	<div class="content-panel">
-		Main content
+		<button {{action 'test'}}> Test</button>			
+		{{#item-list items=model.items}}
+		{{/item-list}}
 	</div>
 	<div class="right-panel">
 	</div>

@@ -8,30 +8,15 @@ import MS from 'dxref/services/model-service';
 export default Ember.Route.extend({
   model: function(){
 
-  	// var resolveFn = null;
-  	// var promise =  new Ember.RSVP.Promise(function(resolve,reject) {
-  	// 	resolveFn = resolve;
-  	// });
-
     return theDataService.getData(Constants.DXREF_SERVICE,'/contents').then(function(data) {
-        console.log("*** DATA *** ");
-        console.dir(data);
         var items = MS.convertToListOfModels(listItemModel,data);
-        console.dir(items);
-        _.forEach(items, function(item) {
-          console.log("TYPE: "+item.getObjectType());
-        });
+        var response = {
+          items: items,
+          howdy: "hello justin"
+        };
+        console.log("RESPONSE>> ");
+        console.dir(response);
+        return response;
     });
-
-  	// setTimeout(function(){
-  	// 	console.log("*** TIMEOUT WENT!");
-  	// 	console.log("resolveFn: "+resolveFn);
-  	// 	resolveFn({});
-  	// },1000);
-
-
-
-
-   //  return promise;
   }
 });
