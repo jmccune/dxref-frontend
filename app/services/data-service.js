@@ -103,6 +103,34 @@ DataService.prototype.convertToTypedCollection=function(type,collection) {
 	});
 }
 
+/**
+	Returns an Ember promise that eventually returns the given response--
+	used to simulate/test the loading.hbs templates, or otherwise find out
+	how the system responds to delayed responses.
+*/
+DataService.prototype.simulateDelayedResponse = function(timeout, response) {
+	if (typeof timeout === 'undefined') {
+		timeout = 1000;
+	}
+
+	if (typeof response === 'undefined') {
+		response = {};
+	}
+
+	var resolveFn = null;
+  	var promise =  new Ember.RSVP.Promise(function(resolve,reject) {
+  		resolveFn = resolve;
+  	});
+
+  	setTimeout(function(){
+  		console.log("*** Simulated Delay Response >> TIMEOUT WENT! Will return ");
+  		console.dir(response);
+  		resolveFn(response);
+  	},timeout);
+
+    return promise;
+}
+
 
 
 var theDataService = new DataService();

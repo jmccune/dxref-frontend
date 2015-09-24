@@ -9,6 +9,7 @@ import MS from 'dxref/services/model-service';
 
 export default Ember.Route.extend({
   model: function(){
-    return {};
+   
+  	return theDataService.simulateDelayedResponse(1000,{});
   }
 });
