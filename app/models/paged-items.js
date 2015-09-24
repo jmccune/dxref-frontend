@@ -29,13 +29,19 @@ x.prototype.adaptForComponent=function(prevAction,nextAction) {
     	endIndex = this.numResults-1;
     }        
 
+    _.forEach(this.items, function(item) {
+    	item.link = 'content.view'
+    });
 	return Ember.Object.create({
+
 		pageNum: this.pageNum,
 		numResults: this.numResults,
 		pageSize: this.pageSize,
-		startIndex: startIndex,
-		endIndex: endIndex,
 		items: this.items,
+
+		//inferred		
+		startIndex: startIndex,
+		endIndex: endIndex,		
 		prevEnabled: this.pageNum>0,
 		nextEnabled : (this.pageNum+1)*this.pageSize < this.numResults,
 		prevPage: prevAction,

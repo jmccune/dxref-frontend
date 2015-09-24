@@ -23,7 +23,13 @@
 		  {{#each items as |item|}}
 		    <section class="item">
 		      <span class="title">
-		      	{{item.title}}
+		      	{{#if item.link}} 
+		      		{{#link-to item.link item.id}} 
+		      			{{item.title}} 
+		      		{{/link-to}}
+		      	{{else}} 
+		      		{{item.title}}
+		      	{{/if}}
 		      </span>
 		      <p>{{item.description}}</p>
 		    </section>
