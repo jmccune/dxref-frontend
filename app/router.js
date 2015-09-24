@@ -7,7 +7,12 @@ var Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('home',{path:'/'});
-  this.route('viewer');
+  this.route('viewer', {path:'/viewer'},function(){
+  	this.route('find', {path:'/find'});
+  	this.route('view', {path:'/view'}, function() {
+  		this.route('content',{path:'/content/:content_id'});	
+  	});  	
+  });
   this.route('about');  
   this.route('layout1');
 });

@@ -1,20 +1,17 @@
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-          {{#link-to 'home' classNames="navbar-brand"}}
+          {{#link-to 'viewer.find' classNames="navbar-brand"}}
               XReffed {{/link-to}}
         </div>
 
         <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-              {{#link-to 'home' tagName="li"}}
-                  <a {{bind-attr href="view.href"}}>Home</a>
-              {{/link-to}}
-              {{#link-to 'viewer' tagName="li"}}
+            <ul class="nav navbar-nav">              
+              {{#link-to 'viewer.find' tagName="li"}}
                   <a {{bind-attr href="view.href"}}>Viewer</a>
               {{/link-to}}
               {{#link-to 'layout1' tagName="li"}}
-                  <a {{bind-attr href="view.href"}}>HG Layout</a>
+                  <a {{bind-attr href="view.href"}}>4Dev</a>
               {{/link-to}}              
               {{#link-to 'about' tagName="li"}}
                   <a {{bind-attr href="view.href"}}>About</a>

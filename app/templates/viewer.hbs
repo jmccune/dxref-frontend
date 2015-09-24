@@ -2,14 +2,9 @@
 	<div class="left-panel">		
 	</div> 
 	<div class="content-panel">		
-		{{#item-list 
-			items=model.items 
-			pagingInfo=model 
-			nextPage="loadNextPage" 
-			prevPage="loadPrevPage" 
-		}} {{/item-list}}
-
+		{{outlet}}
 	</div>
 	<div class="right-panel">
+		
 	</div>
 </div>

@@ -8,15 +8,5 @@ import MS from 'dxref/services/model-service';
 
 
 export default Ember.Route.extend({
-  model: function(){
-    var pageNum = this.get('pageNum');
-    if (!pageNum) {
-      this.set('pageNum',0);
-      pageNum = 0;
-    }    
-    return theDataService.getData(Constants.DXREF_SERVICE,'/contents').then(function(data) {
-        var pagedItems = new PagedItems(data,listItemModel);
-        return pagedItems.adaptForComponent("prevPage","nextPage");
-    });
-  }
+ 
 });
