@@ -26,7 +26,7 @@ x.prototype.adaptForComponent=function(prevAction,nextAction) {
     var startIndex = this.pageNum * this.pageSize;
     var endIndex = startIndex+ this.pageSize-1;
     if (endIndex > this.numResults) {
-    	endIndex = this.numResults;
+    	endIndex = this.numResults-1;
     }        
 
 	return Ember.Object.create({

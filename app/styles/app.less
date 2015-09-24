@@ -14,21 +14,7 @@
 // ===================================================================
 // COMPONENT SPACING
 // ===================================================================
-
-.item-list {
-  .item { 
-    background-color: #ddeeff; 
-    margin: 0px 0px 10px 0px;
-    padding: 2px;
-  }
-  .title {
-    font-weight:700;
-    font-size: 1.2em;
-  }
-  
-  p {
-    font-size: 0.9em;
-  }
+.item-list-header {
   .paging-info {
 
     
@@ -42,6 +28,26 @@
     .page-num {
       float: right;
     }
+  }
+}
+
+.item-list {
+  height:70vh;
+  overflow: auto;
+  .item { 
+    background-color: #ddeeff; 
+    margin: 0px 0px 10px 0px;
+    padding: 2px;
+  }
+
+
+  .title {
+    font-weight:700;
+    font-size: 1.2em;
+  }
+  
+  p {
+    font-size: 0.9em;
   }
 }
 
@@ -83,7 +89,7 @@
     -webkit-flex: 4;
     padding: 0;
     // border: 1px solid black; 
-    margin: 5px;
+    margin: 5px;  
   }
 
   .left-panel {
