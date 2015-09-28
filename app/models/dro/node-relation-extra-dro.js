@@ -31,12 +31,22 @@ function populateExtraInfo(json) {
 	var result = {};
 	_.forEach(json,function(value, id) {
 
-		if (!value || !value.meta || !value.meta.dtoType) {
+		var dtoType = null;
+		if (value && value.meta && value.meta.dtoType) {
+			dtoType = value.meta.dtoType;
+		}
+		else if (value.title) { 
+			//DEFAULT (if not a complex object)
+			// is a simple search result sort of thing.
+			dtoType = 'SearchResultModel';
+
+		}
+		else {
 			logger.error("Unable to lookup: "+value+" for id: "+id);
 			return;
 		}
 		
-		result[id] =  DroRegistry.createObject(value.meta.dtoType,value);
+		result[id] =  DroRegistry.createObject(dtoType,value);
 	});
 
 	return result;

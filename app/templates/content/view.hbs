@@ -3,6 +3,8 @@
 		{{{model.decoratedText}}}
 	</div>
 	<div class="right-panel">
-		<i>Placeholder</i>
+		{{#item-list 
+			items=model.links
+		}} {{/item-list}}
 	</div>
 </div>
