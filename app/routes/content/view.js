@@ -22,7 +22,7 @@ export default Ember.Route.extend({
         
         var relationInfo = relationAdapter.adaptRelations(data);
 
-        console.dir(relationInfo);
+        whereComponentModel.setRelatedInfo(relationInfo);
 
         
 

@@ -3,16 +3,9 @@ import { dxrefValidator, Constants } from 'dxref/dxref-config';
 
 var logger = log4javascript.getLogger('dxref.models.dro.node-relation-extra-dro');
 
-
-
 export default function NodeRelationExtraDro(json) {
-
 	this.initFromJson(json);
-
 }
-
-
-
 
 function populateNode(jsonNode) {
 	

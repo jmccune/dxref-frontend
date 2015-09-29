@@ -1,15 +1,17 @@
+<p class="dxr-h1"> CURRENT LOCATION </p>
 <section class="location">
-	<p class="dxr-h1"> CURRENT LOCATION </p>
 	{{where/nav-component}}	
 </section>	
+<p class="dxr-h1"> INFO </p>
 <section class="info">		
-	<p class="dxr-h1"> INFO </p>
 	{{#component whereInfo.metaCardType data=whereInfo.metaInfo}}
 	{{/component}}
 </section>	
+<p class="dxr-h1"> RELATED </p>
 <section class="related">
-	<p class="dxr-h1"> RELATED </p>
+	<div style="font-size:0.9em">
 	{{#component whereInfo.relatedDisplayType data=whereInfo.relatedInfo}}
 	{{/component}}
+	</div>
 </section>
 {{yield}}

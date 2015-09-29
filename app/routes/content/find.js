@@ -14,8 +14,8 @@ export default Ember.Route.extend({
       pageNum = 0;
     }    
 
-    whereComponentModel.set('metaCardType','cards/message-card');
-    whereComponentModel.set('metaInfo',{ message: "Searching for any textual content/excerpts we can find!"});
+    whereComponentModel.setMetaMessage("Searching for any textual content/excerpts we can find!");
+    whereComponentModel.setRelatedInfo(null);
 
     return theDataService.getData(Constants.DXREF_SERVICE,'/contents').then(function(data) {
         var pagedItems = new PagedItems(data,listItemModel);
