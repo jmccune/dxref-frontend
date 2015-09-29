@@ -34,13 +34,23 @@ export default Ember.Route.extend({
         var links=[];
         _.forEach(data.relations, function(array,key){
 
-        	_.forEach(array,function(info){
+        	_.forEach(array,function(edgeInfo){
+		    	
+		    	var otherId = getOtherNodeId(myId,edgeInfo);
+				
+				var nodeInfo = data.extraInfo[otherId];
+				if (!nodeInfo || !nodeInfo.title) {
+		    		//SKIP ANYTHING WITHOUT A TITLE!
+		    		return;
+		    	}
+
 		    	console.log("KEY "+key);
-		    	console.dir(info);
-		    	var otherId = getOtherNodeId(myId,info);
+		    	console.dir(edgeInfo);
+		    	console.dir(nodeInfo);
+
 		    	var item = {
-		    		title: key,
-		    		description: otherId,
+		    		title: nodeInfo.title,
+		    		description: nodeInfo.description,
 		    		link: 'content.view',
 		    		id: otherId
 		    	};       

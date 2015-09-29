@@ -1,5 +1,6 @@
 <div class="main-container">
-    <div {{bind-attr class=":left-panel isExpanded::side-lined"}}>
+    
+    <div class="left-panel {{if isExpanded "" "side-lined"}}"> 
         LEFT
     </div>
     <div class="content-panel">
@@ -11,7 +12,7 @@
             {{{decoratedText}}}
         </div>
     </div>
-    <div {{bind-attr class=":right-panel isExpanded::side-lined"}}>
+    <div class="right-panel {{if isExpanded "" "side-lined"}}">     
         RIGHT
     </div>
 </div>

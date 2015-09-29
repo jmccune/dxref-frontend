@@ -1,4 +1,9 @@
 
+	
+	
+
+	
+
 
 <div class="item-list-block">
 	<div class="item-list-header">
@@ -11,30 +16,27 @@
 		{{/if}}	
 	</div>
 
-	<div class="item-list">
-		{{#if hasBlock}}
+	<div class="item-list">	
+		{{#each items as |item|}}
 
-		  {{#each items as |item|}}
-		    {{yield item}}
-		  {{/each}}
+			{{#if hasBlock}}
 
-		{{else}}
-
-		  {{#each items as |item|}}
-		    <section class="item">
-		      <span class="title">
-		      	{{#if item.link}} 
-		      		{{#link-to item.link item.id}} 
-		      			{{item.title}} 
-		      		{{/link-to}}
-		      	{{else}} 
-		      		{{item.title}}
-		      	{{/if}}
-		      </span>
-		      <p>{{item.description}}</p>
-		    </section>
-		  {{/each}}
-
-		{{/if}}
+			XXXX
+			  	{{yield item}}
+			{{else}}
+			    <section class="item">
+			      <span class="title">
+			      	{{#if item.link}} 
+			      		{{#link-to item.link item.id}} 
+			      			{{item.title}} 
+			      		{{/link-to}}
+			      	{{else}} 
+			      		{{item.title}}
+			      	{{/if}}
+			      </span>
+			      <p>{{item.description}}</p>
+			    </section>
+			{{/if}}
+		{{/each}}	
 	</div>
 </div>

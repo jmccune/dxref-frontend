@@ -3,8 +3,11 @@
 		{{{model.decoratedText}}}
 	</div>
 	<div class="right-panel">
-		{{#item-list 
-			items=model.links
-		}} {{/item-list}}
+		{{#item-list hasBlock=true items=model.links}} 			
+			
+			<h3> TITLE: {{item.title}} </h3>
+
+
+		{{/item-list}}
 	</div>
 </div>

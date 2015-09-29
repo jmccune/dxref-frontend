@@ -8,13 +8,13 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">              
               {{#link-to 'content.find' tagName="li"}}
-                  <a {{bind-attr href="view.href"}}>Content</a>
+                  <a href={{view.href}}>Content</a>
               {{/link-to}}
               {{#link-to 'layout1' tagName="li"}}
-                  <a {{bind-attr href="view.href"}}>4Dev</a>
+                  <a href={{view.href}}>4Dev</a>
               {{/link-to}}              
               {{#link-to 'about' tagName="li"}}
-                  <a {{bind-attr href="view.href"}}>About</a>
+                  <a href={{view.href}}>About</a>
               {{/link-to}}
             </ul>
         </div>

@@ -1,7 +1,7 @@
 import NodeRelationExtraDro from 'dxref/models/dro/node-relation-extra-dro';
 import ContentElementDro from 'dxref/models/dro/content-element-dro';
 import DecorationSetDro from 'dxref/models/dro/decoration-set-dro';
-import AnyItemModel from 'dxref/models/any-object-model';
+import AnyObjectModel from 'dxref/models/any-object-model';
 
 import DxrefError from 'dxref/dxref-errors';
 
@@ -9,7 +9,8 @@ var data = {
 	'NodeRelationExtraDto': NodeRelationExtraDro,
 	'ContentElementDto' : ContentElementDro,
 	'DecorationSetDto'  : DecorationSetDro,
-	'SearchResultModel' : AnyItemModel
+	'GraphElementDto'   : AnyObjectModel,
+	'SearchResultModel' : AnyObjectModel
 };
 
 
