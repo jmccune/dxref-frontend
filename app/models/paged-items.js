@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import MS from 'dxref/services/model-service';
 import { Constants } from 'dxref/dxref-config';
 
@@ -30,8 +31,9 @@ x.prototype.adaptForComponent=function(prevAction,nextAction) {
     }        
 
     _.forEach(this.items, function(item) {
-    	item.link = 'content.view'
+    	item.link = 'content.view';
     });
+
 	return Ember.Object.create({
 
 		pageNum: this.pageNum,

@@ -42,6 +42,6 @@ var DecorationService = {
 	getDecoratedText: function(decSpec) {
 		return decorationEngine.getDecoratedText(decSpec);
 	}
-}
+};
 
 export default DecorationService;

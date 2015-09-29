@@ -1,7 +1,7 @@
 import NodeRelationExtraDro from 'dxref/models/dro/node-relation-extra-dro';
 import ContentElementDro from 'dxref/models/dro/content-element-dro';
 
-var logger = log4javascript.getLogger("dxref.adapters.decoration-adapter");
+//var logger = log4javascript.getLogger("dxref.adapters.decoration-adapter");
 
 
 var adapter = {
@@ -25,7 +25,7 @@ var adapter = {
 
 			contentLines = nre.node.contentLines;
 
-			_.forEach(nre.extraInfo, function(value, id) {				
+			_.forEach(nre.extraInfo, function(value /*, id*/) {				
 				if (value.decorations) {
 					decorations = decorations.concat(value.decorations);
 				}

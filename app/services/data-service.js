@@ -92,17 +92,6 @@ DataService.prototype.getData = function(serviceName,path,params) {
 									
 };
 
-DataService.prototype.convertToTypedCollection=function(type,collection) {
-	if (!_.isArray(collection)) {
-		throw "doesn't support map types yet!?";
-	}
-
-	var result = [];
-	_.forEach(collection,function(itemJson) {	
-	//** WORKING HERE **	
-	});
-}
-
 /**
 	Returns an Ember promise that eventually returns the given response--
 	used to simulate/test the loading.hbs templates, or otherwise find out
@@ -118,7 +107,7 @@ DataService.prototype.simulateDelayedResponse = function(timeout, response) {
 	}
 
 	var resolveFn = null;
-  	var promise =  new Ember.RSVP.Promise(function(resolve,reject) {
+  	var promise =  new Ember.RSVP.Promise(function(resolve /*,reject*/) {
   		resolveFn = resolve;
   	});
 
@@ -129,7 +118,7 @@ DataService.prototype.simulateDelayedResponse = function(timeout, response) {
   	},timeout);
 
     return promise;
-}
+};
 
 
 

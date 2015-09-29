@@ -16,7 +16,7 @@ var data = {
 
 //http://stackoverflow.com/questions/1606797/use-of-apply-with-new-operator-is-this-possible
 function newCall(Cls) {
-    return new (Function.prototype.bind.apply(Cls, arguments));
+    return new (Function.prototype.bind.apply(Cls, arguments))();
     // or even
     // return new (Cls.bind.apply(Cls, arguments));
     // if you know that Cls.bind has not been overwritten

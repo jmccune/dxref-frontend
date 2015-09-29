@@ -16,12 +16,11 @@ var getOtherNodeId = function(refId, edge){
 	else {
 		logger.error( "Not found: "+refId+" in edge: "+edge.SN_id+"-->"+edge.EN_id);
 	}
-}
+};
 
 export default Ember.Route.extend({
   model: function(params){
-
-  	var _this= this;
+  
   	return theDataService.getData(Constants.DXREF_SERVICE,'/contents/'+params.content_id)
   	.then(function(data) {
 
@@ -32,9 +31,7 @@ export default Ember.Route.extend({
 
         var myId = data.node.id;
 
-        var edgeTypeMap={};        
-        var links=[];
-
+        var edgeTypeMap={};                
         _.forEach(data.relations, function(array,key){
 
         	_.forEach(array,function(edgeInfo){
