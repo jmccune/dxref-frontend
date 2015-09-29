@@ -22,6 +22,8 @@ export default Ember.Controller.extend({
 	    theDataService.getData(Constants.DXREF_SERVICE,'/contents',{pageNum: pageNum}).then(function(data) {
 	        var pagedItems = new PagedItems(data,listItemModel);             
 	        var newData= pagedItems.adaptForComponent("prevPage","nextPage");
+	        console.log("*****>>> ");
+	        console.dir(newData);
 	        _this.set('model',newData);
 	    });	    
 	}

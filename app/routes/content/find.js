@@ -4,6 +4,7 @@ import {Constants} from 'dxref/dxref-config';
 import theDataService from 'dxref/services/data-service';
 import listItemModel from 'dxref/models/list-item-model';
 import PagedItems from 'dxref/models/paged-items';
+import whereComponentModel from 'dxref/components/where/where-model';
 
 export default Ember.Route.extend({
   model: function(){
@@ -12,6 +13,10 @@ export default Ember.Route.extend({
       this.set('pageNum',0);
       pageNum = 0;
     }    
+
+    whereComponentModel.set('metaCardType','cards/message-card');
+    whereComponentModel.set('metaInfo',{ message: "Searching for any textual content/excerpts we can find!"});
+
     return theDataService.getData(Constants.DXREF_SERVICE,'/contents').then(function(data) {
         var pagedItems = new PagedItems(data,listItemModel);
         return pagedItems.adaptForComponent("prevPage","nextPage");
