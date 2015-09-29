@@ -3,6 +3,7 @@ import {Constants} from 'dxref/dxref-config';
 import theDataService from 'dxref/services/data-service';
 import decorationAdapter from 'dxref/adapters/decoration-adapter';
 import theDecorationService from 'dxref/services/decoration-service';
+import theUtils from 'dxref/services/utils-service';
 
 var logger = log4javascript.getLogger('dxref/routes/content/view');
 
@@ -31,7 +32,9 @@ export default Ember.Route.extend({
 
         var myId = data.node.id;
 
+        var edgeTypeMap={};        
         var links=[];
+
         _.forEach(data.relations, function(array,key){
 
         	_.forEach(array,function(edgeInfo){
@@ -48,19 +51,31 @@ export default Ember.Route.extend({
 		    	console.dir(edgeInfo);
 		    	console.dir(nodeInfo);
 
+		    	var edgeType = edgeInfo.edgeType;
+		    	var linkList = edgeTypeMap[edgeType];
+		    	if (!linkList) {
+		    		linkList = [];
+					edgeTypeMap[edgeType] = linkList;
+		    	}
+
+
 		    	var item = {
 		    		title: nodeInfo.title,
 		    		description: nodeInfo.description,
 		    		link: 'content.view',
 		    		id: otherId
 		    	};       
-		    	links.push(item); 	
+		    	linkList.push(item); 	
         	});
         });
 
+        
+		var linkGroups = theUtils.convertMapToArray(edgeTypeMap);
+        console.log("*** EDGETYPE MAP ****");
+        console.dir(linkGroups);
         return {
         	decoratedText: decoratedText,
-        	links: links
+        	linkGroups: linkGroups
         };
     });
   }

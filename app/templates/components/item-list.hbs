@@ -1,13 +1,6 @@
-
-	
-	
-
-	
-
-
 <div class="item-list-block">
 	<div class="item-list-header">
-		<h3> Results </h3>
+		<h3> {{#if resultsLabel}} {{resultsLabel}} {{else}} Results {{/if}} </h3>
 		{{#if pagingInfo}} 
 			{{paging-component pagingInfo=pagingInfo 
 				nextPage=pagingInfo.nextPage 
@@ -19,9 +12,8 @@
 	<div class="item-list">	
 		{{#each items as |item|}}
 
-			{{#if hasBlock}}
-
-			XXXX
+			{{#if hasBlock}}	
+				HAS BLOCK {{item.title}} 	
 			  	{{yield item}}
 			{{else}}
 			    <section class="item">
