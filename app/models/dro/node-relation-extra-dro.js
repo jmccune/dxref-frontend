@@ -42,7 +42,7 @@ function populateExtraInfo(json) {
 
 		}
 		else {
-			logger.error("Unable to lookup: "+value+" for id: "+id);
+			logger.warn("Unable to lookup: "+value+" for id: "+id);
 			return;
 		}
 		

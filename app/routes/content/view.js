@@ -14,7 +14,7 @@ var getOtherNodeId = function(refId, edge){
 		return edge.EN_id;
 	}
 	else {
-		logger.error( "Not found: "+refId+" in edge: "+edge.SN_id+"-->"+edge.EN_id);
+		logger.warn( "Not found: "+refId+" in edge: "+edge.SN_id+"-->"+edge.EN_id);
 	}
 };
 
