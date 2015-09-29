@@ -36,6 +36,7 @@ function populateExtraInfo(json) {
 		}
 		else {
 			logger.warn("Unable to lookup: "+value+" for id: "+id);
+			result[id] = value;
 			return;
 		}
 		

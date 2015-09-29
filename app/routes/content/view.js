@@ -5,6 +5,7 @@ import theDecorationService from 'dxref/services/decoration-service';
 
 import decorationAdapter from 'dxref/adapters/decoration-adapter';
 import relationAdapter from 'dxref/adapters/nre-relation-adapter';
+import theContentAdapter from 'dxref/adapters/content-adapter';
 
 import whereComponentModel from 'dxref/components/where/where-model';
 
@@ -16,23 +17,14 @@ export default Ember.Route.extend({
   
   	return theDataService.getData(Constants.DXREF_SERVICE,'/contents/'+params.content_id)
   	.then(function(data) {
+    	 
+        var response = theContentAdapter.convertNreResponse(data);        
 
-    	var decorationSpec = decorationAdapter.convertNreContentToDecoratedContentSpec(data);
-        var decoratedText = theDecorationService.getDecoratedText(decorationSpec);
-        
+        // Set Where...
         var relationInfo = relationAdapter.adaptRelations(data);
-
         whereComponentModel.setRelatedInfo(relationInfo);
 
-        
-
-       	var linkGroups = relationInfo;
-        console.log("*** EDGETYPE MAP ****");
-        console.dir(linkGroups);
-        return {
-        	decoratedText: decoratedText,
-        	linkGroups: linkGroups
-        };
+        return response;        
     });
   }
 });
