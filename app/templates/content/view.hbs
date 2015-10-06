@@ -2,8 +2,9 @@
 	<div class="left-panel content-height">
 		{{where-component}}
 	</div>
-	<div class="center-panel">				
-		{{{model.decoratedText}}}
+	<div class="center-panel">		
+		{{#component model.cardType data=model}}		
+		{{/component}}
 	</div>
 	<div class="right-panel">
 		<i> placeholder </i>

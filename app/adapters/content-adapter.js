@@ -20,21 +20,42 @@ var adapter = {
 		var decoratedText=null;
 		if (nre.node instanceof ContentElementDro) {
 			 decorationSpec = decorationAdapter.convertNreContentToDecoratedContentSpec(nreResponse);
-
-			 console.log("DECORATION SPEC  *B*");
-			 console.dir(decorationSpec);
-        	 decoratedText = theDecorationService.getDecoratedText(decorationSpec);
-        	 console.log("*****>>> DT > "+decoratedText);
+			 decoratedText = theDecorationService.getDecoratedText(decorationSpec);        	 
         	 return {
-        	 	decoratedText: decoratedText
+        	 	cardType: 'cards/message-card',
+        	 	rawHtml: true,
+        	 	message: decoratedText        	 	
         	 };
+		}
+
+		console.log("NON_DECORATED TEXT: ");
+		console.dir(nre.node);
+
+		var node = nre.node;
+		if (node.title && node.id && node.graphTypes) {
+
+			var baseResponse = {
+        		cardType: 'cards/source-card',
+        		title: node.title,
+        		description: node.description,
+			};		
+
+			if (node.graphTypes.indexOf("SourceInfo")>=0) {
+				baseResponse.type="SourceInfo";
+				baseResponse.url =node.url;
+				baseResponse.sourceTypes=node.sourceTypes;
+			}
+
+			return baseResponse;
 		}
 
 		var contentLines=["Nothing to decorate!"];
 		decorationSpec = new TextContent2Decorate(contentLines,[]);	
 		decoratedText = theDecorationService.getDecoratedText(decorationSpec);
         return {
-        	decoratedText: decoratedText
+        	cardType: 'cards/source-card',
+        	title: "ERROR>>> Unknown...",
+        	description: "An error occurred-- couldn't figure out what the response was!"
 		};		
 	}
 };

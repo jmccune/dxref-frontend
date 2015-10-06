@@ -1,1 +1,5 @@
-source-card.hbs
+
+<b>title: </b> {{data.title}} <br>
+<b>description: </b> {{data.description}} <br>
+<b>sourceType: </b>  {{#each data.sourceTypes }} {{this}} {{/each}} <br>
+<b> url: </b> {{data.url}} <br>

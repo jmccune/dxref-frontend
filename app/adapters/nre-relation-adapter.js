@@ -47,8 +47,8 @@ var adapter = {
         		rnIncrement(idCountMap,startId,rootIds);
         	});
         });
-		console.log("ROOT IDS FOUND: ");
-		console.dir(rootIds);
+		logger.debug("ROOT IDS FOUND: ");
+		logger.debug(rootIds);
 		return rootIds;
 	},
 	adaptRelations: function(nreData) {
@@ -64,12 +64,10 @@ var adapter = {
         	_.forEach(array,function(edgeInfo){
 		    	
 		    	var otherId = getOtherNodeId(rootIds,edgeInfo);
-				console.log("OTHER ID: "+otherId);
+				logger.debug("OTHER ID: "+otherId);
 				var nodeInfo = nreData.extraInfo[otherId];
-				console.log("KEY "+key);
-		    	console.dir(edgeInfo);
-		    	console.dir(nodeInfo);
-
+				logger.debug("KEY "+key);
+		    	
 				if (!nodeInfo || !nodeInfo.title) {
 		    		//SKIP ANYTHING WITHOUT A TITLE!
 		    		return;

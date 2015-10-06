@@ -19,7 +19,7 @@ export default Ember.Route.extend({
   	.then(function(data) {
     	 
         var response = theContentAdapter.convertNreResponse(data);        
-
+        
         // Set Where...
         var relationInfo = relationAdapter.adaptRelations(data);
         whereComponentModel.setRelatedInfo(relationInfo);
