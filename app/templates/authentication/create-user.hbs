@@ -1,0 +1,23 @@
+<div class="centered">
+	<h4>Creating a NEW USER</h4>
+
+	{{#if message}}
+	  <div id="content">{{message}}</div>
+	{{/if}}
+
+	<p>
+	  <small>
+	    Create your username (e-mail) and password. 
+	  </small>
+	</p>
+
+	<p>Username: {{input name="username" value=username}}</p>
+	<p>Password: {{input type="password" name="password" value=password}}</p>
+
+	<p>
+	  <button {{action "submit"}}>Submit</button>
+	  {{#link-to 'authentication.login' tagName="button"}}
+			Cancel
+      {{/link-to}}
+	</p>
+</div>

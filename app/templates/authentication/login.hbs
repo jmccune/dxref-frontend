@@ -1,0 +1,30 @@
+<div class="centered">
+	<h4>Please login</h4>
+
+	  Or if you don't have an account>>
+	  {{#link-to 'authentication.create-user'}}
+	   Create User 
+	   {{/link-to}}	  
+	<br>
+	<br>
+
+	{{#if message}}
+	  <div id="content">{{message}}</div>
+	{{/if}}
+
+	<p>
+	  <small>
+	    To login as a user, use <code>dev</code> / <code>password</code>;<br>	    
+	  </small>
+	</p>
+
+	<p>Username: {{input name="username" value=username}}</p>
+	<p>Password: {{input type="password" name="password" value=password}}</p>
+
+	<p>
+	  <button {{action "submit"}}>Submit</button>
+	  <button {{action "cancel"}}>Cancel</button>
+
+	  
+	</p>
+</div>

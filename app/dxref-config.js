@@ -8,7 +8,8 @@
 var dxrefConfig= {
 	pollingDelayMs: 1000,   
 	serverMap: {
-		'dxref-service': 'http://localhost:8080'
+		'dxref-service': 'http://localhost:8080',
+		'auth-service':  'http://localhost:8080',
 	}	
 };
 
@@ -16,6 +17,7 @@ var dxrefConfig= {
 /** ============= APPLICATION CONSTANTS    ======================*/
 export var Constants = {
 	DXREF_SERVICE : 'dxref-service',
+	AUTH_SERVICE  : 'auth-service',
 	REQUIRED: ValidatorJs.REQUIRED
 };
 

@@ -1,8 +1,11 @@
 <div class="app-frame">
-  {{#app-header user=model.user}}{{/app-header}}
+	{{#if model.user}}
+    	{{#app-header user=model.user}}{{/app-header}}
+    	<hr>
+    {{/if}}
 
-    <hr>
-  {{outlet}}
+    
+  	{{outlet}}
     <hr>
 
     <div> FOOTER</div>

@@ -15,6 +15,8 @@ function appInit() {
 appInit();
 
 export default Ember.Route.extend({
+
+  
   model: function () {
     var defaultUser = {
       user: {name: {first: "cody", last: "hudson", title: "mr."}}
