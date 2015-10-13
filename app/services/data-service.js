@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import dxrefConfig from 'dxref/dxref-config';
 import DxrefError from 'dxref/dxref-errors';
-
+import theUserService from 'dxref/services/user-service';
 
 var logger = log4javascript.getLogger('dxref.services.data-service');
 
@@ -10,6 +10,16 @@ export function DataService() {
 
 
 var local = {
+	getHeaders: function() {
+		console.log("**** GETTING HEADERS ****");
+		var headers = {};
+		var securityToken = theUserService.getSecurityToken();		
+		if (securityToken) {
+			headers['x-auth-token']=securityToken;
+		}
+		console.dir(headers);
+		return headers;
+	},
 	prependIfNotPresent:function(string,character) {
 		if (string.indexOf(character)!==0) {
 			string = character + string;
@@ -81,15 +91,50 @@ DataService.prototype.buildUrl = function(serviceName,path,params) {
 DataService.prototype.getData = function(serviceName,path,params) {
 
 	var url = this.buildUrl(serviceName,path,params);
+	var headers = local.getHeaders();
+	
+
 	logger.info("REQUESTING DATA from: "+url);
-	return Ember.$.getJSON(url).then(function(response) {
+	return Ember.$.ajax({
+		dataType: 'json',
+		url:url,
+		headers: headers
+	}).then(function(response) {
 		logger.info("RESPONSE RECEIVED for request: "+url);
 		if (logger.isDebugEnabled()) {			
 			console.dir(response);
 		}
 		return response;
 	});
-									
+};
+
+DataService.prototype.postData = function(serviceName,path,params,data) {
+
+	var url = this.buildUrl(serviceName,path,params,data);
+	var headers = local.getHeaders();
+
+	logger.info("POSTING DATA TO: "+url);
+
+	return Ember.$.ajax({
+  		type: "POST",
+  		url: url,
+  		data: data,
+  		success: null,
+  		dataType: 'json',
+  		headers: headers  		
+	}).then(function(response,status,jqXhr) {
+		logger.info("RESPONSE RECEIVED for request: "+url);
+		if (logger.isDebugEnabled()) {			
+			console.dir(response);
+			console.dir(status);
+			console.dir(jqXhr);
+		}
+		return { 
+			response : response,
+			status: status,
+			jqXhr: jqXhr
+		};
+	});
 };
 
 /**
