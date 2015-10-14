@@ -16,7 +16,8 @@ if(typeof(Storage) !== "undefined") {
 Returns a message (non-null) if there was a problem.	
 */
 UserService.prototype.login = function(username,password) {
-	theDataService.postData(Constants.AUTH_SERVICE,'/authentication/login',{},
+	var promise = 
+		theDataService.postData(Constants.AUTH_SERVICE,'/authentication/login',{},
 		{ username: username, password: password}).
 		then(function(responseInfo) {
 
@@ -37,6 +38,8 @@ UserService.prototype.login = function(username,password) {
 			//Successfullly logged in-- NO ERROR MESSAGE.
 			return null;
 		});
+
+	return promise;
 }
 
 UserService.prototype.getCurrentUserInfo =function() {

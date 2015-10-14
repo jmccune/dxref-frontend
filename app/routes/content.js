@@ -1,12 +1,7 @@
- import Ember from 'ember';
-
-// import {Constants} from 'dxref/dxref-config';
-// import theDataService from 'dxref/services/data-service';
-// import listItemModel from 'dxref/models/list-item-model';
-// import PagedItems from 'dxref/models/paged-items';
-// import MS from 'dxref/services/model-service';
+import AuthenticatedRoute from 'dxref/routes/authenticated-route';
 
 
-export default Ember.Route.extend({
- 
+export default AuthenticatedRoute.extend({
+ 	actions: {
+	}	
 });

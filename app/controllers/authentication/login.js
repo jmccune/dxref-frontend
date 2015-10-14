@@ -23,7 +23,8 @@ export default Ember.Controller.extend({
 			console.log("LOGIN!!");		
 			console.log(this.get('password'));
 			console.log(this.get('username'));
-
+			console.dir(this);
+			
 			theUserService.clearSecurityToken();
 			this.set('message',null);
 			var username = this.get('username');
@@ -32,10 +33,24 @@ export default Ember.Controller.extend({
 			if (message) {
 				this.set('message',message);
 				return;
-			}
-
+			}				
 			console.log("** TRYING TO LOGIN!");
-			theUserService.login(username,password);
+			var _this=this;
+			var transition = this.get('attemptedTransition');
+			console.dir(transition);
+
+			theUserService.login(username,password).then(function(errorMessage){
+				if (errorMessage) {
+					_this.set('message',errorMessage);
+					return;
+				}
+				_this.set('message',"SUCCESSFULLY LOGGED IN!");
+				if (transition) {
+					transition.retry();
+					self.set('attemptedTransition',null);
+				}
+
+			});
 		},	
 		cancel: function() {
 			this.set('username','');
