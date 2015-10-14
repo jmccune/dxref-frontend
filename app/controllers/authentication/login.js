@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import {Constants} from 'dxref/dxref-config';
-import theUserService from 'dxref/services/user-service';
 
 function passwordComplexity(password) {
 	var charMap={};
@@ -17,37 +16,42 @@ function passwordComplexity(password) {
 }
 
 export default Ember.Controller.extend({
-
+	authenticationService: Ember.inject.service('authentication-service'),
 	actions: {		
 		login: function(pageInfo) {
-			console.log("LOGIN!!");		
-			console.log(this.get('password'));
-			console.log(this.get('username'));
-			console.dir(this);
 			
-			theUserService.clearSecurityToken();
+
+			//Clear message from previous login attempt
 			this.set('message',null);
+
+			// Data from current login attempt.
 			var username = this.get('username');
 			var password = this.get('password');
+
+			//Do Validation
 			var message = this.validateUsernamePassword(username,password);
 			if (message) {
 				this.set('message',message);
 				return;
 			}				
-			console.log("** TRYING TO LOGIN!");
-			var _this=this;
-			var transition = this.get('attemptedTransition');
-			console.dir(transition);
-
-			theUserService.login(username,password).then(function(errorMessage){
+					
+			// Now attempt to do the login...
+			var _this = this;
+			var service =this.get('authenticationService');			
+			service.login(username,password).then(function(errorMessage){
 				if (errorMessage) {
 					_this.set('message',errorMessage);
 					return;
 				}
+
 				_this.set('message',"SUCCESSFULLY LOGGED IN!");
+				console.log("*** HERE*");
+				var transition = service.get('attemptedTransition');
+				console.log("*******>> TRANSITION ATTEMPTED -- do we have it?");
+				console.dir(transition);
 				if (transition) {
 					transition.retry();
-					self.set('attemptedTransition',null);
+					service.set('attemptedTransition',null);
 				}
 
 			});

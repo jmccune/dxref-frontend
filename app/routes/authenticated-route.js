@@ -1,20 +1,14 @@
 import Ember from 'ember';
-import loginController from 'dxref/controllers/authentication/login';
 
 export default Ember.Route.extend({
- actions: {
-		error:function(reason,transition) {
-			console.log("****** ERRROR>>>> ");
-			console.dir(reason);
-			console.dir(transition);
-			if (reason.status===403) {
-				alert("YOU MUST LOGIN!");
-				// console.log("*** TRNASITION");
-				// console.dir(transition);
-				
+	authenticationService: Ember.inject.service('authentication-service'),
+ 	actions: {
+		error:function(reason,transition) {				
+			if (reason.status===403) {		
+				console.log("*** ATTEMPT TRANSITION ***");
+				var service =this.get('authenticationService');
+				service.set('attemptedTransition',transition);
 				this.transitionTo('authentication.login');
-				loginController.set('attemptedTransition',transition);
-				
 			}
 		}
 	}	

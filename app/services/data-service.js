@@ -1,21 +1,17 @@
 import Ember from 'ember';
 import dxrefConfig from 'dxref/dxref-config';
 import DxrefError from 'dxref/dxref-errors';
-import theUserService from 'dxref/services/user-service';
 
 var logger = log4javascript.getLogger('dxref.services.data-service');
 
-export function DataService() {
-}
-
 
 var local = {
+	securityToken: null,
 	getHeaders: function() {
 		console.log("**** GETTING HEADERS ****");
-		var headers = {};
-		var securityToken = theUserService.getSecurityToken();		
-		if (securityToken) {
-			headers['x-auth-token']=securityToken;
+		var headers = {};				
+		if (local.securityToken) {
+			headers['x-auth-token']=local.securityToken;
 		}
 		console.dir(headers);
 		return headers;
@@ -70,103 +66,92 @@ var local = {
 };
 
 
-DataService.prototype.getServiceEndpoint=function(serviceName) {
+var DataServiceEObj = Ember.Object.extend({
+	authenticationService: Ember.inject.service('authentication-service'),
+	getServiceEndpoint(serviceName) {
+		var result = dxrefConfig.serverMap[serviceName];
+		if (!result) {
+			throw "Unable to find endpoint target: "+serviceName;
+		}	
+		return result;	
+	},
+	buildUrl(serviceName,path,params) {
+		var hostTarget = this.getServiceEndpoint(serviceName);
+		var refinedPath = local.getRefinedPath(path);
+		var refinedParams = local.getRefinedParams(params);
+		return hostTarget+refinedPath+refinedParams;
+	},
+	getData(serviceName,path,params) {
+		var url = this.buildUrl(serviceName,path,params);				
+		var headers = local.getHeaders();
+		
+		logger.info("REQUESTING DATA from: "+url);
+		return Ember.$.ajax({
+			dataType: 'json',
+			url:url,
+			headers: headers
+		}).then(function(response) {
+			logger.info("RESPONSE RECEIVED for request: "+url);
+			if (logger.isDebugEnabled()) {			
+				console.dir(response);
+			}
+			return response;
+		});
+	},
+	postData(serviceName,path,params,data) {
 
-	var result = dxrefConfig.serverMap[serviceName];
-	if (!result) {
-		throw "Unable to find endpoint target: "+serviceName;
-	}	
-	return result;
-};
+		var url = this.buildUrl(serviceName,path,params,data);		
+		var headers = local.getHeaders();
 
+		logger.info("POSTING DATA TO: "+url);
 
-
-DataService.prototype.buildUrl = function(serviceName,path,params) {
-	var hostTarget = this.getServiceEndpoint(serviceName);
-	var refinedPath = local.getRefinedPath(path);
-	var refinedParams = local.getRefinedParams(params);
-	return hostTarget+refinedPath+refinedParams;
-};
-
-DataService.prototype.getData = function(serviceName,path,params) {
-
-	var url = this.buildUrl(serviceName,path,params);
-	var headers = local.getHeaders();
-	
-
-	logger.info("REQUESTING DATA from: "+url);
-	return Ember.$.ajax({
-		dataType: 'json',
-		url:url,
-		headers: headers
-	}).then(function(response) {
-		logger.info("RESPONSE RECEIVED for request: "+url);
-		if (logger.isDebugEnabled()) {			
-			console.dir(response);
+		return Ember.$.ajax({
+	  		type: "POST",
+	  		url: url,
+	  		data: data,
+	  		success: null,
+	  		dataType: 'json',
+	  		headers: headers  		
+		}).then(function(response,status,jqXhr) {
+			logger.info("RESPONSE RECEIVED for request: "+url);
+			if (logger.isDebugEnabled()) {			
+				console.dir(response);
+				console.dir(status);
+				console.dir(jqXhr);
+			}
+			return { 
+				response : response,
+				status: status,
+				jqXhr: jqXhr
+			};
+		});
+	},
+	simulateDelayedResponse(timeout, response) {
+		if (typeof timeout === 'undefined') {
+			timeout = 1000;
 		}
-		return response;
-	});
-};
 
-DataService.prototype.postData = function(serviceName,path,params,data) {
-
-	var url = this.buildUrl(serviceName,path,params,data);
-	var headers = local.getHeaders();
-
-	logger.info("POSTING DATA TO: "+url);
-
-	return Ember.$.ajax({
-  		type: "POST",
-  		url: url,
-  		data: data,
-  		success: null,
-  		dataType: 'json',
-  		headers: headers  		
-	}).then(function(response,status,jqXhr) {
-		logger.info("RESPONSE RECEIVED for request: "+url);
-		if (logger.isDebugEnabled()) {			
-			console.dir(response);
-			console.dir(status);
-			console.dir(jqXhr);
+		if (typeof response === 'undefined') {
+			response = {};
 		}
-		return { 
-			response : response,
-			status: status,
-			jqXhr: jqXhr
-		};
-	});
-};
 
-/**
-	Returns an Ember promise that eventually returns the given response--
-	used to simulate/test the loading.hbs templates, or otherwise find out
-	how the system responds to delayed responses.
-*/
-DataService.prototype.simulateDelayedResponse = function(timeout, response) {
-	if (typeof timeout === 'undefined') {
-		timeout = 1000;
+		var resolveFn = null;
+	  	var promise =  new Ember.RSVP.Promise(function(resolve /*,reject*/) {
+	  		resolveFn = resolve;
+	  	});
+
+	  	setTimeout(function(){
+	  		console.log("*** Simulated Delay Response >> TIMEOUT WENT! Will return ");
+	  		console.dir(response);
+	  		resolveFn(response);
+	  	},timeout);
+
+	    return promise;
+	},
+	setSecurityToken(token) {
+		local.securityToken = token;
 	}
+});
 
-	if (typeof response === 'undefined') {
-		response = {};
-	}
-
-	var resolveFn = null;
-  	var promise =  new Ember.RSVP.Promise(function(resolve /*,reject*/) {
-  		resolveFn = resolve;
-  	});
-
-  	setTimeout(function(){
-  		console.log("*** Simulated Delay Response >> TIMEOUT WENT! Will return ");
-  		console.dir(response);
-  		resolveFn(response);
-  	},timeout);
-
-    return promise;
-};
-
-
-
-var theDataService = new DataService();
-
+var theDataService = DataServiceEObj.create();
 export default theDataService;
