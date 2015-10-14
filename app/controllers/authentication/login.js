@@ -20,7 +20,6 @@ export default Ember.Controller.extend({
 	actions: {		
 		login: function(pageInfo) {
 			
-
 			//Clear message from previous login attempt
 			this.set('message',null);
 
@@ -31,7 +30,7 @@ export default Ember.Controller.extend({
 			//Do Validation
 			var message = this.validateUsernamePassword(username,password);
 			if (message) {
-				this.set('message',message);
+				this.setMessage(false,message);
 				return;
 			}				
 					
@@ -44,11 +43,10 @@ export default Ember.Controller.extend({
 					return;
 				}
 
-				_this.set('message',"SUCCESSFULLY LOGGED IN!");
-				console.log("*** HERE*");
+				_this.setMessage(true,"Successfully logged in!<br> Please navigate where you wish to!");
+				
 				var transition = service.get('attemptedTransition');
-				console.log("*******>> TRANSITION ATTEMPTED -- do we have it?");
-				console.dir(transition);
+				
 				if (transition) {
 					transition.retry();
 					service.set('attemptedTransition',null);
@@ -59,10 +57,13 @@ export default Ember.Controller.extend({
 		cancel: function() {
 			this.set('username','');
 			this.set('password','');
-			console.log("CURRENT SECURITY TOKEN: "+theUserService.getSecurityToken());
+
 		}
 	},  
-
+	setMessage: function(good, message) {
+		this.set('message',message);
+		this.set('isError',!good);
+	},
 	validateUsernamePassword: function(username, password) {		
 		var message = '';
 		if (!username) {

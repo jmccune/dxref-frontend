@@ -9,7 +9,11 @@
 	<br>
 
 	{{#if message}}
-	  <div class="alert alert-danger">{{message}}</div>
+		{{#if isError}}
+	  		<div class="alert alert-danger">{{{message}}}</div>
+		{{else}}
+			<div class="alert alert-success">{{{message}}}</div>
+		{{/if}}
 	{{/if}}
 
 	<p>
@@ -24,7 +28,5 @@
 	<p>
 	  <button {{action "login"}}>Submit</button>
 	  <button {{action "cancel"}}>Cancel</button>
-
-	  
 	</p>
 </div>

@@ -16,28 +16,21 @@ appInit();
 
 export default Ember.Route.extend({
 
-  
-  model: function () {
-    var defaultUser = {
-      user: {name: {first: "cody", last: "hudson", title: "mr."}}
-    };
+  // authenticationService: Ember.inject.service('authentication-service'),
+  // init: function() {
+  //   this._super(...arguments);
+  //   var service = this.get('authenticationService');
+  //   var _this = this;
+  //   service.addObserver('userInfo',function(model,old) {  
+  //     console.log("*** OBSERVED");        
+  //     var userInfo=model.get('userInfo');      
+  //     console.dir(userInfo);
+  //     _this.set('userInfo',userInfo);
+  //   });
 
-    if (dynamic_user) {
-      return new Ember.RSVP.Promise(function (resolve) {
-        $.ajax({
-          url: 'http://api.randomuser.me/',
-          dataType: 'json',
-          success: function (data) {
-            resolve(data.results[0]);
-          }
-        }).fail(function () {
-          console.log("*** ERROR>> unable to load username-- using default fallback");
-          resolve(defaultUser);
-        });
-      });
-    }
-
-
-    return defaultUser;
+  //   _this.set('userInfo', { username: 'xyz'});
+  // },
+  model: function() {
+    return {userInfo : {username: 'xyz'}};
   }
 });

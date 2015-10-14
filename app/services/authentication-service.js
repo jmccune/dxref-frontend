@@ -11,19 +11,18 @@ if(typeof(Storage) !== "undefined") {
 export default Ember.Service.extend({
   attemptedTransiton: null,
   items: null,
-
+  userInfo: null,
 
   init() {
     this._super(...arguments);
     this.set('securityToken', currentSecurityToken);
+    this.set('userInfo',null);
     theDataService.setSecurityToken(currentSecurityToken);
   },
 
 
-
-
   /** Login a user -- implicitly logs out any previously logged in user. */
-  loginOnly(username,password) {
+  login(username,password) {
 
     //clear out the security token...
     this.clearSecurityToken();
@@ -43,17 +42,14 @@ export default Ember.Service.extend({
       if (!X_AUTH) {
         return "Unable to login... some error has occurred.";
       }
+      console.log("****");
+      console.dir(responseInfo);
       _this.setSecurityToken(X_AUTH);      
-      console.log(X_AUTH);
+
+      _this.set('userInfo',response.extraData);
     
       return null;
     });
-
-    return promise;
-  },
-
-  login(username,password) {
-    var promise =this.loginOnly(username,password);
 
     return promise;
   },

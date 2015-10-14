@@ -1,9 +1,5 @@
-<div class="app-frame">
-	{{#if model.user}}
-    	{{#app-header user=model.user}}{{/app-header}}
-    	<hr>
-    {{/if}}
-
+<div class="app-frame">	
+    {{#app-header userInfo=userInfo}}{{/app-header}}
     
   	{{outlet}}
     <hr>
