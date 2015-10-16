@@ -11,9 +11,13 @@
 	  </small>
 	</p>
 
+	<div class="container-fluid">
+
 	<p>Username: {{input name="username" value=username}}</p>
 	<p>Password: {{input type="password" name="password" value=password}}</p>
 
+	</div>
+	
 	<p>
 	  <button {{action "submit"}}>Submit</button>
 	  {{#link-to 'authentication.login' tagName="button"}}

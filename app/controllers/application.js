@@ -26,6 +26,9 @@ export default  Ember.Controller.extend({
 		logger.info('path changed to: ', path); 
 		logger.info("WINDOW URL "+window.location);   
 		whereComponentModel.set('currentUrl',window.location);
-		whereComponentModel.set('currentPath',path);
+		whereComponentModel.set('currentPath',path);	
+
+		var showChangeUser = path!=='authentication.login';
+		this.set('showChangeUser',showChangeUser);	
 	}.observes('currentPath')
 });
