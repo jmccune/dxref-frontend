@@ -15,12 +15,19 @@ export default Ember.Service.extend({
 
   init() {
     this._super(...arguments);
+    console.log("**** currentSecurityToken");
+    console.log(currentSecurityToken);
+
     this.set('securityToken', currentSecurityToken);
     this.set('userInfo',null);
     theDataService.setSecurityToken(currentSecurityToken);
   },
 
 
+  isLoggedIn() {
+    var securityToken = this.get('securityToken');
+    return securityToken!==null;
+  },
   /** Login a user -- implicitly logs out any previously logged in user. */
   login(username,password) {
 
@@ -64,8 +71,5 @@ export default Ember.Service.extend({
     this.set('securityToken',token);
     localStorage.setItem("currentSecurityToken",token);
     theDataService.setSecurityToken(token);
-  },
-  getSecurityToken() {
-    return this.get('securityToken');
-  }  
+  }
 });
