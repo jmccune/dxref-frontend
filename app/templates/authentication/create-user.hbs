@@ -1,9 +1,15 @@
 <div class="centered">
 	<h4>Creating a NEW USER</h4>
 
-	{{#if message}}
-	  <div id="content">{{message}}</div>
-	{{/if}}
+	<div style="min-height:50px;">
+		{{#if message}}
+			{{#if isError}}
+		  		<div class="alert alert-danger">{{{message}}}</div>
+			{{else}}
+				<div class="alert alert-success">{{{message}}}</div>
+			{{/if}}
+		{{/if}}
+	</div>
 
 	<p>
 	  <small>
@@ -12,14 +18,30 @@
 	</p>
 
 	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-4"> Username: </div>  
+			<div class="col-md-8"> {{input key-press="kvalidate" name="username" value=username}} </div>
+		</div>
+		<div class="row">
+			<div class="col-md-4"> Password: </div>  
+			<div class="col-md-8"> {{input key-press="kvalidate" name="password" value=password type="password"}} </div>
+		</div>
+		<div class="row">
+			<div class="col-md-4"> Given Name: </div>  
+			<div class="col-md-8"> {{input key-press="kvalidate" required=true name="given" value=givenName}} </div>
+		</div>
+		<div class="row">
+			<div class="col-md-4"> Family Name: </div>  
+			<div class="col-md-8"> {{input key-press="kvalidate" name="family" value=familyName}} </div>
+		</div>
 
-	<p>Username: {{input name="username" value=username}}</p>
-	<p>Password: {{input type="password" name="password" value=password}}</p>
-
+		
 	</div>
-	
+
+	<br>
+
 	<p>
-	  <button {{action "submit"}}>Submit</button>
+	  <button {{action "submit"}} {{bindAttr disabled="isInvalid"}}> Submit</button>
 	  {{#link-to 'authentication.login' tagName="button"}}
 			Cancel
       {{/link-to}}

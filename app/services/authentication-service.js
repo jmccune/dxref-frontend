@@ -49,8 +49,25 @@ var localStorageManager = {
   }
 };
 
-
 localStorageManager.initialize();
+
+function passwordComplexity(password) {
+  var charMap={};
+  var complexityCount=0;
+  _.forEach(password,function(ch) {
+    if (charMap[ch]) {
+      return;
+    }
+    charMap[ch]=1;
+    complexityCount++;
+  });
+
+  return complexityCount;
+}
+
+
+
+
 
 
 
@@ -107,6 +124,23 @@ export default Ember.Service.extend({
     return promise;
   },
 
+  validateUsernamePassword(username, password) {    
+    var message = '';
+    if (!username) {
+      message = "Username is required!";
+    }
+    if (!password) {
+      message+= "\nPassword is required! ";
+    }
+    else if (password.length<10) {
+      message+= "\nPassword must be at least 10 characters!";
+    }
+    else if (passwordComplexity(password)<6) {
+      message+= "\nPassword is too simple!  Use different letters/symbols/numbers!";
+    }
+
+    return message;
+  },
   // === USER /SECURITY-TOKEN ====
   updateTokenDependents(token){
     theDataService.setSecurityToken(token);
