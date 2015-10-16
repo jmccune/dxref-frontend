@@ -7,13 +7,11 @@ var logger = log4javascript.getLogger('dxref.services.data-service');
 
 var local = {
 	securityToken: null,
-	getHeaders: function() {
-		console.log("**** GETTING HEADERS ****");
+	getHeaders: function() {		
 		var headers = {};				
 		if (local.securityToken) {
 			headers['x-auth-token']=local.securityToken;
-		}
-		console.dir(headers);
+		}		
 		return headers;
 	},
 	prependIfNotPresent:function(string,character) {

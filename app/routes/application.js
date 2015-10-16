@@ -15,22 +15,7 @@ function appInit() {
 appInit();
 
 export default Ember.Route.extend({
-
-  // authenticationService: Ember.inject.service('authentication-service'),
-  // init: function() {
-  //   this._super(...arguments);
-  //   var service = this.get('authenticationService');
-  //   var _this = this;
-  //   service.addObserver('userInfo',function(model,old) {  
-  //     console.log("*** OBSERVED");        
-  //     var userInfo=model.get('userInfo');      
-  //     console.dir(userInfo);
-  //     _this.set('userInfo',userInfo);
-  //   });
-
-  //   _this.set('userInfo', { username: 'xyz'});
-  // },
   model: function() {
-    return {userInfo : {username: 'xyz'}};
+    return {};
   }
 });

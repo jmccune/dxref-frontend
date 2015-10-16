@@ -23,8 +23,8 @@ DxrefDecoratorFactory.prototype.constructor = DxrefDecoratorFactory;
 
 
 var mapFactory = new DxrefDecoratorFactory();
-console.log("CREATED MAP FACTORY");
-console.dir(mapFactory);
+// console.log("CREATED MAP FACTORY");
+// console.dir(mapFactory);
 
 mapFactory.addDecoratorPrototype("phone",new  HtmlDecorator("phone"));
 
