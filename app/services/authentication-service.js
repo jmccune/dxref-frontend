@@ -67,7 +67,17 @@ function passwordComplexity(password) {
 
 
 
+var createResponse=function(success, message, userInfo) {
+    if (!success) {
+      success = false;
+    }
 
+    return {
+      success: success,
+      message: message,
+      userInfo: userInfo
+    };
+}
 
 
 
@@ -92,6 +102,31 @@ export default Ember.Service.extend({
   isLoggedIn() {
     var securityToken = this.get('securityToken');
     return securityToken!==null;
+  },
+  createUser(userDetails) {
+    var _this=this;    
+    var promise =  theDataService.postData(Constants.AUTH_SERVICE,'/authentication/createUser',{},userDetails).
+    then(function(responseInfo) {
+
+      _this.clearUser();
+      var response = responseInfo.response;
+       if (!response || !response.success) {        
+        return createResponse(false,response.message);
+      }
+
+      var X_AUTH = responseInfo.jqXhr.getResponseHeader("X-AUTH-TOKEN");
+      if (!X_AUTH) {
+        return createResponse(false,"Unable to login... some error has occurred.");
+      }
+
+      var securityToken = X_AUTH;
+      var userInfo = response.extraData;
+
+      _this.setUser(securityToken,userInfo);
+      return createResponse(true,response.message,userInfo);
+    });
+
+    return promise;
   },
   /** Login a user -- implicitly logs out any previously logged in user. */
   login(username,password) {

@@ -11,6 +11,7 @@ var local = {
 		var headers = {};				
 		if (local.securityToken) {
 			headers['x-auth-token']=local.securityToken;
+			headers['Accept']='application/json';
 		}		
 		return headers;
 	},
@@ -98,6 +99,10 @@ var DataServiceEObj = Ember.Object.extend({
 	},
 	postData(serviceName,path,params,data) {
 
+		if (typeof data!=='string') {
+			data = JSON.stringify(data);
+		}
+		
 		var url = this.buildUrl(serviceName,path,params,data);		
 		var headers = local.getHeaders();
 
@@ -108,6 +113,7 @@ var DataServiceEObj = Ember.Object.extend({
 	  		url: url,
 	  		data: data,
 	  		success: null,
+	  		contentType: "application/json;charset=UTF-8",
 	  		dataType: 'json',
 	  		headers: headers  		
 		}).then(function(response,status,jqXhr) {

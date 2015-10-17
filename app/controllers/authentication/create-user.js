@@ -52,7 +52,23 @@ export default Ember.Controller.extend({
 			},250);
 		},
 		submit() {
-			console.log("*** SUBMIT!");
+			var service =this.get('authenticationService');
+			var username = this.get('username');
+			var password = this.get('password');
+			var givenName = this.get('givenName');
+			var familyName = this.get('familyName');
+
+			var data = {
+				username: username, password: password,
+				givenName: givenName, familyName: familyName
+			};
+			var _this = this;
+			service.createUser(data).then(function(responseData){
+				if (responseData.message) {
+					_this.set('message',responseData.message);
+				}
+				_this.set('isError', !responseData.success);				
+			});
 		}	
 	}
 });
