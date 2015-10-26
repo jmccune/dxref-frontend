@@ -25,7 +25,7 @@ export default Ember.Controller.extend({
 			
 			service.login(username,password).then(function(errorMessage){
 				if (errorMessage) {
-					_this.set('message',errorMessage);
+					_this.setMessage(false,errorMessage);
 					return;
 				}
 
