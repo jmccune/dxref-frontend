@@ -13,7 +13,7 @@ export default  Ember.Controller.extend({
 		this._super(...arguments);
 		var service = this.get('authenticationService');
 		var _this = this;
-		service.addObserver('userInfo',function(model,old) {  
+		service.addObserver('userInfo',function(model /*,old*/) {  
 		  var userInfo=model.get('userInfo');      		  
 		  _this.set('userInfo',userInfo);
 		});

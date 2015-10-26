@@ -1,10 +1,9 @@
 import Ember from 'ember';
-import {Constants} from 'dxref/dxref-config';
 
 export default Ember.Controller.extend({
 	authenticationService: Ember.inject.service('authentication-service'),
 	actions: {		
-		login: function(pageInfo) {
+		login: function(/*pageInfo*/) {
 			var service =this.get('authenticationService');
 			//Clear message from previous login attempt
 			this.set('message',null);

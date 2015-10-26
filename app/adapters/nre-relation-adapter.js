@@ -2,8 +2,9 @@ import theUtils from 'dxref/services/utils-service';
 var logger = log4javascript.getLogger('dxref/adapters/nre-relation-adapter');
 
 var getOtherNodeId = function(rootIds, edge){
+	var refId=null;
 	for (var i=0; i<rootIds.length; i++) {
-		var refId = rootIds[i];
+		refId = rootIds[i];
 		if (refId === edge.EN_id) {
 			return edge.SN_id;
 		} else if (refId===edge.SN_id) {
@@ -23,13 +24,13 @@ var rnIncrement=function(idCountMap, id, rootIds) {
 	}
 	count++;
 	if (count>1) {
-		if (rootIds.indexOf(id)==-1) {
+		if (rootIds.indexOf(id)===-1) {
 			rootIds.push(id);	
 		}
 	}
 	idCountMap[id] = count;
 		
-}
+};
 
 var adapter = {
 
@@ -40,10 +41,10 @@ var adapter = {
 	findRootNodes: function(nreData, rootNode) {
 		var idCountMap={};
 		var rootIds=[rootNode];
-		 _.forEach(nreData.relations, function(array,key){
+		 _.forEach(nreData.relations, function(array/*,key*/){
         	_.forEach(array,function(edge){
         		var startId = edge.SN_id;
-        		var endId = edge.EN_id;
+        		//var endId = edge.EN_id;
         		rnIncrement(idCountMap,startId,rootIds);
         	});
         });

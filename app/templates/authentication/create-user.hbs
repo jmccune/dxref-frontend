@@ -41,7 +41,7 @@
 	<br>
 
 	<p>
-	  <button {{action "submit"}} {{bindAttr disabled="isInvalid"}}> Submit</button>
+	  <button {{action "submit"}} disabled={{isInvalid}}>   Submit</button>	  
 	  {{#link-to 'authentication.login' tagName="button"}}
 			Cancel
       {{/link-to}}

@@ -2,8 +2,6 @@ import Ember from 'ember';
 import claimService from 'dxref/adapters/adapter-claimservice';
 import pollingService from 'dxref/services/polling-service';
 
-var dynamic_user = false;
-
 function appInit() {
   console.log("Dxref Initialization Starting...");
   pollingService.addPollable('claimService',claimService.pollableFunction);

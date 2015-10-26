@@ -77,7 +77,7 @@ var createResponse=function(success, message, userInfo) {
       message: message,
       userInfo: userInfo
     };
-}
+};
 
 
 

@@ -15,7 +15,9 @@
     "DecorationEngine",
     "HtmlDecorator",
     "TextContent2Decorate",
-    "SimpleHtmlDecoratorFactory"
+    "SimpleHtmlDecoratorFactory",
+    "wysihtml5",
+    "wysihtml5ParserRules"    
   ],
   "browser": true,
   "boss": true,

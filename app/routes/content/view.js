@@ -1,16 +1,15 @@
 import Ember from 'ember';
 import {Constants} from 'dxref/dxref-config';
 import theDataService from 'dxref/services/data-service';
-import theDecorationService from 'dxref/services/decoration-service';
 
-import decorationAdapter from 'dxref/adapters/decoration-adapter';
 import relationAdapter from 'dxref/adapters/nre-relation-adapter';
 import theContentAdapter from 'dxref/adapters/content-adapter';
 
 import whereComponentModel from 'dxref/components/where/where-model';
 
-var logger = log4javascript.getLogger('dxref/routes/content/view');
-
+/*
+var logger = log4javascript.getLogger('dxref/routes/content/view'); 
+*/
 
 export default Ember.Route.extend({
   model: function(params){
