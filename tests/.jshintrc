@@ -4,6 +4,7 @@
     "window",
     "location",
     "setTimeout",
+    "_",
     "$",
     "-Promise",
     "define",
@@ -21,7 +22,21 @@
     "andThen",
     "currentURL",
     "currentPath",
-    "currentRouteName"
+    "currentRouteName",
+
+    "log4javascript",
+    /** Validations */
+    "ValidatorJs",
+    /** DECORATIONS */    
+    "decorationValidator",
+    "DecorationModel",
+    "ContentLine",
+    "DecorationEngine",
+    "HtmlDecorator",
+    "TextContent2Decorate",
+    "SimpleHtmlDecoratorFactory",
+    "wysihtml5",
+    "wysihtml5ParserRules"    
   ],
   "node": false,
   "browser": false,
@@ -47,5 +62,10 @@
   "strict": false,
   "white": false,
   "eqnull": true,
-  "esnext": true
+  "esnext": true,
+
+  "globals": {
+      "$": false,
+      "_": false
+  }
 }

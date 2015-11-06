@@ -25,7 +25,7 @@ export default Ember.Route.extend({
 
         return {
           cardData:response,
-          metaFieldInfo: [
+          metaInfo: [
             { 'label': 'type',
               'value': '',
               'selectionOptions': ['comment','insight', 'definition','equivalence']
