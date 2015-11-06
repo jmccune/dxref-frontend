@@ -3,11 +3,11 @@
 		{{where-component}}
 	</div>
 	<div class="center-panel">		
-		{{#component model.cardType data=model}}		
+		{{#component model.cardData.cardType data=model.cardData}}		
 		{{/component}}
 	</div>
 	<div class="right-panel">
 		<i> placeholder </i>		
-		{{#editor-component}}  {{/editor-component}}
+		{{#editor-component metaFieldInfo=model.metaFieldInfo}}  {{/editor-component}}
 	</div>
 </div>

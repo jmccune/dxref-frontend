@@ -23,7 +23,23 @@ export default Ember.Route.extend({
         var relationInfo = relationAdapter.adaptRelations(data);
         whereComponentModel.setRelatedInfo(relationInfo);
 
-        return response;        
+        return {
+          cardData:response,
+          metaFieldInfo: [
+            { 'label': 'type',
+              'value': '',
+              'selectionOptions': ['comment','insight', 'definition','equivalence']
+            },
+            { 'label': 'date created',
+              'value': '10/11/2015'
+            },
+            { 'label': 'date updated',
+              'value': '10/23/2015'
+            },
+            { 'label': 'tags'              
+            }
+          ]
+        };      
     });
   }
 });

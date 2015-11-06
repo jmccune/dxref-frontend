@@ -1,0 +1,13 @@
+{{#each metaFieldInfo as |field|}}
+
+	<span class="md-label">  {{field.label}} </span>  
+
+	{{#if field.selectionOptions}}
+			{{ui/select-component info=field}}
+	{{else}}
+		<span class="md-value">  {{input type="text" value=field.value}} </span> 
+		{{field.value}} 
+	{{/if}}
+	<br>  
+
+{{/each}}
