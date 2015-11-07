@@ -26,7 +26,7 @@ test('it renders', function(assert) {
     _.transform(_.values(obj),function(x,str) { result.push(str); });
   });
 
-  assert.ok(testUtils.textAnswerContains(renderResult,testValues));
+  assert.ok(testUtils.textContains(renderResult,testValues));
   
 
   // Template block usage:
@@ -43,5 +43,5 @@ test('it renders', function(assert) {
 
   var tv2 = _.clone(testValues);
   tv2.push('template block text');
-  assert.ok(testUtils.textAnswerContains(renderResult2,tv2));
+  assert.ok(testUtils.textContains(renderResult2,tv2));
 });

@@ -1,6 +1,12 @@
 <div class="paging-info">
 	<span class="page-indexes"> 
-		Showing Results: {{helper-plus1 pagingInfo.startIndex}} to {{helper-plus1 pagingInfo.endIndex}} &nbsp;  of  &nbsp; {{pagingInfo.numResults}} 
+
+		{{#if pagingInfo.numResults}}
+			Showing Results: {{helper-plus1 pagingInfo.startIndex}} to {{helper-plus1 pagingInfo.endIndex}} &nbsp;  of  &nbsp; {{pagingInfo.numResults}} 
+		{{else}}
+			No Results.
+		{{/if}}
+		
 	</span>
 	<span class="page-num">  	
 		{{button-component text="prev" 
@@ -10,8 +16,9 @@
 		Page: {{helper-plus1 pagingInfo.pageNum}} 
 
 		{{button-component text="next" 
-			isEnabled=pagingInfo.nextEnabled
+			isEnabled=pagingInfo.nextEnabled 
 			action="nextPage"
-			}}
+		}}
+
 	</span>		
 </div>	
