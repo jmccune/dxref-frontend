@@ -7,7 +7,7 @@ moduleForComponent('item-list', 'Integration | Component | item list', {
 });
 
 test('it renders', function(assert) {
-  assert.expect(1);
+  assert.expect(2);
 
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
@@ -22,16 +22,26 @@ test('it renders', function(assert) {
 
   var renderResult = this.$().text();
 
+  var testValues= _.transform(testData,function(result,obj) {
+    _.transform(_.values(obj),function(x,str) { result.push(str); });
+  });
 
-  assert.ok(testUtils.textAnswerContains(renderResult,["test title A"]));
+  assert.ok(testUtils.textAnswerContains(renderResult,testValues));
   
 
-  // // Template block usage:
-  // this.render(hbs`
-  //   {{#item-list}}
-  //     template block text
-  //   {{/item-list}}
-  // `);
+  // Template block usage:
+  this.render(hbs`
+    {{#item-list items=listInfo as |item|}}
+      template block text
+      {{item.description}}      
+    {{/item-list}}
+  `);
 
-  // assert.equal(this.$().text().trim(), 'template block text');
+
+  var renderResult2 = this.$().text();
+
+
+  var tv2 = _.clone(testValues);
+  tv2.push('template block text');
+  assert.ok(testUtils.textAnswerContains(renderResult2,tv2));
 });
