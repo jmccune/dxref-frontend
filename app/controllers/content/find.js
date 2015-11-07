@@ -20,7 +20,7 @@ export default Ember.Controller.extend({
 	  	var _this = this;	  	
 
 	    theDataService.getData(Constants.DXREF_SERVICE,'/contents',{pageNum: pageNum}).then(function(data) {
-	        var pagedItems = new PagedItems(data,listItemModel);             
+	        var pagedItems = new PagedItems(data,listItemModel);
 	        var newData= pagedItems.adaptForComponent("prevPage","nextPage");
 	        console.log("*****>>> ");
 	        console.dir(newData);

@@ -1,13 +1,13 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import testUtils from 'dxref/tests/helpers/dxref-test-utils';
-
+import PagedItems from 'dxref/models/paged-items';
 
 moduleForComponent('paging-component', 'Integration | Component | paging component', {
   integration: true
 });
 
-test('it renders', function(assert) {
+test('it render no results correctly', function(assert) {
   assert.expect(1);
 
   // // Set any properties with this.set('myProperty', 'value');
@@ -16,8 +16,7 @@ test('it renders', function(assert) {
   var noPagedItems = {
     pageNum: 0,
     pageSize: 0,
-    numResults: 0,
-    items:[]
+    numResults: 0
   };
 
   this.set('pageInfo',noPagedItems);
@@ -25,23 +24,38 @@ test('it renders', function(assert) {
   this.render(hbs`{{paging-component pagingInfo=pageInfo}}`);
 
   var result=this.$().html();
-  var expectedResult =`<span class="page-indexes"> No Results. </span>`;
+  var expectedResults = [`<span class="page-indexes"> No Results. </span>`];
+
+  assert.ok(testUtils.textContains(result,expectedResults,true));
+
+});
 
 
-  assert.ok(testUtils.textContains(result,[expectedResult],true));
+test('it render paging results correctly', function(assert) {
+  assert.expect(1);
 
-  // // Handle any actions with this.on('myAction', function(val) { ... });
+  // // Set any properties with this.set('myProperty', 'value');
 
-  // this.render(hbs`{{paging-component}}`);
 
-  // assert.equal(this.$().text(), '');
+  var pagingInfo = {
+    pageNum: 2,
+    pageSize: 10,
+    numResults: 54321,
+    items:[]
+  };
 
-  // // Template block usage:
-  // this.render(hbs`
-  //   {{#paging-component}}
-  //     template block text
-  //   {{/paging-component}}
-  // `);
+  pagingInfo = new PagedItems(pagingInfo);
+  pagingInfo = pagingInfo.adaptForComponent("x","y");
 
-  // assert.equal(this.$().text().trim(), 'template block text');
+  console.log("PAGINGINFO. startindex: "+pagingInfo.startIndex);
+  this.set('pageInfo',pagingInfo);
+  this.render(hbs`{{paging-component pagingInfo=pageInfo}}`);
+
+
+  var result=this.$().html();
+  var expectedResults =[`<span class="page-indexes"> Showing Results: 21 to 30 &nbsp;  of  &nbsp; 54321 </span>`,
+  `</button> Page: 3 <button`];
+
+  assert.ok(testUtils.textContains(result,expectedResults,true));
+
 });
