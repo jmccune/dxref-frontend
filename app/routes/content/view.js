@@ -14,7 +14,7 @@ var logger = log4javascript.getLogger('dxref/routes/content/view');
 export default Ember.Route.extend({
   model: function(params){
   
-  	return theDataService.getData(Constants.DXREF_SERVICE,'/contents/'+params.content_id)
+  	return theDataService.getData(Constants.DXREF_SERVICE,'/content/'+params.content_id)
   	.then(function(data) {
     	 
         var response = theContentAdapter.convertNreResponse(data);        

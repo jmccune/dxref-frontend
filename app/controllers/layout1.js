@@ -26,7 +26,7 @@ export default Ember.Controller.extend({
     },
     getDecoratedText: function() {
       var _this = this;
-      theDataService.getData(Constants.DXREF_SERVICE,'/contents/getRandom').then(function(data) {
+      theDataService.getData(Constants.DXREF_SERVICE,'/content/getRandom').then(function(data) {
         var decorationSpec = decorationAdapter.convertNreContentToDecoratedContentSpec(data);
 
         console.log("DECORATION SPEC");
