@@ -5,7 +5,12 @@
 
 <div class="editing-panel {{if isExpanded "" "hidden"}}">
 
-	{{ui/meta-display metaInfo=metaInfo}}
+	{{#if isLoading}}
+		Loading ...
+	{{else}}
+		{{ui/meta-display metaInfo=metaInfo}}
+	{{/if}}
+	
 
 
 	<div class="my-toolbar">

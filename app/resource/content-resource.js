@@ -19,8 +19,12 @@ var ContentResource = Ember.Service.extend({
 				return new PagedItems(response,listItemModel);				
 			});
 	},
-	'create': function(reference) {
+	'add': function(reference) {
 		var postObjectData={};
+		if (!reference) {
+			reference = null;
+		}
+		postObjectData={ sourceXref: reference };
 		return theDataService.postData(Constants.DXREF_SERVICE,'/content/new',{},postObjectData);
 	}
 
