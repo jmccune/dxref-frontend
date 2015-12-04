@@ -4,8 +4,10 @@ import theDataService from 'dxref/services/data-service';
 import {Constants} from 'dxref/dxref-config';
 
 //Interpreting query response...
-import listItemModel from 'dxref/models/list-item-model';
-import PagedItems from 'dxref/models/paged-items';
+import listItemModel    from 'dxref/models/list-item-model';
+import PagedItems       from 'dxref/models/paged-items';
+import ContentEditedDro from 'dxref/models/dro/content/content-edited-dro';
+
 
 var ContentResource = Ember.Service.extend({
 	//'get': function() {},
@@ -25,7 +27,10 @@ var ContentResource = Ember.Service.extend({
 			reference = null;
 		}
 		postObjectData={ sourceXref: reference };
-		return theDataService.postData(Constants.DXREF_SERVICE,'/content/new',{},postObjectData);
+		return theDataService.postData(Constants.DXREF_SERVICE,'/content/new',{},postObjectData)
+			.then(function(httpResponseInfo) {
+				return new ContentEditedDro(httpResponseInfo.response);
+			});
 	}
 
 });

@@ -18,7 +18,21 @@ var dxrefConfig= {
 export var Constants = {
 	DXREF_SERVICE : 'dxref-service',
 	AUTH_SERVICE  : 'auth-service',
-	REQUIRED: ValidatorJs.REQUIRED
+
+	REQUIRED: ValidatorJs.REQUIRED,  //TRUE
+	OPTIONAL: ValidatorJs.OPTIONAL,  //FALSE
+
+	EDITABLE: 'editable',
+	UNEDITABLE: 'uneditable',
+
+	//TYPES
+	ID:         'Identifier',
+	STRING:     'String',
+	DATETIME:   'DateTime',
+	LIST:       'List',
+	SET:        'Set',  // a list/array (behaves like a set)
+	NUMBER:     'Number'
+
 };
 
 export var dxrefValidator = new ValidatorJs();

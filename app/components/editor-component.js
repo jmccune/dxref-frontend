@@ -2,6 +2,21 @@ import Ember from 'ember';
 
 import contentResource from 'dxref/resource/content-resource';
 
+var exampleMetaInfo =[
+            { 'label': 'type',
+              'value': '',
+              'selectionOptions': ['comment','insight', 'definition','equivalence']
+            },
+            { 'label': 'date created',
+              'value': '10/11/2015'
+            },
+            { 'label': 'date updated',
+              'value': '10/23/2015'
+            },
+            { 'label': 'tags'              
+            }
+          ];
+          
 export default Ember.Component.extend({	
 	isExpanded:false,
 	isLoading:false,
@@ -29,7 +44,9 @@ export default Ember.Component.extend({
 				console.log("RECEIVED RESULT!");
 				console.dir(result);
 				_this.set('isLoading',false);
-			});
+
+				_this.set('metaInfo',exampleMetaInfo);
+			});			
 		}
 	},
 	
