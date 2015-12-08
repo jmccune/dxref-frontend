@@ -28,7 +28,9 @@ export var Constants = {
 	//TYPES
 	ID:         'Identifier',
 	STRING:     'String',
-	DATETIME:   'DateTime',
+	DATETIME:   'DateTime',  		//Assumes full specification...
+	DATE:       'DateTime.Date',
+	TIME: 		'DateTime.Time',
 	LIST:       'List',
 	SET:        'Set',  // a list/array (behaves like a set)
 	NUMBER:     'Number'
