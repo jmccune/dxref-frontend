@@ -29,8 +29,8 @@ module.exports = function(defaults) {
 	app.import('bower_components/validator-js/release/validator.js');
 	app.import('bower_components/decoration-engine-js/release/decoration-engine.js');
 	app.import('bower_components/log4javascript/log4javascript.js');
-	app.import('bower_components/wysihtml5x/dist/wysihtml5x-toolbar.min.js');
-	app.import('bower_components/wysihtml5x/parser_rules/advanced_and_extended.js');
+	app.import('bower_components/wysihtml/dist/wysihtml-toolbar.min.js');
+	app.import('bower_components/wysihtml/parser_rules/advanced_and_extended.js');
 
 	app.import('bower_components/components-font-awesome/fonts/fontawesome-webfont.ttf',{
 		destDir: "fonts"
