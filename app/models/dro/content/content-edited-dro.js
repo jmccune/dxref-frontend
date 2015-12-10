@@ -19,8 +19,10 @@ ContentEditedDro.prototype.meta ={
 		.addField('id',Constants.ID,Constants.REQUIRED,false, false)
 		.addField('createdDate',Constants.DATETIME,Constants.REQUIRED,false)
 		.addField('updatedDate',Constants.DATETIME,Constants.REQUIRED,false)
+		
 		.addField('labels',Constants.SET,Constants.REQUIRED)
-		.addField('type',Constants.STRING,Constants.OPTIONAL)
+		.addField('type',Constants.SET,Constants.OPTIONAL)
+			.setRestrictedValues(['comment','insight', 'definition','equivalence'])
 		.done()
 };
 

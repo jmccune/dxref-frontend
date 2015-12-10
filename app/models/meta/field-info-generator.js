@@ -1,13 +1,13 @@
 import { Constants } from 'dxref/dxref-config';
 
-var logger = log4javascript.getLogger('dxref/models/meta/field-info-generator');
+
 
 function FieldInfoGenerator() {
 	this.fieldInfoArray=null;
 }
 
 FieldInfoGenerator.prototype.startDefinition=function() {
-	this.fieldInfoArray=[];
+	this.fieldInfoArray=[];	
 	return this;
 };
 
@@ -35,22 +35,33 @@ FieldInfoGenerator.prototype.addField=function(name,type,required,editable,displ
 		displayable=true;
 	}
 
-	this.fieldInfoArray.push({
+	var newFieldInfo = {
 		'name':name,
 		'type':type,
 		'required':required,
 		'editable':editable,
 		'displayable': displayable,
 		'fmtInfo' :fmtInfo
-	});
+	};
+
+	this.fieldInfoArray.push(newFieldInfo);
 
 	return this;
 };
 
+FieldInfoGenerator.prototype.setRestrictedValues=function(values) {
+	var lastInfo = this.fieldInfoArray[this.fieldInfoArray.length-1];
+	if (!lastInfo) {
+		throw "FieldInfoGenerator >> no field info to set restricted values on!";
+	}	
+	lastInfo.restrictedValues = values;	
+	return this;
+}
+
 
 FieldInfoGenerator.prototype.done=function() {
 	var result = this.fieldInfoArray;
-	this.fieldInfoArray=null;
+	this.fieldInfoArray=null;	
 	return result;
 };
 
