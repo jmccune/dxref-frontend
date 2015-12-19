@@ -1,5 +1,5 @@
 
-import { dxrefValidator, Constants } from 'dxref/dxref-config';
+import { Constants } from 'dxref/dxref-config';
 import theFig from 'dxref/models/meta/field-info-generator';
 import theFieldInfoUtils from 'dxref/models/meta/field-info-utils';
 
@@ -21,7 +21,7 @@ ContentEditedDro.prototype.meta ={
 		.addField('updatedDate',Constants.DATETIME,Constants.REQUIRED,false)
 		
 		.addField('labels',Constants.SET,Constants.REQUIRED)
-		.addField('type',Constants.SET,Constants.OPTIONAL)
+		.addField('type',Constants.STRING,Constants.OPTIONAL)
 			.setRestrictedValues(['comment','insight', 'definition','equivalence'])
 		.done()
 };

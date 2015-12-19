@@ -7,31 +7,33 @@ function FieldInfoUtils() {
 // ----- Utilities based on field info ----- -
 FieldInfoUtils.prototype._getStandardValidatorMap=function() {
 	var _this=this;
+	
 	if (FieldInfoUtils.prototype.standardValidatorMap) {
 		return FieldInfoUtils.prototype.standardValidatorMap;
 	}
 
-	var validatorMap = {}
+	var validatorMap = {};
 	validatorMap[Constants.STRING]=function(name,value,required) {
 		dxrefValidator.throwIfNotString(name,value,required);
 	};
 	validatorMap[Constants.DATETIME]=function(name,value,required) {
 		dxrefValidator.throwIfNotIso8601DateTime(name,value,required);
-	}
+	};
 	validatorMap[Constants.SET]=function(name,valueSet,required,fieldInfo) {
 		dxrefValidator.throwIfNotArray(name,valueSet,required);
 		_this._checkRestrictedValues(name, valueSet,fieldInfo);
-	}
+	};
 
 	FieldInfoUtils.prototype.standardValidatorMap= validatorMap;
 	return validatorMap;
 };
 
-FieldInfoUtils.prototype._checkRestrictedValues=function(name,valueArray,fieldInfo) {
+FieldInfoUtils.prototype._checkRestrictedValues=function(name,value,fieldInfo) {
 	//Set restriction values...
 	if (!fieldInfo.restrictedValues) {
 		return;
 	}
+	var valueArray = _.toArray(value);
 	_.forEach(valueArray,function(v){
 		if (!_.contains(fieldInfo.restrictedValues,v)) {
 			throw "Value: "+v+" is not in expected set of values!";
@@ -63,7 +65,7 @@ FieldInfoUtils.prototype.validateBasedOnFieldInfo=function( metaInfo,jsonData) {
 			}
 		}
 	});
-}
+};
 
 
 var theFieldInfoUtils = new FieldInfoUtils();
