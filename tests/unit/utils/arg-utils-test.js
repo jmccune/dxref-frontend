@@ -4,16 +4,31 @@ import { module, test } from 'qunit';
 
 module('Unit | Utils | ArgUtils');
 
-// Replace this with your real tests.
+
+function getPersonInterpreter() {
+	let FT = FieldConstants.Type;
+  	let builder = argUtils.createOrderedArgumentBuilder();
+  	return builder.add("name",FT.STRING,true)
+  		.add("age", FT.NUMBER,true)
+  		.add("male", FT.BOOLEAN, true)
+  		.add("ssn" , FT.STRING, false)
+  		.build();
+}
+
+
+
 test('it works', function(assert) {
   
-  let FT = FieldConstants.Type;
-  let builder = argUtils.createOrderedArgumentBuilder();
-  builder.add("name",FT.STRING,true)
-  		 .add("age", FT.NUMBER,true)
-  		 .add("male", FT.BOOLEAN, true)
-  		 .add("ssn" , FT.STRING, false);
+  let personInterpreter= getPersonInterpreter();
+  let testFn = function() {
+  	var map = personInterpreter.convertToMap(arguments);
+  	assert.ok(map!==undefined);
+  };
 
- 
-  assert.expect(0);
+  assert.expect(3);
+  testFn("john",35,true, "555-12-1212");
+  testFn("john",35,false);
+  testFn("john", { age: 35, male: true});
+
+  
 });

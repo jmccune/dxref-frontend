@@ -1,5 +1,5 @@
-import { dxrefValidator } from 'dxref/dxref-config';
-import { theFieldUtils } from 'dxref/utils/field-types';
+
+import { OrderedArgumentBuilder } from 'dxref/utils/support/ordered-argument-builder';
 /*
 
 	When building up an argument list, you may have a default argument ordering.
@@ -11,28 +11,15 @@ import { theFieldUtils } from 'dxref/utils/field-types';
 */
 
 
-var OrderedArgumentBuilder=function() {
-	this.argumentOrder=[];
-	
-};
 
 
-OrderedArgumentBuilder.prototype.add=function(fieldName,fieldType,required) {
 
-		console.log("*** FIELD TYPE: "+fieldName+" >> "+fieldType);
-		dxrefValidator
-			//.setErrorPrefix('OrderedArgumentBuilder>> ')
-			.throwIfNotString('1st argument: "fieldName"',fieldName,true)
-			.throwIfNotString(fieldName+' 2nd argument: "fieldType" ',fieldType,true)
-			.throwIfNotBoolean(fieldName+' 3rd argument: "required" ',required,true);
 
-		
-		if (!theFieldUtils.isValidFieldType(fieldType)) {
-			throw "OrderedArgumentBuilder>> Undefined field type: ("+fieldName+","+fieldType+","+required+")";
-		}
 
-		return this;
-};
+
+
+
+
 
 
 
