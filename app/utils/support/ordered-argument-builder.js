@@ -12,8 +12,8 @@ OrderedArgumentBuilder.prototype._init=function() {
 	this.specification= {
 		orderedArgumentSpecs: [],
 		options: {
-			doValidation: true
-
+			doValidation: true,   /** Should we validate fields with known types?*/
+			isOpen: true  /** True if an unknown option/property in the map should be ignored. */
 		}
 	};
 };
