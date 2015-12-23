@@ -4,7 +4,11 @@ import { theFieldUtils } from 'dxref/utils/field-types';
 
 
 	this.specification= {
+		//The first 1..N (where N is # of orderedArgumentSpecs) arguments may be used
+		// to make the argument map.   ALL REQUIRED fields go here. 
+		//		
 		orderedArgumentSpecs: [ <fieldName:string>, <fieldType:string>, <required:boolean>],
+		optionalArgumentMap: { <fieldName:string> : <fieldType:string> , ... },
 		options: {
 			doValidation: true,   // Should we validate fields with known types?
 			isOpen: true  // True if an unknown option/property in the map should be ignored. 
@@ -17,7 +21,7 @@ export function OrderedArgumentInterpreter(specification) {
 
 
 	let requiredArgMap={};
-	let optionalArgMap={};
+	let optionalArgMap=this.specification.optionalArgumentMap;	
 	var options = this.specification.options;
 
 	_.forEach(this.specification.orderedArgumentSpecs,function(spec) {
@@ -60,6 +64,10 @@ export function OrderedArgumentInterpreter(specification) {
 		}
 	};
 }
+
+OrderedArgumentInterpreter.prototype.convertArguments=function(argumentsArray) {
+	this.convertToMap.apply(this,argumentsArray);
+};
 
 OrderedArgumentInterpreter.prototype.convertToMap=function() {
 	var givenArguments = arguments;
