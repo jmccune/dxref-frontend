@@ -13,12 +13,12 @@ var directValidatorMap={
 	'Function': 'isFunction'
 };
 
-var builtMap = {
-	'_f_Id': function(value,required) {
+var validatorMap = {
+	'_f_Id': function(fieldName,value,required) {
 		return dxrefValidator.isString(value,required) ||
 			dxrefValidator.isNumber(value,required);
 	},
-	'_f_List.Set': function(value,required) {
+	'_f_List.Set': function(fieldName,value,required) {
 		if (!dxrefValidator.isArray(value,required)) {
 			return false;
 		}
@@ -34,12 +34,12 @@ var builtMap = {
 };
 
 _.forEach(directValidatorMap,function(validationFnName,key) {
-	builtMap['_f_'+key]=function(fieldValue,bValueIsRequired) {
+	validatorMap['_f_'+key]=function(fieldName,fieldValue,bValueIsRequired) {
 		return dxrefValidator[validationFnName](fieldValue,bValueIsRequired);
 	};
 });
 
-export const FieldValidatorMap = builtMap;
+export const FieldValidatorMap = validatorMap;
 
 
 function FieldUtils() {}
@@ -70,9 +70,9 @@ FieldUtils.prototype.isValidFieldType=function(typeName) {
 	return exists!==undefined;
 };
 
-FieldUtils.prototype.isValid=function(fieldType, fieldTypeValue, bValueIsRequired) {
+FieldUtils.prototype.isValid=function(fieldName, fieldType, fieldTypeValue, bValueIsRequired) {
 	var validatorFn= this.getValidator(fieldType,true);
-	return validatorFn(fieldTypeValue, bValueIsRequired);
+	return validatorFn(fieldName, fieldTypeValue, bValueIsRequired);
 };
 
 export var theFieldUtils = new FieldUtils();

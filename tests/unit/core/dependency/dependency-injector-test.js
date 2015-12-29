@@ -80,6 +80,7 @@ test('it provides all required dependencies correctly', function(assert) {
 	addProviderTest('O1');
 	addProviderTest('P2');
 
+	// Other nodes...
 	addProviderTest('J2',['M3','N3']);
 	addProviderTest('K1',['N3']);
 	
@@ -106,7 +107,7 @@ test('it detects cycles correctly', function(assert) {
 	
 	var testDI = new DependencyInjector();
 
-	//LEAF NODES
+
 	setTestContext(testDI,assert);
 	addProviderTest('A',['B']);
 	addProviderTest('B',['C']);
