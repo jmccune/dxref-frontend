@@ -1,6 +1,7 @@
 import { dxrefValidator } from 'dxref/dxref-config';
 import { theFieldUtils } from 'dxref/core/model/meta/field-utils';
 import { FieldSpecificationBuilder } from 'dxref/core/model/meta/field-specification-builder';
+import { ObjectSpecification } from 'dxref/core/model/meta/object-specification';
 
 import { DxrefError, DxrefValidationError } from 'dxref/core/errors/dxref-errors';
 
@@ -16,11 +17,7 @@ export function ObjectSpecificationBuilder() {
 ObjectSpecificationBuilder.prototype._init=function() {
 	this.fieldSpecificationBuilder = null;
 
-	this.specification = {
-		_meta: {
-			requiredFields:[]			
-		}
-	};
+	this.specification = new ObjectSpecification();
 	
 };
 
@@ -71,15 +68,17 @@ ObjectSpecificationBuilder.prototype._registerField=function(fsb, fieldSpecifica
 
 
 	var fieldName = fieldSpecification.fieldName;	
-	this.specification[fieldName] = fieldSpecification;
 
+	if (_.contains(_.keys(this.specification),fieldName)) {
+		throw new DxrefValidationError('ObjectSpecificationBuilder','_processFieldMeta','already contains field: '+fieldName);
+	}
+	
+	this.specification[fieldName] = fieldSpecification;
 	this._processFieldMeta(fieldName, fieldSpecification, fieldMeta);
 
 	if (fieldSpecification.required) {
 		this.specification._meta.requiredFields.push(fieldName);
 	}
-
-
 
 	//DONE/COMPLETED...
 	this.fieldSpecificationBuilder = null;
@@ -90,21 +89,28 @@ ObjectSpecificationBuilder.prototype._processFieldMeta=function(fieldName, field
 
 	/** Argument Ordering **/
 	var argNum = fieldMeta.argNum;
+	var _meta = this.specification._meta;
+
 	if (argNum || argNum===0) {	
 
-		if (!this.specification._meta.argumentOrder) {
-			this.specification._meta.argumentOrder = [];
+		if (!_meta.argumentOrder) {
+			_meta.argumentOrder = [];
 		}
 
-		if (this.specification._meta.argumentOrder.length!==argNum) {
+		if (_meta.argumentOrder.length!==argNum) {
 			throw new DxrefValidationError('ObjectSpecificationBuilder','_processFieldMeta',
 				'Field: '+fieldName + 
-				' is out of order -- expected argument number: '+this.specification._meta.argumentOrder.length+ ' not '+argNum);
+				' is out of order -- expected argument number: '+_meta.argumentOrder.length+ ' not '+argNum);
 		}
 
-		this.specification._meta.argumentOrder.push(fieldName);
+		_meta.argumentOrder.push(fieldName);
 	}
 
+	if (fieldSpecification.defaultValue!==undefined && 
+		!_.contains(_meta.defaultValueFields,fieldName)) {
+		_meta.defaultValueFields.push(fieldName);
+
+	} 
 };
 
 ObjectSpecificationBuilder.prototype._addTransitions=function(obj) {
