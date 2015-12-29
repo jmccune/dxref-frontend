@@ -65,7 +65,7 @@ FieldSpecification: {
 	
 	--- OPTIONAL --- 
 
-	default: <defaultValue: see type field>		 // Default value the field is assigned if not give one.
+	defaultValue: <defaultValue: see type field> // Default value the field is assigned if not give one.
 	choices: <Set of choices: Map or Array> 	 // The choices the user is allowed to give.
 	choices-openclosed-flag:  true | false 		 // TRUE if the user add more choices to the given set above, false if a closed set.
 	

@@ -1,8 +1,12 @@
 import { dxrefValidator } from 'dxref/dxref-config';
-import { theFieldUtils } from 'dxref/utils/field-types';
+import { FieldConstants } from 'dxref/core/model/meta/field-types';
+import { theFieldUtils } from 'dxref/core/model/meta/field-utils';
 import { DxrefValidationError } from 'dxref/core/errors/dxref-errors';
 
-/** This is a one-time builder, used and thrown away. */
+/** This is a one-time builder, used and thrown away. 
+	It is used only in conjuction with the ObjectSpecificationBuilder and can
+	be considered a helper to that class.
+*/
 export function FieldSpecificationBuilder(objectSpecificationBuilder, fieldName,type,fieldIsRequired) {
 	dxrefValidator
 		.throwIfNotObjectMap('objectSpecificationBuilder',objectSpecificationBuilder,true)
@@ -21,20 +25,16 @@ export function FieldSpecificationBuilder(objectSpecificationBuilder, fieldName,
 	//Meta above the field level (e.g. what argument number is this)
 	// that we pass back to the object specification builder for assimilation & validation.
 	this.fieldMeta = {};
-
+	
 	this.fieldSpecification = {		
 		fieldName: fieldName,
-		type: type,		
+		type: type,
 		required: fieldIsRequired,
+		editable: true,
+		displayable: this._isDisplayableType(type),
 		defaultFieldValidator: defaultFieldValidator,
-		_validationFn: validationFn,
-		
-		// -- let's not make this explicit unless we need it...
-		// editable: true,
-		// displayable: true
+		_validationFn: validationFn,					
 	};
-
-
 }
 
 FieldSpecificationBuilder.prototype.argNum=function(argNum) {
@@ -51,7 +51,40 @@ FieldSpecificationBuilder.prototype.argNum=function(argNum) {
 	return this;
 };
 
+FieldSpecificationBuilder.prototype.defaultValue=function(value) {
+	this.fieldSpecification.defaultValue = value;
+	return this;
+};
 
+FieldSpecificationBuilder.prototype.editable=function(value) {
+	dxrefValidator.throwIfNotBoolean('value',value);
+	if (value===undefined) { value = true; } 	
+	this.fieldSpecification.editable = value;
+	return this;
+};
+
+FieldSpecificationBuilder.prototype.displayable=function(value) {
+	dxrefValidator.throwIfNotBoolean('value',value);
+	if (value===undefined) { value = true; } 	
+	this.fieldSpecification.displayable = value;
+	return this;
+};
+
+
+
+FieldSpecificationBuilder.prototype.completeFieldSpec=function() {
+
+	this.objectSpecificationBuilder._registerField(this,this.fieldSpecification, this.fieldMeta);	
+
+	return this.objectSpecificationBuilder;
+};
+
+/* ==================================================================
+	PRIVATE METHODS
+   =============================================================== */
+FieldSpecificationBuilder.prototype._isDisplayableType=function(type) {
+	return type!==FieldConstants.Type.ID;
+};
 
 FieldSpecificationBuilder.prototype._getValidationFn=function() {
 
@@ -77,9 +110,3 @@ FieldSpecificationBuilder.prototype._getValidationFn=function() {
 };
 
 
-FieldSpecificationBuilder.prototype.completeFieldSpec=function() {
-
-	this.objectSpecificationBuilder._registerField(this,this.fieldSpecification, this.fieldMeta);	
-
-	return this.objectSpecificationBuilder;
-};
