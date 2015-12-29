@@ -1,7 +1,9 @@
 import { dxrefValidator } from 'dxref/dxref-config';
 import { theFieldUtils } from 'dxref/core/model/meta/field-utils';
 import { FieldSpecificationBuilder } from 'dxref/core/model/meta/field-specification-builder';
-import { DxrefError } from 'dxref/core/errors/dxref-error';
+
+import { DxrefError, DxrefValidationError } from 'dxref/core/errors/dxref-errors';
+
 
 export function ObjectSpecificationBuilder() {
 	this._init();
@@ -12,13 +14,14 @@ export function ObjectSpecificationBuilder() {
 }
 
 ObjectSpecificationBuilder.prototype._init=function() {
-	this.specification = {
-		_meta: {
-			requiredFields:[]
-		}
-	};
 	this.fieldSpecificationBuilder = null;
 
+	this.specification = {
+		_meta: {
+			requiredFields:[]			
+		}
+	};
+	
 };
 
 ObjectSpecificationBuilder.prototype.addField=function(name,type,required) {
@@ -51,7 +54,11 @@ ObjectSpecificationBuilder.prototype._completeCurrentFieldBuilding=function() {
 };
 
 
-ObjectSpecificationBuilder.prototype._registerField=function(fsb, fieldSpecification) {
+/**
+@param fieldMeta is meta about the field that is outside the context of that field alone--
+for instance what argument number should this field be? Which can only be validated in the
+object specification against the other fields. */
+ObjectSpecificationBuilder.prototype._registerField=function(fsb, fieldSpecification, fieldMeta) {
 	dxrefValidator
 		.throwIfNotString('fieldName',fieldSpecification.fieldName,true)
 		.throwIfNotString('type',fieldSpecification.type,true)
@@ -62,15 +69,42 @@ ObjectSpecificationBuilder.prototype._registerField=function(fsb, fieldSpecifica
 		throw new DxrefError('ObjectSpecificationBuilder','_registerField','Unexpected field specification builder');
 	}
 
+
 	var fieldName = fieldSpecification.fieldName;	
 	this.specification[fieldName] = fieldSpecification;
+
+	this._processFieldMeta(fieldName, fieldSpecification, fieldMeta);
 
 	if (fieldSpecification.required) {
 		this.specification._meta.requiredFields.push(fieldName);
 	}
 
+
+
 	//DONE/COMPLETED...
 	this.fieldSpecificationBuilder = null;
+};
+
+
+ObjectSpecificationBuilder.prototype._processFieldMeta=function(fieldName, fieldSpecification, fieldMeta) {
+
+	/** Argument Ordering **/
+	var argNum = fieldMeta.argNum;
+	if (argNum || argNum===0) {	
+
+		if (!this.specification._meta.argumentOrder) {
+			this.specification._meta.argumentOrder = [];
+		}
+
+		if (this.specification._meta.argumentOrder.length!==argNum) {
+			throw new DxrefValidationError('ObjectSpecificationBuilder','_processFieldMeta',
+				'Field: '+fieldName + 
+				' is out of order -- expected argument number: '+this.specification._meta.argumentOrder.length+ ' not '+argNum);
+		}
+
+		this.specification._meta.argumentOrder.push(fieldName);
+	}
+
 };
 
 ObjectSpecificationBuilder.prototype._addTransitions=function(obj) {

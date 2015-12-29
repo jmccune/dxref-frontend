@@ -1,6 +1,6 @@
 import { dxrefValidator } from 'dxref/dxref-config';
 import { theFieldUtils } from 'dxref/utils/field-types';
-import { DxrefValidationError } from 'dxref/core/errors/dxref-validation-error';
+import { DxrefValidationError } from 'dxref/core/errors/dxref-errors';
 
 /** This is a one-time builder, used and thrown away. */
 export function FieldSpecificationBuilder(objectSpecificationBuilder, fieldName,type,fieldIsRequired) {
@@ -18,6 +18,9 @@ export function FieldSpecificationBuilder(objectSpecificationBuilder, fieldName,
 	var validationFn = this._getValidationFn();
 	this.objectSpecificationBuilder = objectSpecificationBuilder;
 	
+	//Meta above the field level (e.g. what argument number is this)
+	// that we pass back to the object specification builder for assimilation & validation.
+	this.fieldMeta = {};
 
 	this.fieldSpecification = {		
 		fieldName: fieldName,
@@ -33,6 +36,21 @@ export function FieldSpecificationBuilder(objectSpecificationBuilder, fieldName,
 
 
 }
+
+FieldSpecificationBuilder.prototype.argNum=function(argNum) {
+
+	dxrefValidator.throwIfNotNumber(argNum);
+	if (argNum<0 || argNum>8) {
+		throw new DxrefValidationError('FieldSpecificationBuilder','argNum','Arg is outside 0-8 >> '+argNum);
+	}
+	if (this.fieldMeta.argNum) {
+		throw new DxrefValidationError('FieldSpecificationBuilder','argNum','ArgNum was already defined!');		
+	}
+
+	this.fieldMeta.argNum = argNum;
+	return this;
+};
+
 
 
 FieldSpecificationBuilder.prototype._getValidationFn=function() {
@@ -61,7 +79,7 @@ FieldSpecificationBuilder.prototype._getValidationFn=function() {
 
 FieldSpecificationBuilder.prototype.completeFieldSpec=function() {
 
-	this.objectSpecificationBuilder._registerField(this,this.fieldSpecification);	
+	this.objectSpecificationBuilder._registerField(this,this.fieldSpecification, this.fieldMeta);	
 
 	return this.objectSpecificationBuilder;
 };
