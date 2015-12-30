@@ -1,6 +1,6 @@
 import { dxrefValidator } from 'dxref/dxref-config';
 import { FieldConstants } from 'dxref/core/model/meta/field-types';
-import { theFieldUtils } from 'dxref/core/model/meta/field-utils';
+import theFieldValidator from 'dxref/core/model/meta/field-validation';
 import { DxrefValidationError } from 'dxref/core/errors/dxref-errors';
 
 /** This is a one-time builder, used and thrown away. 
@@ -14,12 +14,12 @@ export function FieldSpecificationBuilder(objectSpecificationBuilder, fieldName,
 		.throwIfNotString('type',type,true)
 		.throwIfNotBoolean('fieldIsRequired',fieldIsRequired);
 
-	if (!theFieldUtils.isValidFieldType(type)) {
+	if (!theFieldValidator.isValidFieldType(type)) {
 		throw new DxrefValidationError('FieldSpecificationBuilder','Constructor','Type: '+type+' is not recognized');
 	}
 
-	var defaultFieldValidator = theFieldUtils.getValidator(type,true);
-	var validationFn = this._getValidationFn();
+	var defaultFieldValidator = theFieldValidator.getReasonsValidator(type,true);
+	var validationFn = this._makeReasonsValidationFn();
 	this.objectSpecificationBuilder = objectSpecificationBuilder;
 	
 	//Meta above the field level (e.g. what argument number is this)
@@ -33,7 +33,7 @@ export function FieldSpecificationBuilder(objectSpecificationBuilder, fieldName,
 		editable: true,
 		displayable: this._isDisplayableType(type),
 		defaultFieldValidator: defaultFieldValidator,
-		_validationFn: validationFn,					
+		_getReasonsNotValidFn: validationFn,					
 	};
 }
 
@@ -86,18 +86,18 @@ FieldSpecificationBuilder.prototype._isDisplayableType=function(type) {
 	return type!==FieldConstants.Type.ID;
 };
 
-FieldSpecificationBuilder.prototype._getValidationFn=function() {
+FieldSpecificationBuilder.prototype._makeReasonsValidationFn=function() {
 
 	return function(fieldName,value,required,fieldSpec,objectContext,generalContext) {
 		if (fieldSpec.validators) {
 			for (var i=0; i<fieldSpec.validators.length; i++) {
 				var validator = fieldSpec.validators[i];			
-				var checkValidationResult = validator(fieldName,value,required,fieldSpec,objectContext,generalContext);
-				if (checkValidationResult!==true) {
-					return checkValidationResult;
+				var reasonsNotValid = validator(fieldName,value,required,fieldSpec,objectContext,generalContext);
+				if (reasonsNotValid.length!==0) {
+					return reasonsNotValid;
 				}
 			}
-			return true;
+			return [];
 		}
 		//Otherwise use the default validator if it exists...
 		if (fieldSpec.defaultFieldValidator) {
@@ -105,7 +105,7 @@ FieldSpecificationBuilder.prototype._getValidationFn=function() {
 		}
 
 		//Otherwise we're fine.
-		return true;
+		return [];
 	};
 };
 

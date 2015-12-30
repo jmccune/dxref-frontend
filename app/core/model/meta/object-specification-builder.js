@@ -1,23 +1,18 @@
 import { dxrefValidator } from 'dxref/dxref-config';
-import { theFieldUtils } from 'dxref/core/model/meta/field-utils';
 import { FieldSpecificationBuilder } from 'dxref/core/model/meta/field-specification-builder';
 import { ObjectSpecification } from 'dxref/core/model/meta/object-specification';
 
 import { DxrefError, DxrefValidationError } from 'dxref/core/errors/dxref-errors';
 
 
-export function ObjectSpecificationBuilder() {
-	this._init();
-
-	//Temporarily remove warnings...
-	dxrefValidator.throwIfNotString('abc');
-	theFieldUtils.isValidFieldType('_f_Any');
+export function ObjectSpecificationBuilder(name) {
+	this._init(name);	
 }
 
-ObjectSpecificationBuilder.prototype._init=function() {
+ObjectSpecificationBuilder.prototype._init=function(name) {
 	this.fieldSpecificationBuilder = null;
 
-	this.specification = new ObjectSpecification();
+	this.specification = new ObjectSpecification(name);
 	
 };
 
@@ -37,8 +32,7 @@ ObjectSpecificationBuilder.prototype.addField=function(name,type,required) {
 ObjectSpecificationBuilder.prototype.completeObjectSpec=function() {
 
 	this._completeCurrentFieldBuilding();
-	var result = this.specification;
-	this._init();
+	var result = this.specification;	
 	return result;
 };
 
@@ -59,7 +53,7 @@ ObjectSpecificationBuilder.prototype._registerField=function(fsb, fieldSpecifica
 	dxrefValidator
 		.throwIfNotString('fieldName',fieldSpecification.fieldName,true)
 		.throwIfNotString('type',fieldSpecification.type,true)
-		.throwIfNotFunction('_validationFn',fieldSpecification._validationFn,true)
+		.throwIfNotFunction('_getReasonsNotValidFn',fieldSpecification._getReasonsNotValidFn,true)
 		.throwIfNotBoolean('required',fieldSpecification.required);
 
 	if (this.fieldSpecificationBuilder!==fsb) {

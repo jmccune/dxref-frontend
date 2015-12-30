@@ -54,6 +54,7 @@ test('it will validate correct field type values',function(assert) {
 
 test('it will invalidate incorrect field type values',function(assert) {
 
+	// Example of all the basic types (excluding function)
 	// 'blah', 'b', 12345, -12345.678,true, false, null, undefined, { a:1234}, ['a','b'] 
 	var invalidMap = {
 		'ID': [ { a: 123}, ['a'], true, false],

@@ -2,20 +2,36 @@
 import { dxrefValidator } from 'dxref/dxref-config';
 import { DxrefError, DxrefMultiValidationError} from 'dxref/core/errors/dxref-errors';
 
+var logger = log4javascript.getLogger("dxref/core/model/meta/object-specification");
+
+
 /**  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	See _object-spec.md for documentation 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
-export function ObjectSpecification() {
-	this._meta= {
+export function ObjectSpecification(name) {
+	dxrefValidator.throwIfNotString('name (of ObjectSpecification)',name,true,true);			
+	this._specMeta = {
+		name: name,
+		invalidationWarningMessageCount: 0
+	};
+
+	this._meta= {	
 		requiredFields: [],
 		defaultValueFields: [],
 		doValidation: true
-	};
+	};	
 }
+
+
 
 ObjectSpecification.prototype.getRequiredFields=function() {
 	return this._meta.requiredFields;
+};
+
+ObjectSpecification.prototype.getFields=function() {
+	var fields = _.filter(_.keys(this),function(x) { return x!=='_meta';});
+	return fields;
 };
 
 
@@ -78,7 +94,8 @@ ObjectSpecification.prototype.addDefaultsToData=function(dataMap) {
 };
 
 
-ObjectSpecification.prototype.getReasonsDataNotValid=function(data,context) {
+
+ObjectSpecification.prototype.getReasonsDataNotValid=function(dataName, data,context) {
 	dxrefValidator.throwIfNotObjectMap(data);
 
 	// Skip validation if it's disabled for some reason.
@@ -107,24 +124,26 @@ ObjectSpecification.prototype.getReasonsDataNotValid=function(data,context) {
 		var fieldSpec = specification[fieldName];
 		var fieldValue = data[fieldName];
 		var isRequired = fieldSpec.required;				
-		var result = fieldSpec._validationFn(fieldName,fieldValue,isRequired,fieldSpec,data,context);
+		var reasonsNotValid = fieldSpec._getReasonsNotValidFn(fieldName,fieldValue,isRequired,fieldSpec,data,context);
 
-		console.log("CHECKING FIELD: "+fieldName+" VALUE: "+fieldValue+" >> RESULT: "+result);
-
-		if (result!==true) {
-			if (dxrefValidator.isString(result)) {
-				fieldValidationErrors.push('FieldValidationError('+fieldName+')>'+result);
-			} else {
-				fieldValidationErrors.push('FieldValidationError('+fieldName+')> did not validate!!');
-			}
-		}
+		console.log("CHECKING FIELD: "+fieldName+" VALUE: "+fieldValue+" >> RESULT: "+reasonsNotValid.length);
+		Array.prototype.push.apply(fieldValidationErrors, reasonsNotValid);
+		
 	});
 
-	if (fieldValidationErrors.length>0) {
-		return fieldValidationErrors;				
+	if (logger.isWarnEnabled() && fieldValidationErrors.length>0) {
+		var num =specification._specMeta.invalidationWarningMessageCount++;
+		var name=specification._specMeta.name;
+		var msgNum=0;		
+		logger.warn('Specification('+name+') Warn# '+num+':> had problems validating data for a data object> '+dataName);
+		fieldValidationErrors.forEach(function(reason) {
+			logger.warn('   Warn# '+num+'_'+msgNum+':> '+reason);
+			msgNum++;				
+		});
+
 	}
 
-	return []; 
+	return fieldValidationErrors;				
 };
 
 ObjectSpecification.prototype.throwIfNotValidData=function(data) {

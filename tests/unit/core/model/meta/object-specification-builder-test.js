@@ -6,7 +6,7 @@ import { module, test } from 'qunit';
 
 module('Unit | Core | Model | Meta | ObjectSpecificationBuilder');
 
-var builder = new ObjectSpecificationBuilder();
+var builder = new ObjectSpecificationBuilder('ObjectSpecBuilder-TestBuilder');
 var FT = FieldConstants.Type;
 
 var spec = builder
@@ -35,7 +35,8 @@ test('it builds the spec as expected', function(assert) {
 
 
 	// All Fields verification...
-	assert.strictEqual(_.keys(spec).length,6);
+	// Should be 5 declared fields, plus 2 metas...   (_meta, _specMeta)
+	assert.strictEqual(_.keys(spec).length,7);
 
 	// TYPE verification
 	assert.strictEqual(spec.a.type, FT.ID);
@@ -64,7 +65,6 @@ test('it builds the spec as expected', function(assert) {
 	assert.strictEqual(spec.c.editable,true);  //DEFAULTS to true
 	assert.strictEqual(spec.d.editable,true);
 	assert.strictEqual(spec.e.editable,false);
-
 
 
 });
@@ -116,22 +116,27 @@ test('built object specficiation will convert data as expected', function(assert
 });
 
 
-test('built object  will validate data as expected', function(assert) {
+test('bow> built object  will validate data as expected', function(assert) {
 
-	var reasons =spec.getReasonsDataNotValid({});
+
+	var reasons =spec.getReasonsDataNotValid('bow-test0',{});
 	assert.strictEqual(reasons.length,1);
 	assert.strictEqual(reasons[0],'Missing *required* fields: a,b');
 
-	reasons = spec.getReasonsDataNotValid({ a: 'foo', b: 'bar' });
+	reasons = spec.getReasonsDataNotValid('bow-test1',{ a: 'foo', b: 'bar' });	
 	assert.strictEqual(reasons.length,0);
 
-	reasons = spec.getReasonsDataNotValid({ a: 12345, b: 'bar' });
+	reasons = spec.getReasonsDataNotValid('bow-test2',{ a: 12345, b: 'bar' });
 	assert.strictEqual(reasons.length,0);
 
-	reasons = spec.getReasonsDataNotValid({ a: 12345, b: 54321 });
+	reasons = spec.getReasonsDataNotValid('bow-test3',{ a: 12345, b: 54321 });
 	assert.strictEqual(reasons.length,1);
-	// *** WORKING HERE ****
-	//assert.strictEqual(reasons[0],'b');
+	assert.strictEqual(reasons[0],'Field: b with value: 54321 is not the expected/required type> String');
 
+	reasons = spec.getReasonsDataNotValid('bow-test4',{ a: 12345, b: 54321, d:'abc'});
+	assert.strictEqual(reasons.length,2);
+	assert.strictEqual(reasons[0],'Field: b with value: 54321 is not the expected/required type> String');
+	assert.strictEqual(reasons[1],'Field: d with value: abc is not the expected/required type> Number');
+	
 
 });
