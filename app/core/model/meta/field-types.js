@@ -10,9 +10,9 @@ export const FieldConstants= {
 	Type: { 
 		ID:         '_f_Id',
 		STRING:     '_f_String',
-		DATETIME:   '_f_DateTime',  		
-		DATE:       '_f_DateTime.Date',
-		TIME: 		'_f_DateTime.Time',
+		//DATETIME:   '_f_DateTime',  		
+		//DATE:       '_f_DateTime.Date',
+		//TIME: 		'_f_DateTime.Time',
 		LIST:       '_f_List',     // a list/array 
 		SET:        '_f_List.Set', // a list/array where values do not (cannot) repeat.
 		NUMBER:     '_f_Number',

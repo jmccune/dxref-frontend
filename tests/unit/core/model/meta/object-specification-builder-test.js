@@ -72,6 +72,7 @@ test('it builds the spec as expected', function(assert) {
 
 test('built object specficiation will convert data as expected', function(assert) {
 
+	// Should map aValue to field 'a' && bValue to field 'b', plus add in defaults ('c' & 'd').
 	var dataMap = spec.convertToDataMap('aValue','bValue');
 	
 	assert.strictEqual(_.keys(dataMap).length,4);
@@ -81,19 +82,21 @@ test('built object specficiation will convert data as expected', function(assert
 	assert.strictEqual(dataMap.d,null);   // The default value
 
 
+	//Make sure defaults don't override explicitly set values.
 	dataMap = spec.convertToDataMap('xaValue','xbValue',{ d: 'bah humbug' });
-	console.log("dataMap");
-	console.dir(dataMap);
+	// console.log("dataMap");
+	// console.dir(dataMap);
 	assert.strictEqual(_.keys(dataMap).length,4);
 	assert.strictEqual(dataMap.a,'xaValue');
 	assert.strictEqual(dataMap.b,'xbValue');
 	assert.strictEqual(dataMap.c,'foo');  // This one we didn't change
 	assert.strictEqual(dataMap.d,'bah humbug');   // This one we did.
 
-
+	// Test mixing and matching of where we specify the value
+	//  e..g  -- A value as an argument, B value as an option in the optionMap.
 	dataMap = spec.convertToDataMap('yaValue',{ b: 'ybValue'});
-	console.log("dataMap");
-	console.dir(dataMap);
+	// console.log("dataMap");
+	// console.dir(dataMap);
 	assert.strictEqual(_.keys(dataMap).length,4);
 	assert.strictEqual(dataMap.a,'yaValue');
 	assert.strictEqual(dataMap.b,'ybValue');
@@ -101,11 +104,34 @@ test('built object specficiation will convert data as expected', function(assert
 	assert.strictEqual(dataMap.d,null);
 
 
+	// Test mixing and matching of where we specify the value
+	//  e..g  -- A && B values expressed only in the optionMap.
 	dataMap = spec.convertToDataMap({ a: 'zaValue', b: 'zbValue'});
 	assert.strictEqual(_.keys(dataMap).length,4);
 	assert.strictEqual(dataMap.a,'zaValue');
 	assert.strictEqual(dataMap.b,'zbValue');
 	assert.strictEqual(dataMap.c,'foo'); 
 	assert.strictEqual(dataMap.d,null);
+
+});
+
+
+test('built object  will validate data as expected', function(assert) {
+
+	var reasons =spec.getReasonsDataNotValid({});
+	assert.strictEqual(reasons.length,1);
+	assert.strictEqual(reasons[0],'Missing *required* fields: a,b');
+
+	reasons = spec.getReasonsDataNotValid({ a: 'foo', b: 'bar' });
+	assert.strictEqual(reasons.length,0);
+
+	reasons = spec.getReasonsDataNotValid({ a: 12345, b: 'bar' });
+	assert.strictEqual(reasons.length,0);
+
+	reasons = spec.getReasonsDataNotValid({ a: 12345, b: 54321 });
+	assert.strictEqual(reasons.length,1);
+	// *** WORKING HERE ****
+	//assert.strictEqual(reasons[0],'b');
+
 
 });

@@ -42,7 +42,8 @@ Object Specification: {
 
 
 MetaSpecification: {
-	doValidation: true | false						// Should we validate the object (see validation notes above)
+	doValidation: true | false						// Should we validate the object  (DEFAULT: TRUE)
+													//(see validation notes above)
 	objectValidators: [ <FnSpec>, <FnSpec>, ... ]	// Validators which validate more than just one field.
 													// (e.g. that the x+y values were outside a limiting radius)
 

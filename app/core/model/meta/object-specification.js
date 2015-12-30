@@ -1,5 +1,6 @@
 
-import { DxrefError } from 'dxref/core/errors/dxref-errors';
+import { dxrefValidator } from 'dxref/dxref-config';
+import { DxrefError, DxrefMultiValidationError} from 'dxref/core/errors/dxref-errors';
 
 /**  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	See _object-spec.md for documentation 
@@ -8,7 +9,8 @@ import { DxrefError } from 'dxref/core/errors/dxref-errors';
 export function ObjectSpecification() {
 	this._meta= {
 		requiredFields: [],
-		defaultValueFields: []
+		defaultValueFields: [],
+		doValidation: true
 	};
 }
 
@@ -26,6 +28,8 @@ ObjectSpecification.prototype.validateThisSpecification=function() {
 /** Processes the given arguments into a data map based on argument
     ordering-- assuming it exists.   Default values are used and given
     to attributes that have defaults but those were not specified.
+
+    The last argument can/should be an option map that specifies whether
 */
 ObjectSpecification.prototype.convertToDataMap=function() {
 
@@ -54,6 +58,12 @@ ObjectSpecification.prototype.convertToDataMap=function() {
 		}
 	}
 
+	dataMap = this.addDefaultsToData(dataMap);
+
+	return dataMap;
+};
+
+ObjectSpecification.prototype.addDefaultsToData=function(dataMap) {
 	//Enrich with defaults...
 	var specification = this;
 	if (this._meta.defaultValueFields) {
@@ -65,4 +75,61 @@ ObjectSpecification.prototype.convertToDataMap=function() {
 		});
 	}
 	return dataMap;
+};
+
+
+ObjectSpecification.prototype.getReasonsDataNotValid=function(data,context) {
+	dxrefValidator.throwIfNotObjectMap(data);
+
+	// Skip validation if it's disabled for some reason.
+	if (this._meta.doValidation===false) {
+		return [];
+	}
+
+	// ESTABLISH REQUIRED FIELDS
+	var dataFieldNames = _.keys(data);
+	var missingRequiredFields = _.difference(this._meta.requiredFields,dataFieldNames);
+	if (missingRequiredFields.length>0) {
+		var msg = 'Missing *required* fields: '+missingRequiredFields.join();
+		return [msg];
+	}
+
+	//ensure a default context...
+	if (!context) { 
+		context = {};
+	}
+	// VALIDATED FIELDS
+	var specification = this;	
+	var fieldValidationErrors=[];
+	dataFieldNames.forEach(function(fieldName) {
+		
+
+		var fieldSpec = specification[fieldName];
+		var fieldValue = data[fieldName];
+		var isRequired = fieldSpec.required;				
+		var result = fieldSpec._validationFn(fieldName,fieldValue,isRequired,fieldSpec,data,context);
+
+		console.log("CHECKING FIELD: "+fieldName+" VALUE: "+fieldValue+" >> RESULT: "+result);
+
+		if (result!==true) {
+			if (dxrefValidator.isString(result)) {
+				fieldValidationErrors.push('FieldValidationError('+fieldName+')>'+result);
+			} else {
+				fieldValidationErrors.push('FieldValidationError('+fieldName+')> did not validate!!');
+			}
+		}
+	});
+
+	if (fieldValidationErrors.length>0) {
+		return fieldValidationErrors;				
+	}
+
+	return []; 
+};
+
+ObjectSpecification.prototype.throwIfNotValidData=function(data) {
+	var reasons = this.getReasonsDataNotValid(data);
+	if (reasons.length>0) {
+		throw new DxrefMultiValidationError('ObjectSpecification','throwIfNotValidData',reasons);
+	}
 };

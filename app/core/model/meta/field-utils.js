@@ -1,4 +1,4 @@
-
+/**** DEPRECATED ****/
 import { dxrefValidator } from 'dxref/dxref-config';
 import { FieldConstants } from 'dxref/core/model/meta/field-types';
 
@@ -35,7 +35,7 @@ var validatorMap = {
 
 _.forEach(directValidatorMap,function(validationFnName,key) {
 	validatorMap['_f_'+key]=function(fieldName,fieldValue,bValueIsRequired) {
-		return dxrefValidator[validationFnName](fieldValue,bValueIsRequired);
+		return dxrefValidator[validationFnName](fieldValue,bValueIsRequired);	
 	};
 });
 
@@ -53,6 +53,20 @@ FieldUtils.prototype.getValidator=function(fieldType, doNotReturnUndefined)  {
 	}
 	return value;
 };
+
+// FieldUtils.prototype.getReasonValidator=function(fieldName,doNotReturnUndefined) {
+
+// 	var validator = this.getValidator();
+// 	return function(fieldName,value,required) {
+// 		var result = validator(fieldName,value,required);
+// 		if (result===false) {
+// 			return 'Field: '+fieldName+' with value: '+fieldValue+' is not the expected/required type> '+key;
+// 		}
+// 		return result;
+// 	}
+
+		
+// };
 
 FieldUtils.prototype.isValidFieldType=function(typeName) {
 	if (typeName.indexOf('_f_')!==0) {
