@@ -1,12 +1,12 @@
 
 import { Constants } from 'dxref/dxref-config';
-import { FieldConstants } from 'dxref/utils/field-types';
+//import { FieldConstants } from 'dxref/utils/field-types';
 import theFig from 'dxref/models/meta/field-info-generator';
 import theFieldInfoUtils from 'dxref/models/meta/field-info-utils';
 
 
-let FT = FieldConstants.Type;
-let FV = FieldConstants.Value;
+// let FT = FieldConstants.Type;
+// let FV = FieldConstants.Value; 
 
 export default function ContentEditedDro(json) {
 	this.initFromJson(json);
@@ -21,8 +21,8 @@ ContentEditedDro.prototype.initFromJson = function(json) {
 ContentEditedDro.prototype.meta ={
 	fieldSet:	theFig.startDefinition()
 		/** WORKING HERE to convert addField to the new and improved version. */
-		.addField2('id',FT.ID,FV.REQUIRED,false,false)
-		.addField2('createdDate',Constants.DATETIME, FV.REQUIRED, false)
+		//.addField2('id',FT.ID,FV.REQUIRED,false,false)
+		//.addField2('createdDate',Constants.DATETIME, FV.REQUIRED, false)
 
 		.addField('id',Constants.ID,Constants.REQUIRED,false, false)
 		.addField('createdDate',Constants.DATETIME,Constants.REQUIRED,false)

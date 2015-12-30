@@ -1,6 +1,9 @@
+/** THIS WHOLE FILE IS LIKELY DEPRECATED -- replaced by ObjectSpecification & the associated
+builders. */
+
 import { Constants } from 'dxref/dxref-config';
-import { FieldConstants } from 'dxref/utils/field-types';
-import argUtils from 'dxref/utils/arg-utils';
+//import { FieldConstants } from 'dxref/utils/field-types';
+//import argUtils from 'dxref/utils/arg-utils';
 
 
 /**
@@ -35,23 +38,23 @@ Field Info --
 function FieldInfoGenerator() {
 	this.fieldInfoArray=null;
 	
-	let FT = FieldConstants.Type;
-	let builder = argUtils.createOrderedArgumentBuilder();
+	// let FT = FieldConstants.Type;
+	// let builder = argUtils.createOrderedArgumentBuilder();
 
-	this.fieldArgumentInterpreter = 
-		builder.add("name",FT.STRING,true)
-			.add("type",FT.STRING,true)
-			.add("required",FT.BOOLEAN,true)
-			.add("editable",FT.BOOLEAN,false)
-			.add("displayable", FT.BOOLEAN,false)
-			.addOption("fmtInfo",FT.OBJECT)
-			.addOption("label",FT.STRING)
-			.addOption("min",FT.NUMBER)
-			.addOption("max",FT.NUMBER)
-			.addOption("choices", FT.MAP_OR_LIST)
-			.addOption("acceptanceFnName",FT.STRING)
-			//ETC.
-			.build();
+	// this.fieldArgumentInterpreter = 
+	// 	builder.add("name",FT.STRING,true)
+	// 		.add("type",FT.STRING,true)
+	// 		.add("required",FT.BOOLEAN,true)
+	// 		.add("editable",FT.BOOLEAN,false)
+	// 		.add("displayable", FT.BOOLEAN,false)
+	// 		.addOption("fmtInfo",FT.OBJECT)
+	// 		.addOption("label",FT.STRING)
+	// 		.addOption("min",FT.NUMBER)
+	// 		.addOption("max",FT.NUMBER)
+	// 		.addOption("choices", FT.MAP_OR_LIST)
+	// 		.addOption("acceptanceFnName",FT.STRING)
+	// 		//ETC.
+	// 		.build();
 }
 
 FieldInfoGenerator.prototype.startDefinition=function() {
@@ -59,12 +62,12 @@ FieldInfoGenerator.prototype.startDefinition=function() {
 	return this;
 };
 
-FieldInfoGenerator.prototype.addField2=function() {
-	console.log("*HERE*");
-	var argMap = this.fieldArgumentInterpreter.convertArguments(arguments);
-	console.dir(argMap);
-	return this;
-};
+// FieldInfoGenerator.prototype.addField2=function() {
+// 	console.log("*HERE*");
+// 	var argMap = this.fieldArgumentInterpreter.convertArguments(arguments);
+// 	console.dir(argMap);
+// 	return this;
+// };
 
 
 FieldInfoGenerator.prototype.addField=function(name,type,required,editable,displayable,fmtInfo) {
