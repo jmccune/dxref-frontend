@@ -34,7 +34,8 @@ var directValidatorMap={
 	'Number': 'isNumber',
 	'Boolean': 'isBoolean',
 	'Function': 'isFunction',
-	'Object'  : 'isObjectMap'
+	'Object'  : 'isObjectMap',
+	'DateTime': 'isIso8601DateTime'
 };
 
 
@@ -105,7 +106,7 @@ let TheReasonValidatorMap = {
 			return ['Field: '+fieldName+' there is at least one duplicate value in the set!'];
 		}
 		return EMPTY_ARRAY;
-	},
+	},	
 	'_f_Any':function(){ return EMPTY_ARRAY; },
 	'_f_Map_Or_List': function(fieldName,value,required) { 
 		var condition = dxrefValidator.isObjectMap(value,required) ||

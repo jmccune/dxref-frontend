@@ -23,6 +23,7 @@ test('it will validate correct field type values',function(assert) {
 	var validMap = {
 		'ID': ['12345', 12345],
 		'STRING': ['Blah','foo', 'a','could be a very long sentence'],
+		'DATETIME': ['2015-12-31T16:39:00Z'],
 		'LIST'  : [ ['a','b','c','c','b','a'],[] ],
 		'SET'   : [ ['a','b','c'] ],
 		'NUMBER': [ 12345, 12345.6789, -54321, -54321.0, 0],
@@ -59,6 +60,7 @@ test('it will invalidate incorrect field type values',function(assert) {
 	var invalidMap = {
 		'ID': [ { a: 123}, ['a'], true, false],
 	    'STRING': [12345, -12345.678,true, false, null, undefined, { a:1234}, ['a','b'] ],
+	    'DATETIME': ['blah', 'b', 12345, -12345.678,true, false, null, undefined, { a:1234}, ['a','b'] ],
 		'LIST'  : [ 12345, -12345.678,true, false, null, undefined, { a:1234} ],
 		'SET'   : [ ['a','b','c', 'c', 'c'] , 12345, -12345.678,true, false, null, undefined, { a:1234}],
 		'NUMBER': [ 'blah', 'b',true, false, null, undefined, { a:1234}, ['a','b']],
