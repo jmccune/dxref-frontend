@@ -147,7 +147,7 @@ ObjectSpecification.prototype.getReasonsDataNotValid=function(dataName, data,con
 };
 
 ObjectSpecification.prototype.throwIfNotValidData=function(data) {
-	var reasons = this.getReasonsDataNotValid(data);
+	var reasons = this.getReasonsDataNotValid('ObjectSpecification#throwIfNotValidData',data);
 	if (reasons.length>0) {
 		throw new DxrefMultiValidationError('ObjectSpecification','throwIfNotValidData',reasons);
 	}
