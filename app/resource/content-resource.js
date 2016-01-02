@@ -30,6 +30,10 @@ var ContentResource = Ember.Service.extend({
 		return theDataService.postData(Constants.DXREF_SERVICE,'/content/new',{},postObjectData)
 			.then(function(httpResponseInfo) {
 				return new ContentEditedDro(httpResponseInfo.response);
+			})
+			.catch(function(x) {
+				console.log("ERROR CAUGHT?");
+				console.dir(x);
 			});
 	}
 

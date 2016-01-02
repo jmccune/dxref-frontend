@@ -12,7 +12,7 @@ export function DxrefError(className,functionName,msg) {
 }
 
 export function DxrefValidationError(className,functionName,msg) {
-	this.parent.constructor.call(this,className,functionName,msg);	
+	DxrefError.prototype.constructor.call(this,className,functionName,msg);	
 }
 
 DxrefValidationError.prototype = new DxrefError();
@@ -25,7 +25,7 @@ export function DxrefMultiValidationError(className,functionName,array) {
 		msg = array[0];
 	}
 
-	this.parent.constructor.call(this,className,functionName,msg);
+	DxrefValidationError.prototype.constructor.call(this,className,functionName,msg);	
 	this.errors = array;
 }
 
