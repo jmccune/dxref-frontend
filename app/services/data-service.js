@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import dxrefConfig from 'dxref/dxref-config';
-import DxrefError from 'dxref/dxref-errors';
+import { DxrefError } from 'dxref/core/errors/dxref-errors';
+import { ErrorHandlingPromise } from 'dxref/core/error-handling-promise';
 
 var logger = log4javascript.getLogger('dxref.services.data-service');
 
@@ -45,7 +46,7 @@ var local = {
 						paramsString = paramsString + '&' + k + '=' + v2;
 					});
 				} else if (_.isObject(v)) {
-					throw new DxrefError("Object arguments not supported!");
+					throw new DxrefError('Data-service:local','getRefinedParams','Object arguments not supported!');
 				} else {
 					paramsString = paramsString + '&' + k + '=' + v;
 				}
@@ -85,17 +86,20 @@ var DataServiceEObj = Ember.Object.extend({
 		var headers = local.getHeaders();
 		
 		logger.info("REQUESTING DATA from: "+url);
-		return Ember.$.ajax({
-			dataType: 'json',
-			url:url,
-			headers: headers
-		}).then(function(response) {
-			logger.info("RESPONSE RECEIVED for request: "+url);
-			if (logger.isDebugEnabled()) {			
-				console.dir(response);
-			}
-			return response;
-		});
+		var ajaxPromise  = Ember.$.ajax({
+				dataType: 'json',
+				url:url,
+				headers: headers
+			});
+		var errorHandlingPromise = this._getErrorHandlingPromise(ajaxPromise,'POST',url);
+
+		return errorHandlingPromise.then(function(response) {
+				logger.info("RESPONSE RECEIVED for request: "+url);
+				if (logger.isDebugEnabled()) {			
+					console.dir(response);
+				}
+				return response;
+			});
 	},
 	postData(serviceName,path,params,data) {
 
@@ -108,15 +112,19 @@ var DataServiceEObj = Ember.Object.extend({
 
 		logger.info("POSTING DATA TO: "+url);
 
-		return Ember.$.ajax({
-	  		type: "POST",
-	  		url: url,
-	  		data: data,
-	  		success: null,
-	  		contentType: "application/json;charset=UTF-8",
-	  		dataType: 'json',
-	  		headers: headers  		
-		}).then(function(response,status,jqXhr) {
+		var ajaxPromise = Ember.$.ajax({
+		  		type: "POST",
+		  		url: url,
+		  		data: data,
+		  		success: null,
+		  		contentType: "application/json;charset=UTF-8",
+		  		dataType: 'json',
+		  		headers: headers  		
+			});
+
+		var errorHandlingPromise = this._getErrorHandlingPromise(ajaxPromise,'POST',url);
+
+		return errorHandlingPromise.then(function(response,status,jqXhr) {
 			logger.info("RESPONSE RECEIVED for request: "+url);
 			if (logger.isDebugEnabled()) {			
 				console.dir(response);
@@ -154,7 +162,34 @@ var DataServiceEObj = Ember.Object.extend({
 	},
 	setSecurityToken(token) {
 		local.securityToken = token;
+	},
+
+	_getErrorHandlingPromise:function(ajaxPromise, method,url) {
+
+		
+		var emberPromise = 	new Ember.RSVP.Promise(function(resolveFn,rejectFn){
+			ajaxPromise.then(function(successData) { resolveFn(successData);},
+							 function(rejectData) {rejectFn(rejectData); });
+		});
+
+		var errorHandlingPromise = new ErrorHandlingPromise(emberPromise);
+
+		errorHandlingPromise.setDefaultCatch(function(error){
+			logger.error('DxrefError >> Error processing response to '+method+' request to url: '+url);
+			if (error instanceof DxrefError) {				
+				logger.error(error.getFullErrorMessage());
+				return 'HandledError>>';
+			}
+			else  {
+				logger.error("Unexpected error type! >> see console.log");
+				console.dir(error);
+				throw error;
+			}
+		});
+
+		return errorHandlingPromise;
 	}
+
 });
 
 var theDataService = DataServiceEObj.create();

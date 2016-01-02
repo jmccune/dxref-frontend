@@ -3,7 +3,7 @@ import ContentElementDro from 'dxref/models/dro/content-element-dro';
 import DecorationSetDro from 'dxref/models/dro/decoration-set-dro';
 import AnyObjectModel from 'dxref/models/any-object-model';
 
-import DxrefError from 'dxref/dxref-errors';
+import { DxrefError } from 'dxref/core/errors/dxref-errors';
 
 var data = {
 	'NodeRelationExtraDto': NodeRelationExtraDro,
@@ -27,7 +27,7 @@ var registry = {
 	createObject: function(key,jsonModel) {
 
 		if (!data[key]) {
-			throw new DxrefError("Unable to find Dro for the particular dto: "+key);
+			throw new DxrefError('Dro-Registry','createObject', 'Unable to find Dro for the particular dto: '+key);
 		}
 
 		//Note-- using the object constructor (as below) here fails to create an object
