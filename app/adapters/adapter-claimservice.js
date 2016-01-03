@@ -38,8 +38,8 @@ var ClaimService= DS.RESTAdapter.extend({
 		}
 				
 		theDataService.getData('dxref-service','/dev/claimTickets',{ tickets: keys}).
-			then(function(response) {
-				processResponse(response);
+			then(function(ajaxFullResponse) {
+				processResponse(ajaxFullResponse.response);
 			});
 
 	},

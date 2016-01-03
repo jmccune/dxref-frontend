@@ -17,8 +17,8 @@ var ContentResource = Ember.Service.extend({
 			params = {pageNum : pageNum};
 		}
 		return theDataService.getData(Constants.DXREF_SERVICE,'/content', params).
-			then(function(response) {
-				return new PagedItems(response,listItemModel);				
+			then(function(ajaxResponseInfo) {
+				return new PagedItems(ajaxResponseInfo.response,listItemModel);				
 			});
 	},
 	'add': function(reference) {

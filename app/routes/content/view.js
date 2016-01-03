@@ -15,8 +15,9 @@ export default Ember.Route.extend({
   model: function(params){
   
   	return theDataService.getData(Constants.DXREF_SERVICE,'/content/'+params.content_id)
-  	.then(function(data) {
+  	.then(function(ajaxFullResponse) {
     	 
+        var data = ajaxFullResponse.response;
         var response = theContentAdapter.convertNreResponse(data);        
         
         // Set Where...

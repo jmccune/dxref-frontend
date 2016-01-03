@@ -124,19 +124,7 @@ var DataServiceEObj = Ember.Object.extend({
 
 		var errorHandlingPromise = this._getErrorHandlingPromise(ajaxPromise,'POST',url);
 
-		return errorHandlingPromise.then(function(response,status,jqXhr) {
-			logger.info("RESPONSE RECEIVED for request: "+url);
-			if (logger.isDebugEnabled()) {			
-				console.dir(response);
-				console.dir(status);
-				console.dir(jqXhr);
-			}
-			return { 
-				response : response,
-				status: status,
-				jqXhr: jqXhr
-			};
-		});
+		return errorHandlingPromise.then();
 	},
 	simulateDelayedResponse(timeout, response) {
 		if (typeof timeout === 'undefined') {
@@ -166,10 +154,26 @@ var DataServiceEObj = Ember.Object.extend({
 
 	_getErrorHandlingPromise:function(ajaxPromise, method,url) {
 
+		var captureFullAjaxResponse = function(response,status,jqXhr) {
+			logger.info("RESPONSE RECEIVED for request: "+url);
+			if (logger.isDebugEnabled()) {			
+				console.dir(response);
+				console.dir(status);
+				console.dir(jqXhr);
+			}
+			return { 
+				response : response,
+				status: status,
+				jqXhr: jqXhr
+			};
+		};
 		
 		var emberPromise = 	new Ember.RSVP.Promise(function(resolveFn,rejectFn){
-			ajaxPromise.then(function(successData) { resolveFn(successData);},
-							 function(rejectData) {rejectFn(rejectData); });
+			ajaxPromise.then(function(response,status,jqXhr) { 
+				var ajaxInfo = captureFullAjaxResponse(response,status,jqXhr);
+				resolveFn(ajaxInfo);
+			},
+			function(rejectData) {rejectFn(rejectData); });
 		});
 
 		var errorHandlingPromise = new ErrorHandlingPromise(emberPromise);

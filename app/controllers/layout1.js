@@ -26,7 +26,8 @@ export default Ember.Controller.extend({
     },
     getDecoratedText: function() {
       var _this = this;
-      theDataService.getData(Constants.DXREF_SERVICE,'/content/getRandom').then(function(data) {
+      theDataService.getData(Constants.DXREF_SERVICE,'/content/getRandom').then(function(ajaxFullResponse) {
+        var data = ajaxFullResponse.response;
         var decorationSpec = decorationAdapter.convertNreContentToDecoratedContentSpec(data);
 
         console.log("DECORATION SPEC");
@@ -48,7 +49,8 @@ export default Ember.Controller.extend({
 
 
       new Ember.RSVP.Promise(function(resolve,reject) {
-        theDataService.getData('dxref-service','/dev/getVContent1').then(function(data) {
+        theDataService.getData('dxref-service','/dev/getVContent1').then(function(ajaxFullResponse) {
+          var data = ajaxFullResponse.response;
           if (data.type === 'CLAIM') {
               logger.debug("CLAIM response");
               theClaimService.registerClaimable(data.claimInfo, {resolve:resolve, reject: reject});
