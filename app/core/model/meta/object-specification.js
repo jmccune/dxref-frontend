@@ -19,7 +19,8 @@ export function ObjectSpecification(name) {
 	this._meta= {	
 		requiredFields: [],
 		defaultValueFields: [],
-		doValidation: true
+		doValidation: true,
+		allowUnspecfiedFields: true
 	};	
 }
 
@@ -120,13 +121,21 @@ ObjectSpecification.prototype.getReasonsDataNotValid=function(dataName, data,con
 	var fieldValidationErrors=[];
 	dataFieldNames.forEach(function(fieldName) {
 		
-
 		var fieldSpec = specification[fieldName];
+		if (!fieldSpec) {
+			if (specification._meta.allowUnspecfiedFields) {
+				return;
+			}	
+			else {
+				fieldValidationErrors.push('Cannot validate the field missing from the ObjectSpecification> '+fieldName);
+				return;
+			}
+		} 
 		var fieldValue = data[fieldName];
 		var isRequired = fieldSpec.required;				
 		var reasonsNotValid = fieldSpec._getReasonsNotValidFn(fieldName,fieldValue,isRequired,fieldSpec,data,context);
 
-		console.log("CHECKING FIELD: "+fieldName+" VALUE: "+fieldValue+" >> RESULT: "+reasonsNotValid.length);
+		logger.debug("CHECKING FIELD: "+fieldName+" VALUE: "+fieldValue+" >> RESULT: "+reasonsNotValid.length);
 		Array.prototype.push.apply(fieldValidationErrors, reasonsNotValid);
 		
 	});
