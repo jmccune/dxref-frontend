@@ -5,6 +5,9 @@ import { ObjectSpecificationBasedModel } from 'dxref/core/model/object-specifica
 
 let FT = FieldConstants.Type;
 
+/** Denotes some content that the user is working with.   This is materially different
+from the other content entities in the system which are read-only and have the function
+of providing primarily context/relations to the user. */
 export default class ContentEditedDro extends ObjectSpecificationBasedModel {
 	constructor(json) {
 		super();
@@ -17,5 +20,7 @@ ContentEditedDro.prototype.specification = new ObjectSpecificationBuilder('Conte
 	.addField('createdDate',FT.DATETIME,true)
 	.addField('updatedDate',FT.DATETIME,true)
 	.addField('labels',FT.SET,true)
+		.collectionElementType(FT.STRING)
 	.addField('type',FT.STRING,false)
+		.choices(true, ['comment','insight','definition','equivalence'])
 	.completeObjectSpec();

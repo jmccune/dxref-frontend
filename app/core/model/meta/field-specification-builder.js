@@ -70,6 +70,28 @@ FieldSpecificationBuilder.prototype.displayable=function(value) {
 	return this;
 };
 
+FieldSpecificationBuilder.prototype.collectionElementType=function(type) {
+	//Functions are future...
+	dxrefValidator.throwIfNotString(type);
+	if (!theFieldValidator.isValidFieldType(type)) {
+		throw new DxrefValidationError('FieldSpecificationBuilder','collectionElementType','Invalid field type: '+type);
+	}
+	this.fieldSpecification.collectionElementType = type;
+	return this;
+}
+
+
+FieldSpecificationBuilder.prototype.choices=function(openSet, choicesArray) {
+	dxrefValidator.throwIfNotBoolean('openClosed',openSet,true)
+		.throwIfNotArray('choicesArray',choicesArray,true);
+
+	this.fieldSpecification.choices = {
+		values: choicesArray,
+		openclosed: openSet
+	};
+
+	return this;
+};
 
 
 FieldSpecificationBuilder.prototype.completeFieldSpec=function() {
