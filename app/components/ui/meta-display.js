@@ -14,6 +14,12 @@ fieldMap: {
 
 export default Ember.Component.extend({
 	tagName: 'div',		
+	didInsertElement: function() {
+		console.log("*** INSERTED ELEMENT!");
+		this.set('XYZ','FOO BAR');
+		var metaInfo = this.get('metaInfo');
+		console.dir(metaInfo);
+	},
 	click: function() {
 		this.sendAction();
 	}

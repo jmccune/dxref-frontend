@@ -1,6 +1,6 @@
 <div class="main-container">
-    
-    <div class="left-panel {{if isExpanded "" "side-lined"}}"> 
+
+    <div class="left-panel {{if isExpanded "" "side-lined"}}">
         LEFT
     </div>
     <div class="content-panel">
@@ -8,11 +8,13 @@
         <button {{action 'toggle'}}>Show {{#if isExpanded}} Less {{else}} More {{/if}}</button>
         <button {{action 'getDecoratedText'}}> Get Decorated Text </button>
         <button {{action 'testFuture'}}> Test Pulling Future </button>
-        <div class="margin-10"> 
+        <div class="margin-10">
             {{{decoratedText}}}
         </div>
     </div>
-    <div class="right-panel {{if isExpanded "" "side-lined"}}">     
-        RIGHT
+    <div class="right-panel {{if isExpanded "" "side-lined"}}">
+        <div style="width:200px">
+            {{ui/obj-display model=devModel }}
+        </div>
     </div>
 </div>

@@ -73,7 +73,7 @@ FieldSpecification: {
 	editable: true | false | <FnSpec>            // Defaults to true
 	displayable:  true | false | <FnSpec>		 // Defaults to true (except for ID type-- which defaults to false)
 		
-	collectionType: <FieldType> | <FnSpec> 	 // An element or a function that validates each element
+	collectionElementType: <FieldType> | <FnSpec> 	 // An element or a function that validates each element
 	
 
 	--- OPTIONAL --- 
