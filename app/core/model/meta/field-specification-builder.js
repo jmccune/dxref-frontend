@@ -2,8 +2,9 @@ import { dxrefValidator } from 'dxref/dxref-config';
 import { FieldConstants } from 'dxref/core/model/meta/field-types';
 import theFieldValidator from 'dxref/core/model/meta/field-validation';
 import { DxrefValidationError } from 'dxref/core/errors/dxref-errors';
+import { FieldSpecification } from 'dxref/core/model/meta/field-specification';
 
-/** This is a one-time builder, used and thrown away. 
+/** This is a one-time builder, used and thrown away.
 	It is used only in conjuction with the ObjectSpecificationBuilder and can
 	be considered a helper to that class.
 */
@@ -21,20 +22,18 @@ export function FieldSpecificationBuilder(objectSpecificationBuilder, fieldName,
 	var defaultFieldValidator = theFieldValidator.getReasonsValidator(type,true);
 	var validationFn = this._makeReasonsValidationFn();
 	this.objectSpecificationBuilder = objectSpecificationBuilder;
-	
+
 	//Meta above the field level (e.g. what argument number is this)
 	// that we pass back to the object specification builder for assimilation & validation.
 	this.fieldMeta = {};
-	
-	this.fieldSpecification = {		
-		fieldName: fieldName,
-		type: type,
-		required: fieldIsRequired,
+
+	this.fieldSpecification = new FieldSpecification(fieldName,type,fieldIsRequired,{
 		editable: true,
 		displayable: this._isDisplayableType(type),
 		defaultFieldValidator: defaultFieldValidator,
-		_getReasonsNotValidFn: validationFn,					
-	};
+		_getReasonsNotValidFn: validationFn
+
+	});
 }
 
 FieldSpecificationBuilder.prototype.argNum=function(argNum) {
@@ -44,7 +43,7 @@ FieldSpecificationBuilder.prototype.argNum=function(argNum) {
 		throw new DxrefValidationError('FieldSpecificationBuilder','argNum','Arg is outside 0-8 >> '+argNum);
 	}
 	if (this.fieldMeta.argNum) {
-		throw new DxrefValidationError('FieldSpecificationBuilder','argNum','ArgNum was already defined!');		
+		throw new DxrefValidationError('FieldSpecificationBuilder','argNum','ArgNum was already defined!');
 	}
 
 	this.fieldMeta.argNum = argNum;
@@ -58,14 +57,14 @@ FieldSpecificationBuilder.prototype.defaultValue=function(value) {
 
 FieldSpecificationBuilder.prototype.editable=function(value) {
 	dxrefValidator.throwIfNotBoolean('value',value);
-	if (value===undefined) { value = true; } 	
+	if (value===undefined) { value = true; }
 	this.fieldSpecification.editable = value;
 	return this;
 };
 
 FieldSpecificationBuilder.prototype.displayable=function(value) {
 	dxrefValidator.throwIfNotBoolean('value',value);
-	if (value===undefined) { value = true; } 	
+	if (value===undefined) { value = true; }
 	this.fieldSpecification.displayable = value;
 	return this;
 };
@@ -96,7 +95,7 @@ FieldSpecificationBuilder.prototype.choices=function(openSet, choicesArray) {
 
 FieldSpecificationBuilder.prototype.completeFieldSpec=function() {
 
-	this.objectSpecificationBuilder._registerField(this,this.fieldSpecification, this.fieldMeta);	
+	this.objectSpecificationBuilder._registerField(this,this.fieldSpecification, this.fieldMeta);
 
 	return this.objectSpecificationBuilder;
 };
@@ -113,7 +112,7 @@ FieldSpecificationBuilder.prototype._makeReasonsValidationFn=function() {
 	return function(fieldName,value,required,fieldSpec,objectContext,generalContext) {
 		if (fieldSpec.validators) {
 			for (var i=0; i<fieldSpec.validators.length; i++) {
-				var validator = fieldSpec.validators[i];			
+				var validator = fieldSpec.validators[i];
 				var reasonsNotValid = validator(fieldName,value,required,fieldSpec,objectContext,generalContext);
 				if (reasonsNotValid.length!==0) {
 					return reasonsNotValid;

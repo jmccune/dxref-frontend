@@ -32,7 +32,7 @@ export default Ember.Controller.extend({
 
   // initial value
   isExpanded: true,
-  devSpec: objectSpec,
+  devObjectSpec: objectSpec,
   devModel: {
     'id':12345,
     'createdDate':'2016-01-07T00:18:00',

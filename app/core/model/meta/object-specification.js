@@ -6,22 +6,22 @@ var logger = log4javascript.getLogger("dxref/core/model/meta/object-specificatio
 
 
 /**  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	See _object-spec.md for documentation 
+	See _object-spec.md for documentation
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
 export function ObjectSpecification(name) {
-	dxrefValidator.throwIfNotString('name (of ObjectSpecification)',name,true,true);			
+	dxrefValidator.throwIfNotString('name (of ObjectSpecification)',name,true,true);
 	this._specMeta = {
 		name: name,
 		invalidationWarningMessageCount: 0
 	};
 
-	this._meta= {	
+	this._meta= {
 		requiredFields: [],
 		defaultValueFields: [],
 		doValidation: true,
 		allowUnspecfiedFields: true
-	};	
+	};
 }
 
 
@@ -31,8 +31,12 @@ ObjectSpecification.prototype.getRequiredFields=function() {
 };
 
 ObjectSpecification.prototype.getFields=function() {
-	var fields = _.filter(_.keys(this),function(x) { return x!=='_meta';});
+	var fields = _.filter(_.keys(this),function(x) { return x!=='_meta' && x!=='_specMeta';});
 	return fields;
+};
+
+ObjectSpecification.prototype.getType=function() {
+	return this.type;
 };
 
 
@@ -67,7 +71,7 @@ ObjectSpecification.prototype.convertToDataMap=function() {
 	var dataMap = {};
 	for (var i=0; i<givenArguments.length; i++) {
 		var fieldName = this._meta.argumentOrder[i];
-		var value = givenArguments[i];	
+		var value = givenArguments[i];
 		if (i===(givenArguments.length-1) && _.isObject(value)) {
 			dataMap = _.merge(dataMap, value);
 		}  else {
@@ -113,46 +117,46 @@ ObjectSpecification.prototype.getReasonsDataNotValid=function(dataName, data,con
 	}
 
 	//ensure a default context...
-	if (!context) { 
+	if (!context) {
 		context = {};
 	}
 	// VALIDATED FIELDS
-	var specification = this;	
+	var specification = this;
 	var fieldValidationErrors=[];
 	dataFieldNames.forEach(function(fieldName) {
-		
+
 		var fieldSpec = specification[fieldName];
 		if (!fieldSpec) {
 			if (specification._meta.allowUnspecfiedFields) {
 				return;
-			}	
+			}
 			else {
 				fieldValidationErrors.push('Cannot validate the field missing from the ObjectSpecification> '+fieldName);
 				return;
 			}
-		} 
+		}
 		var fieldValue = data[fieldName];
-		var isRequired = fieldSpec.required;				
+		var isRequired = fieldSpec.required;
 		var reasonsNotValid = fieldSpec._getReasonsNotValidFn(fieldName,fieldValue,isRequired,fieldSpec,data,context);
 
 		logger.debug("CHECKING FIELD: "+fieldName+" VALUE: "+fieldValue+" >> RESULT: "+reasonsNotValid.length);
 		Array.prototype.push.apply(fieldValidationErrors, reasonsNotValid);
-		
+
 	});
 
 	if (logger.isWarnEnabled() && fieldValidationErrors.length>0) {
 		var num =specification._specMeta.invalidationWarningMessageCount++;
 		var name=specification._specMeta.name;
-		var msgNum=0;		
+		var msgNum=0;
 		logger.warn('Specification('+name+') Warn# '+num+':> had problems validating data for a data object> '+dataName);
 		fieldValidationErrors.forEach(function(reason) {
 			logger.warn('   Warn# '+num+'_'+msgNum+':> '+reason);
-			msgNum++;				
+			msgNum++;
 		});
 
 	}
 
-	return fieldValidationErrors;				
+	return fieldValidationErrors;
 };
 
 ObjectSpecification.prototype.throwIfNotValidData=function(data) {

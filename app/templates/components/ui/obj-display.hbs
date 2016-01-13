@@ -2,7 +2,10 @@ THIS IS A TEST <br>
 XYZ: {{XYZ}}
 888 {{bar}}
 <hr>
-{{#each renderFieldSpecs as |renderFieldSpec|}}
+{{#each generatedFieldSpecifications as |renderFieldSpec|}}
 	Foo: {{renderFieldSpec}} <br>
+
 {{/each}}
 <hr>
+
+{{to-json generatedFieldSpecifications}}

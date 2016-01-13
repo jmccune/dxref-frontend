@@ -12,7 +12,7 @@ export class ObjectSpecificationBasedModel {
 		var objectRep = this.getSpecification().convertToDataMap(json);
 		this.getSpecification().throwIfNotValidData(objectRep);
 
-		_.assign(this,objectRep);	
+		_.assign(this,objectRep);
 		return this;
 	}
 
