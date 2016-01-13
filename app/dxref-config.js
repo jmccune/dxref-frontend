@@ -1,16 +1,16 @@
-
-/** 
+import { DxrefErrorHandler } from 'dxref/core/errors/dxref-error-handling';
+/**
 	See Overall Config at the bottom of the file.
 */
 
 
 /** ============= THE OVERALL CONFIG OBJECT ======================*/
 var dxrefConfig= {
-	pollingDelayMs: 1000,   
+	pollingDelayMs: 1000,
 	serverMap: {
 		'dxref-service': 'http://localhost:8080',
 		'auth-service':  'http://localhost:8080',
-	}	
+	}
 };
 
 
@@ -48,7 +48,7 @@ var logConfigMap = {
 
 var loggerLayout = new log4javascript.PatternLayout("%d{HH:mm:ss} %-5p %c - %m%n");
 
-// -- Standard sort of setup/configuration --- 
+// -- Standard sort of setup/configuration ---
 
 var rootLogger = log4javascript.getRootLogger();
 var consoleAppender = new log4javascript.BrowserConsoleAppender();
@@ -61,5 +61,7 @@ _.forEach(logConfigMap, function(levelSpec,logspec) {
 	log4javascript.getLogger(logspec).setLevel(level);
 });
 
+
+DxrefErrorHandler.initialize();
 
 export default dxrefConfig;
