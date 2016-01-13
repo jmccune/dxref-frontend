@@ -77,7 +77,7 @@ FieldSpecificationBuilder.prototype.collectionElementType=function(type) {
 	}
 	this.fieldSpecification.collectionElementType = type;
 	return this;
-}
+};
 
 
 FieldSpecificationBuilder.prototype.choices=function(openSet, choicesArray) {

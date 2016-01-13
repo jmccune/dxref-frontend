@@ -96,7 +96,6 @@ export default Ember.Component.extend({
 			fieldSpecs.push(useFieldSpec);
 		});
 
-		var model=this.get('model');
 		//return _.keys(model);
 
 		return fieldSpecs;
@@ -105,7 +104,6 @@ export default Ember.Component.extend({
 	didInsertElement: function() {
 		var model=this.get('model');
 		dxrefValidator.throwIfNotObjectMap('model',model,true);
-		var metaInfo = this.get('metaInfo');
 	},
 	click: function() {
 		this.sendAction();
