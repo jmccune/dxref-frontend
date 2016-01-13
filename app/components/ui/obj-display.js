@@ -22,6 +22,13 @@ var componentMap ={
 	DATE: 			  'field-date-picker',
 };
 
+
+
+
+_.forEach(componentMap,function(value,key){
+	componentMap[key]='ui/field/'+value;
+});
+
 var humanDefaultMapping = {
 	ID:  {  componentName: componentMap.STRING,
 			readOnly: true
@@ -68,6 +75,7 @@ export default Ember.Component.extend({
 		var objectSpec= this.getObjectSpec();
 
 		var fieldSpecs = [];
+		var model=this.get('model');
 
 		objectSpec.getFields().forEach(function(fieldName){
 
@@ -82,6 +90,8 @@ export default Ember.Component.extend({
 
 			useFieldSpec = _.clone(useFieldSpec);
 			useFieldSpec.objectFieldSpec = objectFieldSpec;
+			useFieldSpec.fieldModel = model[fieldName];
+			useFieldSpec.fieldLabel = fieldName;
 
 			fieldSpecs.push(useFieldSpec);
 		});
@@ -90,7 +100,7 @@ export default Ember.Component.extend({
 		//return _.keys(model);
 
 		return fieldSpecs;
-	}.property('model'),
+	}.property('model','objectSpec'),
 
 	didInsertElement: function() {
 		var model=this.get('model');

@@ -3,9 +3,10 @@ XYZ: {{XYZ}}
 888 {{bar}}
 <hr>
 {{#each generatedFieldSpecifications as |renderFieldSpec|}}
-	Foo: {{renderFieldSpec}} <br>
-
+	{{component renderFieldSpec.componentName fieldSpec=renderFieldSpec fieldModel=renderFieldSpec.fieldModel }}
 {{/each}}
 <hr>
 
-{{to-json generatedFieldSpecifications}}
+<div style="background: white; width: 100%; height:300px; overflow: auto;">
+	{{to-json null generatedFieldSpecifications}}
+</div>
